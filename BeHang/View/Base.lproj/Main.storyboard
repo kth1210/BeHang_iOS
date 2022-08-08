@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bAO-o3-lMx">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="BeHang" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBT-yG-6ij">
+                                <rect key="frame" x="35" y="574" width="320" height="49"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Apple로 로그인">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="19"/>
+                                </buttonConfiguration>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="비행_로고" translatesAutoresizingMaskIntoConstraints="NO" id="oBB-jc-awf">
+                                <rect key="frame" x="60" y="119" width="271" height="261"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="11s-eJ-yUs">
+                                <rect key="frame" x="108" y="654" width="175" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="20"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="로그인 없이 볼래요 !"/>
+                                <connections>
+                                    <segue destination="1NJ-xa-w1Z" kind="show" id="4ue-RA-axf"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="비슷한 여행은 없어, 비행" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X5K-Qp-euz">
+                                <rect key="frame" x="74" y="369" width="243" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="24"/>
+                                <color key="textColor" name="mainColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="kakaoLoginButton" translatesAutoresizingMaskIntoConstraints="NO" id="TbE-aN-PCd">
+                                <rect key="frame" x="35" y="494" width="320" height="51"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="6I6-cq-wfO"/>
+                    <connections>
+                        <outlet property="appleLoginButton" destination="EBT-yG-6ij" id="TuB-xH-phc"/>
+                        <outlet property="kakaoLoginButton" destination="TbE-aN-PCd" id="GbB-7j-tS3"/>
+                        <outlet property="withoutLoginButton" destination="11s-eJ-yUs" id="Lx3-NE-Llh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1246.1538461538462" y="346.91943127962082"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bMG-EM-1UT">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="bAO-o3-lMx" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Xg6-rg-fQK">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="4BG-9H-vUy"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aIQ-51-3Z1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2262" y="348"/>
+        </scene>
+        <!--Tab View Controller-->
+        <scene sceneID="prX-Qw-xF2">
+            <objects>
+                <tabBarController storyboardIdentifier="TabViewController" id="1NJ-xa-w1Z" customClass="TabViewController" customModule="BeHang" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="gWJ-hV-sFI"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="GMg-gV-rJq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="KIs-WP-dcj" kind="relationship" relationship="viewControllers" id="BRY-ls-hdn"/>
+                        <segue destination="evC-YM-aMT" kind="relationship" relationship="viewControllers" id="q4G-dx-gdz"/>
+                        <segue destination="Ihf-Dw-xmV" kind="relationship" relationship="viewControllers" id="gpQ-70-7Eb"/>
+                        <segue destination="meJ-Oh-ppx" kind="relationship" relationship="viewControllers" id="UXA-4n-fgG"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CZN-xr-4wx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-52" y="348"/>
+        </scene>
+        <!--HomeViewController-->
+        <scene sceneID="pBN-K2-pBm">
+            <objects>
+                <viewControllerPlaceholder storyboardName="HomeTab" referencedIdentifier="HomeViewController" id="KIs-WP-dcj" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="Epo-NH-tF6"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dYj-d3-Y2k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="808" y="184"/>
+        </scene>
+        <!--MapTab-->
+        <scene sceneID="uXB-Qg-HXL">
+            <objects>
+                <viewControllerPlaceholder storyboardName="MapTab" id="evC-YM-aMT" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="O9D-n7-ngz"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WrP-et-Tv2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="807" y="311"/>
+        </scene>
+        <!--FlagTab-->
+        <scene sceneID="pXk-ty-z0r">
+            <objects>
+                <viewControllerPlaceholder storyboardName="FlagTab" id="Ihf-Dw-xmV" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="pPz-jx-kmA"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MNu-a6-TBx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="808" y="419"/>
+        </scene>
+        <!--UserTab-->
+        <scene sceneID="A5o-ii-aCu">
+            <objects>
+                <viewControllerPlaceholder storyboardName="UserTab" id="meJ-Oh-ppx" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="7fh-U4-b0A"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SNl-MX-Cce" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="806" y="496"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="kakaoLoginButton" width="600" height="90"/>
+        <image name="비행_로고" width="500" height="500"/>
+        <namedColor name="mainColor">
+            <color red="0.27058823529411763" green="0.35294117647058826" blue="0.89411764705882357" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

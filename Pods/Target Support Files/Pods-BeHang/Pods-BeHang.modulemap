@@ -1,0 +1,6 @@
+framework module Pods_BeHang {
+  umbrella header "Pods-BeHang-umbrella.h"
+
+  export *
+  module * { export * }
+}
