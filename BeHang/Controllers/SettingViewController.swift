@@ -14,6 +14,12 @@ class SettingViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationItem.title = "설정"
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
 

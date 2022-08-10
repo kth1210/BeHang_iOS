@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -28,9 +28,8 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="" backgroundImage="alertSelected_icon"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GZ3-P8-LXh">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GZ3-P8-LXh">
                                 <rect key="frame" x="319" y="64" width="40" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="" backgroundImage="upload_icon"/>
                                 <connections>
@@ -80,18 +79,30 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ykD-ek-St5" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="68" id="RCU-l4-hnD"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="GZ3-P8-LXh" secondAttribute="trailing" constant="31" id="RDh-X6-48Q"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ykD-ek-St5" secondAttribute="trailing" id="XGo-fz-SM6"/>
                             <constraint firstItem="ykD-ek-St5" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="a0e-Gu-dYv"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="GZ3-P8-LXh" secondAttribute="bottom" constant="657" id="gNu-WS-Xv3"/>
+                            <constraint firstItem="GZ3-P8-LXh" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="jCI-EO-S3S"/>
+                            <constraint firstItem="GZ3-P8-LXh" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="319" id="s9p-UV-JDh"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="ykD-ek-St5" secondAttribute="bottom" id="yer-Ti-k1P"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="home_icon" selectedImage="homeSelected_icon" id="8IU-Ei-bVR"/>
+                    <tabBarItem key="tabBarItem" title="" selectedImage="homeSelected_icon" id="MjW-uM-TjU"/>
                     <navigationItem key="navigationItem" id="fFE-3Z-cEu"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1970.7692307692307" y="79.620853080568722"/>
+            <point key="canvasLocation" x="-2868" y="-1144"/>
+        </scene>
+        <!--PostView-->
+        <scene sceneID="sPi-uA-U7q">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="PostViewController" storyboardName="PostView" id="WBi-Pi-0va" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="au9-NC-qal" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2155" y="-1274"/>
         </scene>
         <!--UploadView-->
         <scene sceneID="eNz-ao-EuM">
@@ -101,13 +112,12 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PeW-zw-5Gt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2698" y="80"/>
+            <point key="canvasLocation" x="-2141" y="-1144"/>
         </scene>
     </scenes>
     <resources>
         <image name="alertSelected_icon" width="25" height="25"/>
         <image name="homeSelected_icon" width="25" height="25"/>
-        <image name="home_icon" width="25" height="25"/>
         <image name="upload_icon" width="25" height="25"/>
         <image name="비행_로고" width="500" height="500"/>
         <systemColor name="systemBackgroundColor">
