@@ -11,12 +11,7 @@ class PostCollectionReusableView: UICollectionReusableView {
 
     @IBOutlet weak var imgView: UIImageView!
     
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        // Initialization code
-//
-//
-//    }
+
 
     
     
