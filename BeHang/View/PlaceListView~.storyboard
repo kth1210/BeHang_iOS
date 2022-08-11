@@ -47,7 +47,7 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="등록 장소 선택"/>
                                 <connections>
-                                    <segue destination="onJ-Sr-KFW" kind="show" id="Kod-jU-48Y"/>
+                                    <segue destination="EQe-bh-AwC" kind="show" id="Kod-jU-48Y"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l8o-3f-wSe">
@@ -149,13 +149,19 @@
             </objects>
             <point key="canvasLocation" x="130.76923076923077" y="79.620853080568722"/>
         </scene>
-        <!--PlaceListView-->
-        <scene sceneID="3GM-aO-r2r">
+        <!--Place List View Controller-->
+        <scene sceneID="kH9-bb-v7j">
             <objects>
-                <viewControllerPlaceholder storyboardName="PlaceListView" id="onJ-Sr-KFW" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="GGB-c1-D2p"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qXy-7F-RWi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController id="EQe-bh-AwC" customClass="PlaceListViewController" customModule="BeHang" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="N9n-d7-pCE">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="VbC-hh-d38"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="fWx-s8-JiJ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d18-dB-r29" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1103" y="80"/>
         </scene>

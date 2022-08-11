@@ -20,6 +20,8 @@ class PostViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.title = "장소이름"
         
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

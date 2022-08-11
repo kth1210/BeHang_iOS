@@ -86,7 +86,7 @@
                             <constraint firstItem="O3E-KF-O6k" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="x9u-GE-gLy"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" selectedImage="homeSelected_icon" id="A9L-4v-P2o"/>
+                    <tabBarItem key="tabBarItem" title="" image="home_icon" selectedImage="homeSelected_icon" id="A9L-4v-P2o"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -96,6 +96,7 @@
     </scenes>
     <resources>
         <image name="homeSelected_icon" width="25" height="25"/>
+        <image name="home_icon" width="25" height="25"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

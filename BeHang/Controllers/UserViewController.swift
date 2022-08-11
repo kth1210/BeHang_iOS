@@ -26,6 +26,10 @@ class UserViewController: UIViewController {
         self.setUserInfo()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
 
     /*
     // MARK: - Navigation
@@ -49,6 +53,7 @@ class UserViewController: UIViewController {
                 if let url = user?.kakaoAccount?.profile?.profileImageUrl, let data = try? Data(contentsOf: url) {
                     self.profileImage.image = UIImage(data: data)
                 }
+            
             }
         }
     }

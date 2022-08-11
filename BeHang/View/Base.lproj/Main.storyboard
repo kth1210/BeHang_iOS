@@ -72,6 +72,7 @@
         <!--Navigation Controller-->
         <scene sceneID="bMG-EM-1UT">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aIQ-51-3Z1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="bAO-o3-lMx" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Xg6-rg-fQK">
@@ -82,7 +83,6 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="4BG-9H-vUy"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aIQ-51-3Z1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2262" y="348"/>
         </scene>
@@ -107,10 +107,10 @@
             </objects>
             <point key="canvasLocation" x="-52" y="348"/>
         </scene>
-        <!--HomeViewController-->
+        <!--HomeNavigationController-->
         <scene sceneID="pBN-K2-pBm">
             <objects>
-                <viewControllerPlaceholder storyboardName="HomeTab" referencedIdentifier="HomeViewController" id="KIs-WP-dcj" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="HomeTab" referencedIdentifier="HomeNavigationController" id="KIs-WP-dcj" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="Epo-NH-tF6"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dYj-d3-Y2k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -137,10 +137,10 @@
             </objects>
             <point key="canvasLocation" x="808" y="419"/>
         </scene>
-        <!--UserTab-->
+        <!--UserNavigationController-->
         <scene sceneID="A5o-ii-aCu">
             <objects>
-                <viewControllerPlaceholder storyboardName="UserTab" id="meJ-Oh-ppx" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="UserTab" referencedIdentifier="UserNavigationController" id="meJ-Oh-ppx" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="7fh-U4-b0A"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SNl-MX-Cce" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
