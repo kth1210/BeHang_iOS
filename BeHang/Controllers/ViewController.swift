@@ -7,6 +7,7 @@
 
 import UIKit
 import KakaoSDKUser
+import Alamofire
 
 class ViewController: UIViewController {
 
@@ -42,13 +43,43 @@ class ViewController: UIViewController {
                     
                     _ = oauthToken
                     let accessToken = oauthToken?.accessToken
+                    let refreshToken = oauthToken?.refreshToken
                     
-                    //self.getUserInfo()
+                    //self.getUserInfo()\
+                    self.postTest(accessToken: accessToken!, refreshToken: refreshToken!)
                     
                     guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
                     self.navigationController?.pushViewController(nextVC, animated: true)
                     
                 }
+            }
+        }
+    }
+    
+    func postTest(accessToken : String, refreshToken : String) {
+        let url = "https://ptsv2.com/t/oiexm-1660281750/post"
+        let accessToken = accessToken
+        let refreshToken = refreshToken
+        
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "LoginToken")
+        request.timeoutInterval = 10
+        
+        let params = ["accessToken":accessToken, "refreshToken":refreshToken] as Dictionary
+        
+        do {
+            try request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
+        } catch {
+            print("http Body Error")
+        }
+        
+        AF.request(request).responseString { (response) in
+            switch response.result {
+            case .success:
+                print("post 성공")
+            case .failure(let error):
+                print("Alamofire Request Error\nCode:\(error._code), Message: \(error.errorDescription!)")
             }
         }
     }

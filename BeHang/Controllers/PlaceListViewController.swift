@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class PlaceListViewController: UIViewController {
 
@@ -33,5 +34,31 @@ class PlaceListViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    @IBAction func searchButtonPressed(_ sender: UIButton) {
+        let URL = "https://jsonplaceholder.typicode.com/todos/1"
+        print(URL)
+        
+        AF.request(URL,
+                   method: .get,
+                   parameters: nil,
+                   encoding: URLEncoding.default,
+                   headers: ["Content-Type":"application/json", "Accept":"application/json"])
+        .validate(statusCode: 200..<300)
+        .responseData { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let asJSON = try JSONSerialization.jsonObject(with: data)
+                    
+                    print(asJSON)
+                } catch {
+                    print("error")
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+    }
+    
 }
