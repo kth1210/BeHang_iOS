@@ -32,7 +32,6 @@
 		0E7C92C02893BEA300823A9E /* UploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7C92BF2893BEA300823A9E /* UploadViewController.swift */; };
 		0E8A88102893C78C00E04853 /* UploadView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8A880F2893C78C00E04853 /* UploadView.storyboard */; };
 		0E8A88122895054900E04853 /* PlaceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A88112895054900E04853 /* PlaceListViewController.swift */; };
-		0EA3B85B289986C400CF2AD8 /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA3B85A289986C400CF2AD8 /* PinterestLayout.swift */; };
 		0EA3B862289987FF00CF2AD8 /* Photos.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EA3B861289987FF00CF2AD8 /* Photos.xcassets */; };
 		0EA3B8642899880C00CF2AD8 /* Photos.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0EA3B8632899880C00CF2AD8 /* Photos.plist */; };
 		0EBFEA4828A09CBC00B5340D /* SettingView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EBFEA4728A09CBC00B5340D /* SettingView.storyboard */; };
@@ -68,7 +67,6 @@
 		0E7C92BF2893BEA300823A9E /* UploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		0E8A880F2893C78C00E04853 /* UploadView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UploadView.storyboard; sourceTree = "<group>"; };
 		0E8A88112895054900E04853 /* PlaceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceListViewController.swift; sourceTree = "<group>"; };
-		0EA3B85A289986C400CF2AD8 /* PinterestLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
 		0EA3B861289987FF00CF2AD8 /* Photos.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Photos.xcassets; sourceTree = "<group>"; };
 		0EA3B8632899880C00CF2AD8 /* Photos.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Photos.plist; sourceTree = "<group>"; };
 		0EBFEA4728A09CBC00B5340D /* SettingView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingView.storyboard; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 				0E7C92932892DD2B00823A9E /* SceneDelegate.swift */,
 				0E7C92912892DD2B00823A9E /* AppDelegate.swift */,
 				0EA3B85E2899875B00CF2AD8 /* Models */,
-				0EA3B859289986A700CF2AD8 /* Layouts */,
 				0E7C92A52893A05800823A9E /* View */,
 				0E7C92A62893A06500823A9E /* Controllers */,
 				0EA3B8552899857400CF2AD8 /* Assets */,
@@ -168,14 +165,6 @@
 				0EA3B8632899880C00CF2AD8 /* Photos.plist */,
 			);
 			path = Assets;
-			sourceTree = "<group>";
-		};
-		0EA3B859289986A700CF2AD8 /* Layouts */ = {
-			isa = PBXGroup;
-			children = (
-				0EA3B85A289986C400CF2AD8 /* PinterestLayout.swift */,
-			);
-			path = Layouts;
 			sourceTree = "<group>";
 		};
 		0EA3B85E2899875B00CF2AD8 /* Models */ = {
@@ -332,7 +321,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E6517C628A3F463006F4917 /* PostViewController.swift in Sources */,
-				0EA3B85B289986C400CF2AD8 /* PinterestLayout.swift in Sources */,
 				0E7C92B62893A24000823A9E /* HomeViewController.swift in Sources */,
 				0E7C92BC2893A28C00823A9E /* UserViewController.swift in Sources */,
 				0EBFEA4A28A09D2F00B5340D /* SettingViewController.swift in Sources */,
