@@ -57,7 +57,8 @@ class ViewController: UIViewController {
     }
     
     func postTest(accessToken : String, refreshToken : String) {
-        let url = "https://ptsv2.com/t/oiexm-1660281750/post"
+        //let url = "https://ptsv2.com/t/oiexm-1660281750/post"
+        let url = "http://35.227.155.59:8080/hello"
         let accessToken = accessToken
         let refreshToken = refreshToken
         
