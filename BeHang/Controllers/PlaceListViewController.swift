@@ -9,7 +9,8 @@ import UIKit
 import Alamofire
 
 class PlaceListViewController: UIViewController {
-
+    @IBOutlet weak var placeSearchBar: UISearchBar!
+    
     let confirmButton = UIBarButtonItem(title: "확인", style: .plain, target: nil, action: nil)
     
     override func viewDidLoad() {
@@ -20,26 +21,19 @@ class PlaceListViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.title = "장소 목록"
         
-        self.navigationItem.rightBarButtonItem = confirmButton
-        self.navigationItem.rightBarButtonItem?.tintColor = UIColor(hex: "#455AE4")
+//        self.navigationItem.rightBarButtonItem = confirmButton
+//        self.navigationItem.rightBarButtonItem?.tintColor = UIColor(hex: "#455AE4")
+        
+        placeSearchBar.delegate = self
+        placeSearchBar.placeholder = "장소 이름 검색"
+        
+        self.hideKeyboardWhenTappedAround()
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    @IBAction func searchButtonPressed(_ sender: UIButton) {
-        //let URL = "https://jsonplaceholder.typicode.com/todos/1"
-        //let URL = "http://35.227.155.59:8080/hello"
+    func getPlaceList(keyword: String) {
         let URL = "http://apis.data.go.kr/B551011/KorService/searchKeyword"
-        let param: Parameters = [
+        var param: Parameters = [
             "serviceKey" : "A8dJ8nKE9AlL1AWJ8bwxLGO/zRDGpaUHZpxXR2axdgbrLT0uSQ49GSfWi4EtwfnfoFGNLJw6rHLB0ix9Qtl+EQ==",
             "numOfRows" : "10",
             "pageNo" : "1",
@@ -47,9 +41,11 @@ class PlaceListViewController: UIViewController {
             "MobileApp" : "BeHang",
             "_type" : "json",
             "listYN" : "Y",
-            "arrange" : "C",
-            "keyword" : "광화문"
+            "arrange" : "C"
+            //"keyword" : "광화문"
         ]
+        
+        param["keyword"] = keyword
 
         AF.request(URL,
                    method: .get,
@@ -82,4 +78,51 @@ class PlaceListViewController: UIViewController {
         
     }
     
+}
+
+extension PlaceListViewController: UISearchBarDelegate {
+    
+    override var textInputMode: UITextInputMode? {
+        if let language = getKeyboardLanguage() {
+            for inputMode in UITextInputMode.activeInputModes {
+                if inputMode.primaryLanguage! == language {
+                    return inputMode
+                }
+            }
+        }
+        return super.textInputMode
+    }
+    
+    private func getKeyboardLanguage() -> String? {
+        return "ko-KR"
+    }
+    
+    private func dismissKeyboard() {
+        placeSearchBar.resignFirstResponder()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        dismissKeyboard()
+        
+        guard let searchTerm = placeSearchBar.text, searchTerm.count >= 2 else {
+            placeSearchBar.text = ""
+            placeSearchBar.placeholder = "두 글자 이상 키워드를 입력해주세요."
+            return
+        }
+
+        getPlaceList(keyword: searchTerm)
+        
+    }
+}
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboardByTap))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboardByTap() {
+        view.endEditing(true)
+    }
 }
