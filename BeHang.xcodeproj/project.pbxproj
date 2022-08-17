@@ -14,6 +14,8 @@
 		0E6517CB28A4129D006F4917 /* PostCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6517C928A4129D006F4917 /* PostCollectionReusableView.swift */; };
 		0E6517CE28A558B7006F4917 /* PlaceListView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E6517CD28A558B7006F4917 /* PlaceListView.storyboard */; };
 		0E6517D028A560D9006F4917 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6517CF28A560D9006F4917 /* PhotoCell.swift */; };
+		0E6517D428ACEC62006F4917 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6517D328ACEC62006F4917 /* ListCell.swift */; };
+		0E6517D628AD275C006F4917 /* PlaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6517D528AD275B006F4917 /* PlaceInfo.swift */; };
 		0E7C92922892DD2B00823A9E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7C92912892DD2B00823A9E /* AppDelegate.swift */; };
 		0E7C92942892DD2B00823A9E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7C92932892DD2B00823A9E /* SceneDelegate.swift */; };
 		0E7C92962892DD2B00823A9E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7C92952892DD2B00823A9E /* ViewController.swift */; };
@@ -47,6 +49,8 @@
 		0E6517C928A4129D006F4917 /* PostCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionReusableView.swift; sourceTree = "<group>"; };
 		0E6517CD28A558B7006F4917 /* PlaceListView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PlaceListView.storyboard; sourceTree = "<group>"; };
 		0E6517CF28A560D9006F4917 /* PhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		0E6517D328ACEC62006F4917 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
+		0E6517D528AD275B006F4917 /* PlaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfo.swift; sourceTree = "<group>"; };
 		0E7C928E2892DD2B00823A9E /* BeHang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeHang.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E7C92912892DD2B00823A9E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E7C92932892DD2B00823A9E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -174,6 +178,8 @@
 				0E6517CF28A560D9006F4917 /* PhotoCell.swift */,
 				0EBFEA4D28A1591100B5340D /* ImageInfo.swift */,
 				0EBFEA4F28A159D800B5340D /* ImageViewModel.swift */,
+				0E6517D328ACEC62006F4917 /* ListCell.swift */,
+				0E6517D528AD275B006F4917 /* PlaceInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -323,6 +329,7 @@
 				0E6517C628A3F463006F4917 /* PostViewController.swift in Sources */,
 				0E7C92B62893A24000823A9E /* HomeViewController.swift in Sources */,
 				0E7C92BC2893A28C00823A9E /* UserViewController.swift in Sources */,
+				0E6517D628AD275C006F4917 /* PlaceInfo.swift in Sources */,
 				0EBFEA4A28A09D2F00B5340D /* SettingViewController.swift in Sources */,
 				0E6517C828A40A98006F4917 /* PostPhotoCell.swift in Sources */,
 				0E7C92B82893A26900823A9E /* MapViewController.swift in Sources */,
@@ -335,6 +342,7 @@
 				0EBFEA5028A159D800B5340D /* ImageViewModel.swift in Sources */,
 				0E8A88122895054900E04853 /* PlaceListViewController.swift in Sources */,
 				0E7C92BA2893A27800823A9E /* FlagViewController.swift in Sources */,
+				0E6517D428ACEC62006F4917 /* ListCell.swift in Sources */,
 				0E7C92922892DD2B00823A9E /* AppDelegate.swift in Sources */,
 				0E7C92942892DD2B00823A9E /* SceneDelegate.swift in Sources */,
 			);
