@@ -23,6 +23,9 @@ class UploadViewController: UIViewController {
     let imagePickerController = UIImagePickerController()
     let registerButton = UIBarButtonItem(title: "등록", style: .plain, target: nil, action: nil)
     
+    // 선택한 장소의 정보
+    var selectedPlaceInfo = PlaceInfo()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +42,7 @@ class UploadViewController: UIViewController {
         
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.title = "새 게시물"
+        self.navigationController?.navigationBar.topItem?.backButtonTitle = "이전"
         
         self.navigationItem.rightBarButtonItem = registerButton
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor(hex: "#455AE4")
@@ -53,6 +57,12 @@ class UploadViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         //self.tabBarController?.tabBar.isHidden = true
+        
+        if let placeName = selectedPlaceInfo.title {
+            print(placeName)
+            //self.selectPlaceButton.titleLabel?.text = placeName
+            self.selectPlaceButton.setTitle(placeName, for: .normal)
+        }
     }
     
     @objc func selectPhotoPressed() {
@@ -73,16 +83,6 @@ class UploadViewController: UIViewController {
         }
     }
     
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 

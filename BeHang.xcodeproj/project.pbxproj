@@ -36,6 +36,8 @@
 		0E8A88122895054900E04853 /* PlaceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A88112895054900E04853 /* PlaceListViewController.swift */; };
 		0EA3B862289987FF00CF2AD8 /* Photos.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EA3B861289987FF00CF2AD8 /* Photos.xcassets */; };
 		0EA3B8642899880C00CF2AD8 /* Photos.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0EA3B8632899880C00CF2AD8 /* Photos.plist */; };
+		0EAA91EF28AE89DF00963AF1 /* LoadingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA91ED28AE89DF00963AF1 /* LoadingCollectionView.swift */; };
+		0EAA91F028AE89DF00963AF1 /* LoadingCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EAA91EE28AE89DF00963AF1 /* LoadingCollectionView.xib */; };
 		0EBFEA4828A09CBC00B5340D /* SettingView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EBFEA4728A09CBC00B5340D /* SettingView.storyboard */; };
 		0EBFEA4A28A09D2F00B5340D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBFEA4928A09D2F00B5340D /* SettingViewController.swift */; };
 		0EBFEA4E28A1591100B5340D /* ImageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBFEA4D28A1591100B5340D /* ImageInfo.swift */; };
@@ -73,6 +75,8 @@
 		0E8A88112895054900E04853 /* PlaceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceListViewController.swift; sourceTree = "<group>"; };
 		0EA3B861289987FF00CF2AD8 /* Photos.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Photos.xcassets; sourceTree = "<group>"; };
 		0EA3B8632899880C00CF2AD8 /* Photos.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Photos.plist; sourceTree = "<group>"; };
+		0EAA91ED28AE89DF00963AF1 /* LoadingCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCollectionView.swift; sourceTree = "<group>"; };
+		0EAA91EE28AE89DF00963AF1 /* LoadingCollectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCollectionView.xib; sourceTree = "<group>"; };
 		0EBFEA4728A09CBC00B5340D /* SettingView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingView.storyboard; sourceTree = "<group>"; };
 		0EBFEA4928A09D2F00B5340D /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		0EBFEA4D28A1591100B5340D /* ImageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInfo.swift; sourceTree = "<group>"; };
@@ -180,6 +184,8 @@
 				0EBFEA4F28A159D800B5340D /* ImageViewModel.swift */,
 				0E6517D328ACEC62006F4917 /* ListCell.swift */,
 				0E6517D528AD275B006F4917 /* PlaceInfo.swift */,
+				0EAA91ED28AE89DF00963AF1 /* LoadingCollectionView.swift */,
+				0EAA91EE28AE89DF00963AF1 /* LoadingCollectionView.xib */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -270,6 +276,7 @@
 				0EA3B8642899880C00CF2AD8 /* Photos.plist in Resources */,
 				0E7C92AE2893A1DB00823A9E /* MapTab.storyboard in Resources */,
 				0E7C92992892DD2B00823A9E /* Main.storyboard in Resources */,
+				0EAA91F028AE89DF00963AF1 /* LoadingCollectionView.xib in Resources */,
 				0EA3B862289987FF00CF2AD8 /* Photos.xcassets in Resources */,
 				0EBFEA4828A09CBC00B5340D /* SettingView.storyboard in Resources */,
 				0E7C92B22893A1F000823A9E /* UserTab.storyboard in Resources */,
@@ -345,6 +352,7 @@
 				0E6517D428ACEC62006F4917 /* ListCell.swift in Sources */,
 				0E7C92922892DD2B00823A9E /* AppDelegate.swift in Sources */,
 				0E7C92942892DD2B00823A9E /* SceneDelegate.swift in Sources */,
+				0EAA91EF28AE89DF00963AF1 /* LoadingCollectionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

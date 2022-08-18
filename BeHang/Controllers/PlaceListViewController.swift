@@ -12,30 +12,43 @@ class PlaceListViewController: UIViewController {
     @IBOutlet weak var placeSearchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
-    let confirmButton = UIBarButtonItem(title: "확인", style: .plain, target: nil, action: nil)
-    var pageNo = 0
+    lazy var confirmButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "확인", style: .plain, target: self, action: #selector(confirmButtonPressed))
+        return button
+    }()
+    let activityIndicator = UIActivityIndicatorView(style: .large)
+    
+    // API JSON 데이터 배열로 받아오기
     lazy var list: [PlaceInfo] = {
         var datalist = [PlaceInfo]()
         return datalist
     }()
+    
+    // 받아오는 페이지 번호
+    var pageNo = 0
+    // 더 받아올 데이터가 있는지?
     var moreData = true
-    let activityIndicator = UIActivityIndicatorView(style: .large)
+    // 선택한 장소 정보
+    var selectPlace = PlaceInfo()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
+        // navigationController 설정
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.title = "장소 목록"
+        self.navigationController?.navigationBar.topItem?.backButtonTitle = "이전"
+                
+        self.navigationItem.rightBarButtonItem = self.confirmButton
+        self.navigationItem.rightBarButtonItem?.tintColor = UIColor(hex: "#455AE4")
         
-//        self.navigationItem.rightBarButtonItem = confirmButton
-//        self.navigationItem.rightBarButtonItem?.tintColor = UIColor(hex: "#455AE4")
-        
+        // searchBar 설정
         placeSearchBar.delegate = self
         placeSearchBar.placeholder = "장소 이름 검색"
         
+        // 다른 곳 탭하면 키보드 내리기
         self.hideKeyboardWhenTappedAround()
+        
         
         self.view.addSubview(self.activityIndicator)
         
@@ -43,7 +56,25 @@ class PlaceListViewController: UIViewController {
         tableView.dataSource = self
     }
     
+    // 장소 고르고 확인 버튼 눌렀을 때
+    @objc func confirmButtonPressed() {
+        print("hello")
+        print(selectPlace.title!)
+        let index = self.navigationController?.viewControllers.count
+        let preVC = self.navigationController?.viewControllers[index! - 2]
 
+        guard let vc = preVC as? UploadViewController else {
+            print("fail")
+            return
+        }
+        
+        
+        vc.selectedPlaceInfo = self.selectPlace
+        
+        self.navigationController?.popViewController(animated: true)
+    }
+
+    // API 호출해서 데이터 배열에 받아오기
     func getPlaceList(keyword: String) {
         self.pageNo += 1
         
@@ -94,9 +125,8 @@ class PlaceListViewController: UIViewController {
                     
                     for row in item {
                         let r = row as! NSDictionary
-                        
+            
                         let placeData = PlaceInfo()
-                        
                         placeData.address = r["addr1"] as? String
                         placeData.contentId = r["contentId"] as? String
                         placeData.mapx = r["mapx"] as? String
@@ -111,10 +141,8 @@ class PlaceListViewController: UIViewController {
                         }
                         
                         self.list.append(placeData)
-                    }
-                    
+                    }                    
                     self.tableView.reloadData()
-                    
                     self.tableView.tableFooterView?.isHidden = true
                     self.activityIndicator.stopAnimating()
                     
@@ -127,7 +155,6 @@ class PlaceListViewController: UIViewController {
                 print(error)
             }
         }
-        
     }
     
     func getMore() {
@@ -172,9 +199,15 @@ extension PlaceListViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.selectPlace = list[indexPath.row]
+    }
     
 }
+
+//MARK: - UISearchBarDelegate
+// 한글 키보드 먼저 나오게 설정, 검색 눌렀을 때 키보드 내려가게 설정
+// 2글자 이상 검색 가능
 
 extension PlaceListViewController: UISearchBarDelegate {
     
@@ -216,6 +249,8 @@ extension PlaceListViewController: UISearchBarDelegate {
         getPlaceList(keyword: searchTerm)
     }
 }
+
+//MARK: - 키보드 내려가게하기
 
 extension UIViewController {
     func hideKeyboardWhenTappedAround() {
