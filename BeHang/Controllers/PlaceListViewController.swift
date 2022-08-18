@@ -18,6 +18,8 @@ class PlaceListViewController: UIViewController {
         var datalist = [PlaceInfo]()
         return datalist
     }()
+    var moreData = true
+    let activityIndicator = UIActivityIndicatorView(style: .large)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +36,8 @@ class PlaceListViewController: UIViewController {
         placeSearchBar.placeholder = "장소 이름 검색"
         
         self.hideKeyboardWhenTappedAround()
+        
+        self.view.addSubview(self.activityIndicator)
         
         
         tableView.dataSource = self
@@ -77,10 +81,16 @@ class PlaceListViewController: UIViewController {
                     guard let items = body["items"] as? NSDictionary else {
                         self.placeSearchBar.text = ""
                         self.placeSearchBar.placeholder = "검색 결과가 없습니다."
+                        self.activityIndicator.stopAnimating()
                         self.tableView.reloadData()
                         return
                     }
                     let item = items["item"] as! NSArray
+                    let numOfRows = body["numOfRows"] as! Int
+                    
+                    if numOfRows != 10 {
+                        self.moreData = false
+                    }
                     
                     for row in item {
                         let r = row as! NSDictionary
@@ -92,15 +102,22 @@ class PlaceListViewController: UIViewController {
                         placeData.mapx = r["mapx"] as? String
                         placeData.mapy = r["mapy"] as? String
                         placeData.title = r["title"] as? String
-                        placeData.thumbnailImg = r["firstimage"] as? String
+                        placeData.thumbnail = r["firstimage"] as? String
+                        
+                        if placeData.thumbnail != "" {
+                            let url: URL! = Foundation.URL(string: placeData.thumbnail!)
+                            let imageData = try! Data(contentsOf: url)
+                            placeData.thumbnailImg = UIImage(data: imageData)
+                        }
                         
                         self.list.append(placeData)
-                        
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
                     }
-
+                    
+                    self.tableView.reloadData()
+                    
+                    self.tableView.tableFooterView?.isHidden = true
+                    self.activityIndicator.stopAnimating()
+                    
                     print(asJSON)
                 } catch {
                     print("error")
@@ -113,6 +130,11 @@ class PlaceListViewController: UIViewController {
         
     }
     
+    func getMore() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
+            self.getPlaceList(keyword: self.placeSearchBar.text!)
+        })
+    }
 }
 
 extension PlaceListViewController: UITableViewDataSource, UITableViewDelegate {
@@ -126,20 +148,27 @@ extension PlaceListViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.placeAddress.text = list[indexPath.row].address
         cell.placeName.text = list[indexPath.row].title
-
-        let imgURL: URL! = URL(string: list[indexPath.row].thumbnailImg!)
-        let imageData = try! Data(contentsOf: imgURL)
-        cell.placeImg.image = UIImage(data: imageData)
-
+        cell.placeImg.image = list[indexPath.row].thumbnailImg
+        
         cell.placeAddress.sizeToFit()
         cell.placeName.sizeToFit()
 
         return cell
     }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.bounds.height {
 
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let lastSectionIndex = tableView.numberOfSections - 1
+        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+        
+        if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex && moreData{
+            let spinner = UIActivityIndicatorView(style: .medium)
+            spinner.startAnimating()
+            spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
+            
+            self.tableView.tableFooterView = spinner
+            self.tableView.tableFooterView?.isHidden = false
+            
+            getMore()
         }
     }
     
@@ -178,6 +207,12 @@ extension PlaceListViewController: UISearchBarDelegate {
         }
         self.list.removeAll()
         self.pageNo = 0
+        
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activityIndicator.center = self.tableView.center
+        activityIndicator.hidesWhenStopped = true
+        
+        activityIndicator.startAnimating()
         getPlaceList(keyword: searchTerm)
     }
 }

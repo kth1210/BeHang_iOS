@@ -6,12 +6,15 @@
 //
 
 import Foundation
+import UIKit
 
 class PlaceInfo {
     var address: String?
     var contentId: String?
-    var thumbnailImg: String?
+    var thumbnail: String?
     var mapx: String?
     var mapy: String?
     var title: String?
+    
+    var thumbnailImg: UIImage?
 }
