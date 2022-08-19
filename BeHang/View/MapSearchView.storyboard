@@ -77,6 +77,9 @@
                                 <color key="tintColor" red="0.26911818980000002" green="0.3539839387" blue="0.89368408919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" backgroundImage="map.fill" catalog="system"/>
+                                <connections>
+                                    <action selector="toMap:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="XAn-fS-jRd"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
@@ -98,6 +101,7 @@
                         <outlet property="mapSearchBar" destination="N1T-7O-lhR" id="OuI-wj-j6W"/>
                         <outlet property="mapTableView" destination="rKb-yL-4JY" id="oDR-g8-QKd"/>
                         <outlet property="searchLabel" destination="5fT-MP-bw7" id="ZRs-QZ-FV1"/>
+                        <outlet property="toMapButton" destination="24I-l7-DQe" id="ZCO-Kl-Du4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

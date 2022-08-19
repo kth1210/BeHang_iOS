@@ -19,8 +19,16 @@ class MapViewController: UIViewController, MTMapViewDelegate {
     @IBOutlet weak var mapSearchBar: UISearchBar!
     @IBOutlet weak var searchLabel: UILabel!
     
+    lazy var list: [PlaceInfo] = {
+        var datalist = [PlaceInfo]()
+        return datalist
+    }()
+    
     @IBOutlet var subView: UIView!
     var mapView: MTMapView?
+    
+    var mapPoint: MTMapPoint?
+    var poiItem: MTMapPOIItem?
     
     var latitude: Double = 37.579617
     var longitude: Double = 126.977041
@@ -59,11 +67,36 @@ class MapViewController: UIViewController, MTMapViewDelegate {
             self.view.addSubview(mapView)
         }
         
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+        
+        
+        print("here")
+        makeMarker()
+    }
+    
+    func makeMarker() {
+        print("makeMarker")
+        var cnt = 0
+        
+        for item in list {
+            let lon = Double(item.mapx!)
+            let lat = Double(item.mapy!)
+            print(lat!)
+            print(lon!)
+
+            self.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: lat!, longitude: lon!))
+            
+            poiItem = MTMapPOIItem()
+            poiItem?.markerType = MTMapPOIItemMarkerType.redPin
+            poiItem?.mapPoint = mapPoint
+            poiItem?.itemName = item.title
+            poiItem?.tag = cnt            
+            mapView?.add(poiItem)
+            cnt += 1
+        }
     }
     
 //    @IBAction func tagPressed(_ sender: UIButton) {

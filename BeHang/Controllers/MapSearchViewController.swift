@@ -12,6 +12,7 @@ class MapSearchViewController: UIViewController {
     @IBOutlet var mapSearchBar: UISearchBar!
     @IBOutlet var mapTableView: UITableView!
     @IBOutlet var searchLabel: UILabel!
+    @IBOutlet var toMapButton: UIButton!
     
     
     let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -58,7 +59,23 @@ class MapSearchViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         
     }
+    
+    
+    @IBAction func toMap(_ sender: UIButton) {
+        let index = self.navigationController?.viewControllers.count
+        let preVC = self.navigationController?.viewControllers[index! - 2]
 
+        guard let vc = preVC as? MapViewController else {
+            print("fail")
+            return
+        }
+        
+        vc.list = self.list
+        //vc.selectedPlaceInfo = self.selectPlace
+        
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     func getPlaceList(keyword: String) {
         self.pageNo += 1
         

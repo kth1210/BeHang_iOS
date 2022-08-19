@@ -12,16 +12,20 @@ class UploadViewController: UIViewController {
     @IBOutlet weak var selectMent: UILabel!
     @IBOutlet weak var uploadedImageView: UIImageView!
     @IBOutlet weak var selectPlaceButton: UIButton!
-    @IBOutlet weak var tagButton1: UIButton!
-    @IBOutlet weak var tagButton2: UIButton!
-    @IBOutlet weak var tagButton3: UIButton!
-    @IBOutlet weak var tagButton4: UIButton!
-    @IBOutlet weak var tagButton5: UIButton!
-    @IBOutlet weak var tagButton6: UIButton!
+    
+    @IBOutlet weak var tagButton1: UIButton!    // 편리한 주차
+    @IBOutlet weak var tagButton2: UIButton!    // 편리한 대중교통
+    @IBOutlet weak var tagButton3: UIButton!    // 아이와 함께
+    @IBOutlet weak var tagButton4: UIButton!    // 실내
+    @IBOutlet weak var tagButton5: UIButton!    // 연인과 함께
+    @IBOutlet weak var tagButton6: UIButton!    // 반려견과 함께
     
     
     let imagePickerController = UIImagePickerController()
-    let registerButton = UIBarButtonItem(title: "등록", style: .plain, target: nil, action: nil)
+    lazy var registerButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "등록", style: .plain, target: self, action: #selector(registerButtonPressed))
+        return button
+    }()
     
     // 선택한 장소의 정보
     var selectedPlaceInfo = PlaceInfo()
@@ -70,6 +74,18 @@ class UploadViewController: UIViewController {
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
         present(imagePicker, animated: true)
+    }
+    
+    @objc func registerButtonPressed() {
+        guard let imageData = uploadedImageView.image?.jpegData(compressionQuality: 0.2) else {
+            print("등록된 이미지가 없습니다!")
+            return
+        }
+        
+        let imageBase64String = imageData.base64EncodedString(options: .lineLength64Characters)
+        print(imageBase64String)
+        
+        
     }
 
     

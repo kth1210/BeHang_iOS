@@ -58,8 +58,6 @@ class PlaceListViewController: UIViewController {
     
     // 장소 고르고 확인 버튼 눌렀을 때
     @objc func confirmButtonPressed() {
-        print("hello")
-        print(selectPlace.title!)
         let index = self.navigationController?.viewControllers.count
         let preVC = self.navigationController?.viewControllers[index! - 2]
 
