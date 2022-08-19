@@ -2,7 +2,7 @@
 //  PostViewController.swift
 //  BeHang
 //
-//  Created by 김태현 on 2022/08/10.
+//  Created by 김태현 on 2022/08/19.
 //
 
 import UIKit
@@ -10,6 +10,7 @@ import UIKit
 class PostViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var image: UIImage?
+    var placeName: String?
     let viewModel = ImageViewModel()
     let sectionInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
 
@@ -18,7 +19,7 @@ class PostViewController: UIViewController, UICollectionViewDataSource, UICollec
 
         // Do any additional setup after loading the view.
         self.navigationController?.navigationBar.tintColor = .black
-        self.navigationItem.title = "장소이름"
+        self.navigationItem.title = placeName
         
         
         

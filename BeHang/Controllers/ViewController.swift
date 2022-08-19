@@ -43,10 +43,9 @@ class ViewController: UIViewController {
                     
                     _ = oauthToken
                     let accessToken = oauthToken?.accessToken
-                    let refreshToken = oauthToken?.refreshToken
                     
-                    //self.getUserInfo()\
-                    self.postTest(accessToken: accessToken!, refreshToken: refreshToken!)
+                    //self.getUserInfo()
+                    //self.postTest(accessToken: accessToken!)
                     
                     guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
                     self.navigationController?.pushViewController(nextVC, animated: true)
@@ -56,31 +55,101 @@ class ViewController: UIViewController {
         }
     }
     
-    func postTest(accessToken : String, refreshToken : String) {
+    func postTest(accessToken : String) {
         //let url = "https://ptsv2.com/t/oiexm-1660281750/post"
-        let url = "http://35.227.155.59:8080/hello"
+        let url = "http://35.227.155.59:8080/v1/social/login/kakao"
         let accessToken = accessToken
-        let refreshToken = refreshToken
+        //let refreshToken = refreshToken
         
-        var request = URLRequest(url: URL(string: url)!)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "LoginToken")
-        request.timeoutInterval = 10
+        let header : HTTPHeaders = [
+            "Content-Type" : "application/json"
+        ]
+
+        let bodyData : Parameters = [
+            "accessToken" : accessToken
+        ] as Dictionary
         
-        let params = ["accessToken":accessToken, "refreshToken":refreshToken] as Dictionary
         
-        do {
-            try request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
-        } catch {
-            print("http Body Error")
-        }
-        
-        AF.request(request).responseString { (response) in
+        AF.request(
+            url,
+            method: .post,
+            parameters: bodyData,
+            encoding: JSONEncoding.default,
+            headers: header
+        )
+        .validate(statusCode: 200..<300)
+        .responseData { (response) in
             switch response.result {
-            case .success:
-                print("post 성공")
+            case .success(let data):
+                do {
+                    let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    
+                    let res = asJSON["data"] as! NSDictionary
+                    let token = res["accessToken"] as! String
+                    
+                    self.test(accessToken: token)
+                    
+                    
+                    print(asJSON)
+                    
+                } catch {
+                    print("error")
+                }
+
             case .failure(let error):
                 print("Alamofire Request Error\nCode:\(error._code), Message: \(error.errorDescription!)")
+            }
+        }
+    }
+    
+    func test(accessToken: String) {
+        let url = "http://35.227.155.59:8080/post"
+        print("Token: \(accessToken)")
+        
+        let param: Parameters = [
+            //"accessToken" : accessToken
+            "place" : [
+                "name" : "우리집",
+                "address" : "수성구 어쩌고",
+                "phoneNumber" : "01062214335",
+                "contentID" : 12345678,
+                "mapx" : 123.123123,
+                "mapy" : 123.123123
+            ],
+            "postImage" : "메롱메롱",
+            "tag" : [
+                "convenientParking" : true,
+                "comfortablePubtransit" : false,
+                "withChild" : true,
+                "indoor" : true,
+                "suddenRain" : false,
+                "withMyDog" : true
+            ],
+            "userId" : 1
+        ]
+        
+        AF.request(url,
+                   method: .post,
+                   parameters: param,
+                   encoding: JSONEncoding.default,
+                   //encoding: URLEncoding.queryString,
+                   //headers: ["Content-Type":"application/json", "Accept":"application/json"])
+                   headers: ["X-AUTH-TOKEN" : accessToken])
+        .validate(statusCode: 200..<300)
+        .responseData { response in
+            print(response)
+            switch response.result {
+            case .success(let data):
+                do {
+                    let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    
+                    print("userList result")
+                    print(asJSON)
+                } catch {
+                    print("error")
+                }
+            case .failure(let error):
+                print(error)
             }
         }
     }

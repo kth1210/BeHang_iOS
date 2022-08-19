@@ -68,7 +68,6 @@ class PlaceListViewController: UIViewController {
             return
         }
         
-        
         vc.selectedPlaceInfo = self.selectPlace
         
         self.navigationController?.popViewController(animated: true)

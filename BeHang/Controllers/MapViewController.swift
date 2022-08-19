@@ -7,29 +7,57 @@
 
 import UIKit
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, MTMapViewDelegate {
     
-    @IBOutlet weak var tag1: UIButton!
-    @IBOutlet weak var tag2: UIButton!
-    @IBOutlet weak var tag3: UIButton!
-    @IBOutlet weak var tag4: UIButton!
-    @IBOutlet weak var tag5: UIButton!
-    @IBOutlet weak var tag6: UIButton!
+//    @IBOutlet weak var tag1: UIButton!
+//    @IBOutlet weak var tag2: UIButton!
+//    @IBOutlet weak var tag3: UIButton!
+//    @IBOutlet weak var tag4: UIButton!
+//    @IBOutlet weak var tag5: UIButton!
+//    @IBOutlet weak var tag6: UIButton!
     
+    @IBOutlet weak var mapSearchBar: UISearchBar!
     @IBOutlet weak var searchLabel: UILabel!
+    
+    @IBOutlet var subView: UIView!
+    var mapView: MTMapView?
+    
+    var latitude: Double = 37.579617
+    var longitude: Double = 126.977041
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
         
-        searchLabel.layer.addBorder([.bottom], color: UIColor(hex: "AEAEAE"), width: 1.0)
+        searchLabel.layer.addBorder([.bottom], color: UIColor(hex: "AEAEAE"), width: 2.0)
         
-        tag1.layer.cornerRadius = 8
-        tag2.layer.cornerRadius = 8
-        tag3.layer.cornerRadius = 8
-        tag4.layer.cornerRadius = 8
-        tag5.layer.cornerRadius = 8
-        tag6.layer.cornerRadius = 8
+//        tag1.layer.cornerRadius = 8
+//        tag2.layer.cornerRadius = 8
+//        tag3.layer.cornerRadius = 8
+//        tag4.layer.cornerRadius = 8
+//        tag5.layer.cornerRadius = 8
+//        tag6.layer.cornerRadius = 8
+        
+        self.mapSearchBar.delegate = self
+        self.mapSearchBar.searchBarStyle = .minimal
+        self.mapSearchBar.placeholder = "장소 이름 검색"
+        self.hideKeyboardWhenTappedAround()
+        
+        
+        mapView = MTMapView(frame: subView.frame)
+        
+        if let mapView = mapView {
+            mapView.delegate = self
+            mapView.baseMapType = .standard
+            
+            mapView.currentLocationTrackingMode = .onWithoutHeading
+            mapView.showCurrentLocationMarker = true
+            
+            mapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: latitude, longitude: longitude)), zoomLevel: 5, animated: true)
+            self.view.addSubview(mapView)
+        }
         
         
     }
@@ -38,26 +66,63 @@ class MapViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
     }
     
-    @IBAction func tagPressed(_ sender: UIButton) {
-        if sender.isSelected {
-            sender.isSelected = false
-            sender.backgroundColor = UIColor(hex: "#AEAEAE")
-        } else {
-            sender.isSelected = true
-            sender.backgroundColor = UIColor(hex: "#455AE4")
-        }
-    }
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
+//    @IBAction func tagPressed(_ sender: UIButton) {
+//        if sender.isSelected {
+//            sender.isSelected = false
+//            sender.backgroundColor = UIColor(hex: "#AEAEAE")
+//        } else {
+//            sender.isSelected = true
+//            sender.backgroundColor = UIColor(hex: "#455AE4")
+//        }
+//    }
+
     
 }
+
+
+
+
+extension MapViewController: UISearchBarDelegate {
+    
+    override var textInputMode: UITextInputMode? {
+        if let language = getKeyboardLanguage() {
+            for inputMode in UITextInputMode.activeInputModes {
+                if inputMode.primaryLanguage! == language {
+                    return inputMode
+                }
+            }
+        }
+        return super.textInputMode
+    }
+    
+    private func getKeyboardLanguage() -> String? {
+        return "ko-KR"
+    }
+    
+    private func dismissKeyboard() {
+        mapSearchBar.resignFirstResponder()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        dismissKeyboard()
+        
+        guard let searchTerm = mapSearchBar.text, searchTerm.count >= 2 else {
+            mapSearchBar.text = ""
+            mapSearchBar.placeholder = "두 글자 이상 키워드를 입력해주세요."
+            return
+        }
+        
+        guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "MapSearchViewController") as? MapSearchViewController else {return}
+        nextVC.firstSearch = searchTerm
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+}
+
+
+
+
+
+//MARK: - layer에 밑줄 넣기 extension
 
 extension CALayer {
     func addBorder(_ arr_edge: [UIRectEdge], color: UIColor, width: CGFloat) {
