@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>KAKAO_APP_KEY</key>
-	<string>086319f41e8822717e011c9211e2511c</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -15,6 +13,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>KAKAO_APP_KEY</key>
+	<string>086319f41e8822717e011c9211e2511c</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaokompassauth</string>
@@ -39,7 +39,7 @@
 					<key>UISceneDelegateClassName</key>
 					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
 					<key>UISceneStoryboardFile</key>
-					<string>Main</string>
+					<string>LaunchView</string>
 				</dict>
 			</array>
 		</dict>

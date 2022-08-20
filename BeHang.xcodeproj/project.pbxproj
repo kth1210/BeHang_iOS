@@ -18,9 +18,8 @@
 		0E7C92922892DD2B00823A9E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7C92912892DD2B00823A9E /* AppDelegate.swift */; };
 		0E7C92942892DD2B00823A9E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7C92932892DD2B00823A9E /* SceneDelegate.swift */; };
 		0E7C92962892DD2B00823A9E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7C92952892DD2B00823A9E /* ViewController.swift */; };
-		0E7C92992892DD2B00823A9E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E7C92972892DD2B00823A9E /* Main.storyboard */; };
+		0E7C92992892DD2B00823A9E /* LoginView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E7C92972892DD2B00823A9E /* LoginView.storyboard */; };
 		0E7C929B2892DD2D00823A9E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E7C929A2892DD2D00823A9E /* Assets.xcassets */; };
-		0E7C929E2892DD2D00823A9E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E7C929C2892DD2D00823A9E /* LaunchScreen.storyboard */; };
 		0E7C92AC2893A1B600823A9E /* HomeTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E7C92AB2893A1B600823A9E /* HomeTab.storyboard */; };
 		0E7C92AE2893A1DB00823A9E /* MapTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E7C92AD2893A1DB00823A9E /* MapTab.storyboard */; };
 		0E7C92B02893A1E500823A9E /* FlagTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E7C92AF2893A1E500823A9E /* FlagTab.storyboard */; };
@@ -37,6 +36,10 @@
 		0EA3B8642899880C00CF2AD8 /* Photos.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0EA3B8632899880C00CF2AD8 /* Photos.plist */; };
 		0EAA91EF28AE89DF00963AF1 /* LoadingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA91ED28AE89DF00963AF1 /* LoadingCollectionView.swift */; };
 		0EAA91F028AE89DF00963AF1 /* LoadingCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EAA91EE28AE89DF00963AF1 /* LoadingCollectionView.xib */; };
+		0EAC734A28B11A1B00C7ED4F /* LaunchView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EAC734928B11A1B00C7ED4F /* LaunchView.storyboard */; };
+		0EAC734C28B11A3A00C7ED4F /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAC734B28B11A3A00C7ED4F /* LaunchViewController.swift */; };
+		0EAC734F28B11EE900C7ED4F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EAC734D28B11EE900C7ED4F /* LaunchScreen.storyboard */; };
+		0EAC735428B1298900C7ED4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EAC735328B1298900C7ED4F /* Main.storyboard */; };
 		0EBFEA4828A09CBC00B5340D /* SettingView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EBFEA4728A09CBC00B5340D /* SettingView.storyboard */; };
 		0EBFEA4A28A09D2F00B5340D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBFEA4928A09D2F00B5340D /* SettingViewController.swift */; };
 		0EBFEA4E28A1591100B5340D /* ImageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBFEA4D28A1591100B5340D /* ImageInfo.swift */; };
@@ -93,9 +96,8 @@
 		0E7C92912892DD2B00823A9E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E7C92932892DD2B00823A9E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		0E7C92952892DD2B00823A9E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		0E7C92982892DD2B00823A9E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0E7C92982892DD2B00823A9E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LoginView.storyboard; sourceTree = "<group>"; };
 		0E7C929A2892DD2D00823A9E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0E7C929D2892DD2D00823A9E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0E7C929F2892DD2D00823A9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0E7C92AB2893A1B600823A9E /* HomeTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeTab.storyboard; sourceTree = "<group>"; };
 		0E7C92AD2893A1DB00823A9E /* MapTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapTab.storyboard; sourceTree = "<group>"; };
@@ -113,6 +115,11 @@
 		0EA3B8632899880C00CF2AD8 /* Photos.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Photos.plist; sourceTree = "<group>"; };
 		0EAA91ED28AE89DF00963AF1 /* LoadingCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCollectionView.swift; sourceTree = "<group>"; };
 		0EAA91EE28AE89DF00963AF1 /* LoadingCollectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCollectionView.xib; sourceTree = "<group>"; };
+		0EAC734628B0B95C00C7ED4F /* BeHang.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BeHang.entitlements; sourceTree = "<group>"; };
+		0EAC734928B11A1B00C7ED4F /* LaunchView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchView.storyboard; sourceTree = "<group>"; };
+		0EAC734B28B11A3A00C7ED4F /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		0EAC734E28B11EE900C7ED4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = ../../../../../BeHang/BeHang/View/Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0EAC735328B1298900C7ED4F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0EBFEA4728A09CBC00B5340D /* SettingView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingView.storyboard; sourceTree = "<group>"; };
 		0EBFEA4928A09D2F00B5340D /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		0EBFEA4D28A1591100B5340D /* ImageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInfo.swift; sourceTree = "<group>"; };
@@ -210,6 +217,7 @@
 		0E7C92902892DD2B00823A9E /* BeHang */ = {
 			isa = PBXGroup;
 			children = (
+				0EAC734628B0B95C00C7ED4F /* BeHang.entitlements */,
 				0EF5B5B728AF4F1300E18A71 /* DaumMap.embeddedframework */,
 				0E7C92932892DD2B00823A9E /* SceneDelegate.swift */,
 				0E7C92912892DD2B00823A9E /* AppDelegate.swift */,
@@ -226,8 +234,10 @@
 		0E7C92A52893A05800823A9E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0E7C929C2892DD2D00823A9E /* LaunchScreen.storyboard */,
-				0E7C92972892DD2B00823A9E /* Main.storyboard */,
+				0EAC734D28B11EE900C7ED4F /* LaunchScreen.storyboard */,
+				0EAC734928B11A1B00C7ED4F /* LaunchView.storyboard */,
+				0E7C92972892DD2B00823A9E /* LoginView.storyboard */,
+				0EAC735328B1298900C7ED4F /* Main.storyboard */,
 				0E7C92AB2893A1B600823A9E /* HomeTab.storyboard */,
 				0E6517C328A3ED95006F4917 /* PostView.storyboard */,
 				0E6517C928A4129D006F4917 /* PostCollectionReusableView.swift */,
@@ -246,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				0E7C92952892DD2B00823A9E /* ViewController.swift */,
+				0EAC734B28B11A3A00C7ED4F /* LaunchViewController.swift */,
 				0E7C92B32893A21300823A9E /* TabViewController.swift */,
 				0EF5B60C28AF662600E18A71 /* PostViewController.swift */,
 				0E7C92B52893A24000823A9E /* HomeViewController.swift */,
@@ -429,7 +440,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E7C92B02893A1E500823A9E /* FlagTab.storyboard in Resources */,
-				0E7C929E2892DD2D00823A9E /* LaunchScreen.storyboard in Resources */,
 				0EF5B5E028AF4F1300E18A71 /* shadow_balloon.png in Resources */,
 				0E8A88102893C78C00E04853 /* UploadView.storyboard in Resources */,
 				0EF5B5E628AF4F1300E18A71 /* copyright.png in Resources */,
@@ -445,16 +455,18 @@
 				0E7C929B2892DD2D00823A9E /* Assets.xcassets in Resources */,
 				0EF5B5F228AF4F1300E18A71 /* map_present_direction.png in Resources */,
 				0EF5B5F428AF4F1300E18A71 /* map_present.png in Resources */,
+				0EAC734F28B11EE900C7ED4F /* LaunchScreen.storyboard in Resources */,
 				0E7C92AC2893A1B600823A9E /* HomeTab.storyboard in Resources */,
 				0EA3B8642899880C00CF2AD8 /* Photos.plist in Resources */,
 				0E7C92AE2893A1DB00823A9E /* MapTab.storyboard in Resources */,
 				0EF5B5EA28AF4F1300E18A71 /* map_pin@3x.png in Resources */,
 				0EF5B5E528AF4F1300E18A71 /* map_pin_shadow@3x.png in Resources */,
-				0E7C92992892DD2B00823A9E /* Main.storyboard in Resources */,
+				0E7C92992892DD2B00823A9E /* LoginView.storyboard in Resources */,
 				0EF5B5F628AF4F1300E18A71 /* map_present_background_update.png in Resources */,
 				0EAA91F028AE89DF00963AF1 /* LoadingCollectionView.xib in Resources */,
 				0EA3B862289987FF00CF2AD8 /* Photos.xcassets in Resources */,
 				0EF5B5E928AF4F1300E18A71 /* daum_copyright.png in Resources */,
+				0EAC735428B1298900C7ED4F /* Main.storyboard in Resources */,
 				0EF5B5ED28AF4F1300E18A71 /* info_box.png in Resources */,
 				0EF5B5F728AF4F1300E18A71 /* daum_th_line.png in Resources */,
 				0EF5B5F328AF4F1300E18A71 /* map_pin.png in Resources */,
@@ -466,6 +478,7 @@
 				0E7C92B22893A1F000823A9E /* UserTab.storyboard in Resources */,
 				0EF5B5E228AF4F1300E18A71 /* detail_button.png in Resources */,
 				0EF5B5E328AF4F1300E18A71 /* map_pin_custom@3x.png in Resources */,
+				0EAC734A28B11A1B00C7ED4F /* LaunchView.storyboard in Resources */,
 				0E6517C428A3ED95006F4917 /* PostView.storyboard in Resources */,
 				0EF5B5E128AF4F1300E18A71 /* map_pinup.png in Resources */,
 				0EF5B60928AF643000E18A71 /* MapSearchView.storyboard in Resources */,
@@ -526,6 +539,7 @@
 				0EF5B60F28AF66E500E18A71 /* MapSearchViewController.swift in Sources */,
 				0E7C92BC2893A28C00823A9E /* UserViewController.swift in Sources */,
 				0E6517D628AD275C006F4917 /* PlaceInfo.swift in Sources */,
+				0EAC734C28B11A3A00C7ED4F /* LaunchViewController.swift in Sources */,
 				0EBFEA4A28A09D2F00B5340D /* SettingViewController.swift in Sources */,
 				0E6517C828A40A98006F4917 /* PostPhotoCell.swift in Sources */,
 				0E7C92B82893A26900823A9E /* MapViewController.swift in Sources */,
@@ -549,18 +563,18 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		0E7C92972892DD2B00823A9E /* Main.storyboard */ = {
+		0E7C92972892DD2B00823A9E /* LoginView.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				0E7C92982892DD2B00823A9E /* Base */,
 			);
-			name = Main.storyboard;
+			name = LoginView.storyboard;
 			sourceTree = "<group>";
 		};
-		0E7C929C2892DD2D00823A9E /* LaunchScreen.storyboard */ = {
+		0EAC734D28B11EE900C7ED4F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				0E7C929D2892DD2D00823A9E /* Base */,
+				0EAC734E28B11EE900C7ED4F /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -690,6 +704,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_ENTITLEMENTS = BeHang/BeHang.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = C9U8778A7W;
@@ -704,7 +719,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "업로드할 사진 선택을 위해 사용자의 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = LaunchView;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
@@ -730,6 +745,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_ENTITLEMENTS = BeHang/BeHang.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = C9U8778A7W;
@@ -744,7 +760,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "업로드할 사진 선택을 위해 사용자의 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = LaunchView;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;

@@ -8,18 +8,21 @@
 import UIKit
 import KakaoSDKCommon
 import KakaoSDKAuth
+import KakaoSDKUser
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    var isLogin = false
 
-
+    var acToken = UserDefaults.standard.string(forKey: "accessToken")
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         KakaoSDK.initSDK(appKey: "086319f41e8822717e011c9211e2511c")
         
         
-        sleep(2)
+        //sleep(1)
         return true
     }
     

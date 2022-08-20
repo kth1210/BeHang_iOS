@@ -13,21 +13,11 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="BeHang" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="BeHang" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBT-yG-6ij">
-                                <rect key="frame" x="35" y="574" width="320" height="49"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Apple로 로그인">
-                                    <fontDescription key="titleFontDescription" type="system" pointSize="19"/>
-                                </buttonConfiguration>
-                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="비행_로고" translatesAutoresizingMaskIntoConstraints="NO" id="oBB-jc-awf">
                                 <rect key="frame" x="60" y="119" width="271" height="261"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -51,7 +41,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="kakaoLoginButton" translatesAutoresizingMaskIntoConstraints="NO" id="TbE-aN-PCd">
-                                <rect key="frame" x="35" y="494" width="320" height="51"/>
+                                <rect key="frame" x="35" y="494" width="320" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="appleid_button (1)" translatesAutoresizingMaskIntoConstraints="NO" id="ytT-jL-4rR">
+                                <rect key="frame" x="35" y="578" width="320" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -60,7 +54,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="6I6-cq-wfO"/>
                     <connections>
-                        <outlet property="appleLoginButton" destination="EBT-yG-6ij" id="TuB-xH-phc"/>
+                        <outlet property="appleLoginButton" destination="ytT-jL-4rR" id="7Kk-ae-17m"/>
                         <outlet property="kakaoLoginButton" destination="TbE-aN-PCd" id="GbB-7j-tS3"/>
                         <outlet property="withoutLoginButton" destination="11s-eJ-yUs" id="Lx3-NE-Llh"/>
                     </connections>
@@ -151,6 +145,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="appleid_button (1)" width="320" height="45"/>
         <image name="kakaoLoginButton" width="600" height="90"/>
         <image name="비행_로고" width="500" height="500"/>
         <namedColor name="mainColor">

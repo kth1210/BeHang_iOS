@@ -38,7 +38,7 @@
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ykD-ek-St5">
-                                <rect key="frame" x="0.0" y="158" width="390" height="603"/>
+                                <rect key="frame" x="0.0" y="124" width="390" height="637"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pzc-r5-6iR">
                                     <size key="itemSize" width="128" height="128"/>
@@ -79,10 +79,10 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="ykD-ek-St5" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="124" id="Cc5-Gl-eb4"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ykD-ek-St5" secondAttribute="trailing" id="XGo-fz-SM6"/>
                             <constraint firstItem="ykD-ek-St5" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="a0e-Gu-dYv"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="ykD-ek-St5" secondAttribute="bottom" id="yer-Ti-k1P"/>
-                            <constraint firstItem="ykD-ek-St5" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="70" id="zyQ-zU-0yT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="pWb-Uq-UbR"/>

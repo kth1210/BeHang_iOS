@@ -8,11 +8,12 @@
 import UIKit
 import KakaoSDKUser
 import Alamofire
+import AuthenticationServices
 
 class ViewController: UIViewController {
 
     @IBOutlet weak var kakaoLoginButton: UIImageView!
-    @IBOutlet weak var appleLoginButton: UIButton!
+    @IBOutlet var appleLoginButton: UIImageView!
     @IBOutlet weak var withoutLoginButton: UIButton!
     
     override func viewDidLoad() {
@@ -20,13 +21,28 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         //kakaoLoginButton.layer.cornerRadius = 12
-        appleLoginButton.layer.cornerRadius = 12
+        //appleLoginButton.layer.cornerRadius = 12
         
         withoutLoginButton.layer.addBorder([.bottom], color: UIColor.black, width: 2.0)
         
         let tapKakaoLogin = UITapGestureRecognizer(target: self, action: #selector(loginKakao))
         kakaoLoginButton.addGestureRecognizer(tapKakaoLogin)
         kakaoLoginButton.isUserInteractionEnabled = true
+        
+        let tapAppleLogin = UITapGestureRecognizer(target: self, action: #selector(loginApple))
+        appleLoginButton.addGestureRecognizer(tapAppleLogin)
+        appleLoginButton.isUserInteractionEnabled = true
+    }
+    
+    @objc func loginApple() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self as ASAuthorizationControllerDelegate
+        controller.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
+        controller.performRequests()
     }
 
     @objc func loginKakao() {
@@ -47,8 +63,10 @@ class ViewController: UIViewController {
                     //self.getUserInfo()
                     //self.postTest(accessToken: accessToken!)
                     
-                    guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
-                    self.navigationController?.pushViewController(nextVC, animated: true)
+                    guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
+                    nextVC.modalPresentationStyle = .fullScreen
+                    nextVC.modalTransitionStyle = .crossDissolve
+                    self.present(nextVC, animated: true, completion: nil)
                     
                 }
             }
@@ -152,6 +170,28 @@ class ViewController: UIViewController {
                 print(error)
             }
         }
+    }
+    
+    @IBAction func withoutLoginButtonPressed(_ sender: UIButton) {
+        guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
+        nextVC.modalPresentationStyle = .fullScreen
+        nextVC.modalTransitionStyle = .crossDissolve
+        self.present(nextVC, animated: true, completion: nil)
+    }
+    
+    
+}
+
+extension ViewController: ASAuthorizationControllerDelegate {
+    // authorization 성공
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        //let a = ASAuthorizationAppleIDProvider()
+        //a.getCredentialState(forUserID: <#T##String#>, completion: <#T##(ASAuthorizationAppleIDProvider.CredentialState, Error?) -> Void#>)
+    }
+    
+    // authorization 실패
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+       //
     }
 }
 
