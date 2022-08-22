@@ -17,6 +17,7 @@
 	<string>086319f41e8822717e011c9211e2511c</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>instagram-stories</string>
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
 	</array>
