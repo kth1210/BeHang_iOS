@@ -15,9 +15,9 @@ class FlagViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        shareInstagramButton.layer.borderWidth = 1.5
-        shareInstagramButton.layer.borderColor = UIColor.black.cgColor
-        shareInstagramButton.layer.cornerRadius = shareInstagramButton.frame.height / 2
+//        shareInstagramButton.layer.borderWidth = 1.5
+//        shareInstagramButton.layer.borderColor = UIColor.black.cgColor
+//        shareInstagramButton.layer.cornerRadius = shareInstagramButton.frame.height / 2
     }
     
     @IBAction func shareInstagramButtonPressed(_ sender: UIButton) {

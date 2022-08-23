@@ -9,6 +9,7 @@ import UIKit
 import KakaoSDKUser
 
 class SettingViewController: UIViewController {
+    let settingTitle = ["- 계정 설정", "- 알림 설정", "- 공지사항", "- 약관 및 정책", "- 버전 정보", "- 서비스 문의"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,15 +24,6 @@ class SettingViewController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     @IBAction func logoutPressed(_ sender: UIButton) {
         UserApi.shared.logout { error in
@@ -65,5 +57,22 @@ class SettingViewController: UIViewController {
             }
         }
     }
+    
+}
+
+extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return settingTitle.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "settingCell", for: indexPath) as? SettingCell else {
+            return UITableViewCell()
+        }
+        cell.settingTitle.text = settingTitle[indexPath.row]
+        
+        return cell
+    }
+    
     
 }

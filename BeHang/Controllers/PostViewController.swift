@@ -7,9 +7,10 @@
 
 import UIKit
 
-class PostViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
-    
+class PostViewController: UIViewController {
+
     var image: UIImage?
+    var shareImage: UIImage?
     var placeName: String?
     let viewModel = ImageViewModel()
     let sectionInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
@@ -29,18 +30,23 @@ class PostViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @objc func shareButtonPressed() {
+        print("shareButtonPressed()")
+        if let shareImage = shareImage {
+            
+            let activityViewController = UIActivityViewController(activityItems: [shareImage], applicationActivities: nil)
+            activityViewController.excludedActivityTypes = [.addToReadingList, .assignToContact, .openInIBooks, .postToFlickr, .postToWeibo, .postToVimeo, .postToTencentWeibo]
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            self.present(activityViewController, animated: true, completion: nil)
+        }
     }
-    */
-
+//
     
+    
+
+}
+
+extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.countOfImageList
     }
@@ -81,13 +87,18 @@ class PostViewController: UIViewController, UICollectionViewDataSource, UICollec
 //
             guard let typedHeaderView = headerView as? PostCollectionReusableView else { return headerView }
             typedHeaderView.imgView.image = image
+            print("여기임 ㅋㅋ")
+            typedHeaderView.getShareImage()
+            self.shareImage = typedHeaderView.shareImage
+            
+            typedHeaderView.shareButton.tag = indexPath.row
+            typedHeaderView.shareButton.addTarget(self, action: #selector(self.shareButtonPressed), for: .touchUpInside)
             
             return typedHeaderView
         default:
             assert(false, "error")
         }
     }
-
 }
 
 extension PostViewController: UICollectionViewDelegateFlowLayout {
@@ -104,5 +115,19 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return sectionInsets
+    }
+}
+
+extension UIView {
+    func convertToImage() -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, 0.0)
+        defer {
+            UIGraphicsEndImageContext()
+        }
+        if let context = UIGraphicsGetCurrentContext() {
+            layer.render(in: context)
+            return UIGraphicsGetImageFromCurrentImageContext()
+        }
+        return nil
     }
 }
