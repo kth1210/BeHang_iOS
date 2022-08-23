@@ -18,13 +18,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="비행_로고" translatesAutoresizingMaskIntoConstraints="NO" id="oBB-jc-awf">
-                                <rect key="frame" x="60" y="119" width="271" height="261"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="비행_로고" translatesAutoresizingMaskIntoConstraints="NO" id="oBB-jc-awf">
+                                <rect key="frame" x="59.666666666666657" y="119" width="271" height="261"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="oBB-jc-awf" secondAttribute="height" multiplier="271:261" id="GfJ-O2-gQp"/>
+                                    <constraint firstAttribute="height" constant="261" id="SR5-HO-tZA"/>
+                                </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="11s-eJ-yUs">
-                                <rect key="frame" x="108" y="654" width="175" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="11s-eJ-yUs">
+                                <rect key="frame" x="115.66666666666669" y="657" width="159" height="36"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="20"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -33,24 +35,41 @@
                                     <action selector="withoutLoginButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YdE-Eh-NQK"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="비슷한 여행은 없어, 비행" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X5K-Qp-euz">
-                                <rect key="frame" x="74" y="369" width="243" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="kakaoLoginButton" translatesAutoresizingMaskIntoConstraints="NO" id="TbE-aN-PCd">
+                                <rect key="frame" x="35" y="497" width="320" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="TbE-aN-PCd" secondAttribute="height" multiplier="32:5" id="LuJ-8F-5bd"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="appleid_button (1)" translatesAutoresizingMaskIntoConstraints="NO" id="ytT-jL-4rR">
+                                <rect key="frame" x="35" y="574" width="320" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ytT-jL-4rR" secondAttribute="height" multiplier="32:5" id="IGZ-hG-AH2"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비슷한 여행은 없어, 비행" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X5K-Qp-euz">
+                                <rect key="frame" x="81" y="388" width="228" height="29"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="24"/>
                                 <color key="textColor" name="mainColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="kakaoLoginButton" translatesAutoresizingMaskIntoConstraints="NO" id="TbE-aN-PCd">
-                                <rect key="frame" x="35" y="494" width="320" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="appleid_button (1)" translatesAutoresizingMaskIntoConstraints="NO" id="ytT-jL-4rR">
-                                <rect key="frame" x="35" y="571" width="320" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="11s-eJ-yUs" firstAttribute="top" secondItem="ytT-jL-4rR" secondAttribute="bottom" constant="33" id="1T8-Ey-Hgg"/>
+                            <constraint firstItem="TbE-aN-PCd" firstAttribute="top" secondItem="X5K-Qp-euz" secondAttribute="bottom" constant="80" id="G05-Gx-1G2"/>
+                            <constraint firstItem="ytT-jL-4rR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="35" id="MfV-P7-sWK"/>
+                            <constraint firstItem="X5K-Qp-euz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Szh-Qz-SJe"/>
+                            <constraint firstItem="11s-eJ-yUs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Ze3-gd-jvH"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="TbE-aN-PCd" secondAttribute="trailing" constant="35" id="a2G-hx-V6D"/>
+                            <constraint firstItem="TbE-aN-PCd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="35" id="bgn-Jz-JeW"/>
+                            <constraint firstItem="oBB-jc-awf" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="75" id="eTc-Fn-DfS"/>
+                            <constraint firstItem="X5K-Qp-euz" firstAttribute="top" secondItem="oBB-jc-awf" secondAttribute="bottom" constant="8" id="euL-k1-hop"/>
+                            <constraint firstItem="ytT-jL-4rR" firstAttribute="top" secondItem="TbE-aN-PCd" secondAttribute="bottom" constant="27" id="fsV-Rh-iPI"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ytT-jL-4rR" secondAttribute="trailing" constant="35" id="hXZ-pQ-BbN"/>
+                            <constraint firstItem="oBB-jc-awf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zRZ-en-5Z0"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6I6-cq-wfO"/>
                     <connections>

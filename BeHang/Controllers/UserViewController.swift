@@ -23,7 +23,12 @@ class UserViewController: UIViewController {
         profileImage.layer.cornerRadius = profileImage.frame.width / 2
         profileImage.clipsToBounds = true
         
-        self.setUserInfo()
+        if UserDefaults.standard.bool(forKey: "isLogin") {
+            self.setUserInfo()
+        } else {
+            self.userName.text = "로그인이 필요합니다."
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

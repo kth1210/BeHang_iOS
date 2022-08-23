@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class UploadViewController: UIViewController {
 
@@ -77,14 +78,69 @@ class UploadViewController: UIViewController {
     }
     
     @objc func registerButtonPressed() {
-        guard let imageData = uploadedImageView.image?.jpegData(compressionQuality: 0.2) else {
-            print("등록된 이미지가 없습니다!")
+        
+        guard let imageData = uploadedImageView.image?.jpegData(compressionQuality: 0.5) else {
+            let alert = UIAlertController(title: "알림", message: "이미지를 업로드하시기 바랍니다.", preferredStyle: UIAlertController.Style.alert)
+            let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: nil)
+            
+            alert.addAction(confirm)
+            self.present(alert, animated: false)
             return
         }
+        print(imageData)
         
-        let imageBase64String = imageData.base64EncodedString(options: .lineLength64Characters)
-        print(imageBase64String)
+        let url = "http://35.247.33.79:8080/post"
+
+        let header : HTTPHeaders = [
+            "Content-Type" : "multipart/form-data",
+            "X-AUTH-TOKEN" : UserDefaults.standard.string(forKey: "accessToken")!
+        ]
         
+        let place: [String: Any] = [
+            "address" : "수성구 어쩌고",
+            "contentId" : 0,
+            "mapx" : 0,
+            "mapy" : 0,
+            "name" : "우리집",
+            "phoneNumber" : "01062214335"
+        ]
+        
+        let tag: [String: Any] = [
+            "comfortablePubTransit": true,
+            "convenientParking": true,
+            "indoor": true,
+            "withChild": true,
+            "withLover": false,
+            "withMyDog": true
+        ]
+        var arrFormData = [String:Any]()
+
+        arrFormData["place"] = place
+        arrFormData["tag"] = tag
+        print(arrFormData)
+        
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: arrFormData, options: .prettyPrinted)
+
+            AF.upload(multipartFormData: { multipartFormData in
+                multipartFormData.append(imageData, withName: "file", fileName: "test.jpeg", mimeType: "image/jpeg")
+                multipartFormData.append(jsonData, withName: "postRequestDto", mimeType: "application/json")
+            }, to: url, method: .post, headers: header)
+            .validate(statusCode: 200..<300)
+            .responseData { response in
+                print(response)
+
+                switch response.result {
+                case .success:
+                    print("success upload")
+                case .failure(let error):
+                    print("success failed")
+                    print(error)
+                }
+            }
+        } catch {
+            print("error")
+        }   
         
     }
 
@@ -133,3 +189,5 @@ extension UIColor {
                   alpha: alpha)
     }
 }
+
+

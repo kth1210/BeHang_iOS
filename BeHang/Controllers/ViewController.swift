@@ -61,7 +61,15 @@ class ViewController: UIViewController {
                     let accessToken = oauthToken?.accessToken
                     
                     //self.getUserInfo()
-                    //self.postTest(accessToken: accessToken!)
+                    
+                    if UserDefaults.standard.string(forKey: "accessToken") == nil {
+                        print("call signup")
+                        self.signup(accessToken: accessToken!)
+                    } else {
+                        print("call login")
+                        self.login(accessToken: accessToken!)
+                    }
+                    
                     
                     guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
                     nextVC.modalPresentationStyle = .fullScreen
@@ -73,11 +81,13 @@ class ViewController: UIViewController {
         }
     }
     
-    func postTest(accessToken : String) {
+    func signup(accessToken : String) {
         //let url = "https://ptsv2.com/t/oiexm-1660281750/post"
-        let url = "http://35.227.155.59:8080/v1/social/login/kakao"
+        let signupUrl = "http://35.247.33.79:8080/v1/social/signup/kakao"
+        
         let accessToken = accessToken
         //let refreshToken = refreshToken
+       
         
         let header : HTTPHeaders = [
             "Content-Type" : "application/json"
@@ -89,7 +99,39 @@ class ViewController: UIViewController {
         
         
         AF.request(
-            url,
+            signupUrl,
+            method: .post,
+            parameters: bodyData,
+            encoding: JSONEncoding.default,
+            headers: header
+        )
+        .validate(statusCode: 200..<300)
+        .responseData { (response) in
+            switch response.result {
+            case .success:
+                print("Success Signup")
+                self.login(accessToken: accessToken)
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+    }
+    
+    
+    func login(accessToken: String) {
+        let loginUrl = "http://35.247.33.79:8080/v1/social/login/kakao"
+        print(accessToken)
+        let header : HTTPHeaders = [
+            "Content-Type" : "application/json"
+        ]
+
+        let bodyData : Parameters = [
+            "accessToken" : accessToken
+        ] as Dictionary
+        
+        AF.request(
+            loginUrl,
             method: .post,
             parameters: bodyData,
             encoding: JSONEncoding.default,
@@ -105,10 +147,12 @@ class ViewController: UIViewController {
                     let res = asJSON["data"] as! NSDictionary
                     let token = res["accessToken"] as! String
                     
-                    self.test(accessToken: token)
-                    
+                    UserDefaults.standard.setValue(token, forKey: "accessToken")
                     
                     print(asJSON)
+                    print("Success Login")
+                    
+                    //self.test(accessToken: UserDefaults.standard.string(forKey: "accessToken")!)
                     
                 } catch {
                     print("error")
@@ -121,55 +165,7 @@ class ViewController: UIViewController {
     }
     
     func test(accessToken: String) {
-        let url = "http://35.227.155.59:8080/post"
-        print("Token: \(accessToken)")
         
-        let param: Parameters = [
-            //"accessToken" : accessToken
-            "place" : [
-                "name" : "우리집",
-                "address" : "수성구 어쩌고",
-                "phoneNumber" : "01062214335",
-                "contentID" : 12345678,
-                "mapx" : 123.123123,
-                "mapy" : 123.123123
-            ],
-            "postImage" : "메롱메롱",
-            "tag" : [
-                "convenientParking" : true,
-                "comfortablePubtransit" : false,
-                "withChild" : true,
-                "indoor" : true,
-                "suddenRain" : false,
-                "withMyDog" : true
-            ],
-            "userId" : 1
-        ]
-        
-        AF.request(url,
-                   method: .post,
-                   parameters: param,
-                   encoding: JSONEncoding.default,
-                   //encoding: URLEncoding.queryString,
-                   //headers: ["Content-Type":"application/json", "Accept":"application/json"])
-                   headers: ["X-AUTH-TOKEN" : accessToken])
-        .validate(statusCode: 200..<300)
-        .responseData { response in
-            print(response)
-            switch response.result {
-            case .success(let data):
-                do {
-                    let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
-                    
-                    print("userList result")
-                    print(asJSON)
-                } catch {
-                    print("error")
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
     }
     
     @IBAction func withoutLoginButtonPressed(_ sender: UIButton) {
