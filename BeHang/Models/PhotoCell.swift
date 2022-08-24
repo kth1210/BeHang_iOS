@@ -10,7 +10,13 @@ import UIKit
 class PhotoCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
-    var id: Int = 0
+    var id: Int?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        imageView.layer.cornerRadius = 12
+    }
     
     func update(info: ImageInfo) {
         imageView.image = info.image

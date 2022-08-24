@@ -84,7 +84,7 @@ class PlaceListViewController: UIViewController {
             "MobileApp" : "BeHang",
             "_type" : "json",
             "listYN" : "Y",
-            "arrange" : "P"
+            "arrange" : "O"
             //"keyword" : "광화문"
         ]
         
@@ -104,7 +104,12 @@ class PlaceListViewController: UIViewController {
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                     
-                    let res = asJSON["response"] as! NSDictionary
+                    guard let res = asJSON["response"] as? NSDictionary else {
+                        self.moreData = false
+                        self.tableView.tableFooterView?.isHidden = true
+                        self.tableView.reloadData()
+                        return
+                    }
                     let body = res["body"] as! NSDictionary
                     guard let items = body["items"] as? NSDictionary else {
                         self.placeSearchBar.text = ""
@@ -120,15 +125,22 @@ class PlaceListViewController: UIViewController {
                         self.moreData = false
                     }
                     
+//                    if numOfRows == 0 {
+//                        self.moreData = false
+//                        self.activityIndicator.stopAnimating()
+//                        self.tableView.reloadData()
+//                    }
+                    
                     for row in item {
                         let r = row as! NSDictionary
             
                         let placeData = PlaceInfo()
                         placeData.address = r["addr1"] as? String
-                        placeData.contentId = r["contentId"] as? String
+                        placeData.contentId = r["contentid"] as? String
                         placeData.mapx = r["mapx"] as? String
                         placeData.mapy = r["mapy"] as? String
                         placeData.title = r["title"] as? String
+                        placeData.tel = r["tel"] as? String
                         placeData.thumbnail = r["firstimage"] as? String
                         
                         if placeData.thumbnail != "" {

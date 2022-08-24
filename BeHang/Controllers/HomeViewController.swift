@@ -11,52 +11,85 @@ import Alamofire
 
 class HomeViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet var testImg: UIImageView!
     
     let viewModel = ImageViewModel()
     let sectionInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
     var isLoading = false
+    var moreData = true
     var loadingView: LoadingCollectionView?
+    let activityIndicator = UIActivityIndicatorView(style: .large)
+    
+    var pageNo = 0
+    
+    lazy var list: [FeedInfo] = {
+        var datalist = [FeedInfo]()
+        return datalist
+    }()
+    
+    var selectFeed = FeedInfo()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
         
         let loadingReusableNib = UINib(nibName: "LoadingCollectionView", bundle: nil)
         collectionView.register(loadingReusableNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "loadingCollectionView")
         
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        
+        self.view.addSubview(self.activityIndicator)
+        
+        activityIndicator.startAnimating()
+        getFeed()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
     }
     
+    @IBAction func uploadButtonPressed(_ sender: UIButton) {
+        if UserDefaults.standard.bool(forKey: "isLogin") {
+            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "UploadViewController") as? UploadViewController else {return}
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        } else {
+            let alert = UIAlertController(title: "알림", message: "로그인이 필요한 서비스입니다.", preferredStyle: UIAlertController.Style.alert)
+            let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: nil)
+        
+            alert.addAction(confirm)
+            self.present(alert, animated: true)
+        }
+        
+    }
     
     @IBAction func test(_ sender: UIButton) {
-        //getPost()
-        //users()
+        
         getFeed()
     }
     
     func getFeed() {
+        self.isLoading = true
+        
         print("start Get Feed")
-        let url = "http://35.247.33.79:8080/feed"
-        let access = UserDefaults.standard.string(forKey: "accessToken")!
+        let url = "http://35.247.33.79:8080/post/feed"
+        let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         
         let header : HTTPHeaders = [
-            "X-AUTH-TOKEN" : access
+            "X-AUTH-TOKEN" : xToken
         ]
         
-        var param : Parameters = [
-            "page" : 0,
-            "size" : 10
-        ]
+        var param : Parameters = [:]
+        param["page"] = pageNo
+        param["size"] = 10
+        
+        self.pageNo += 1
         
         AF.request(url,
                    method: .get,
                    parameters: param,
                    encoding: URLEncoding.queryString,
+                   //encoding: JSONEncoding.default,
                    headers: header
         )
         .validate(statusCode: 200..<300)
@@ -66,51 +99,33 @@ class HomeViewController: UIViewController {
             case .success(let data):
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
-            
-                    print("Get Feed")
-                    print(asJSON)
-                } catch {
-                    print("error")
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
-    func getPost() {
-        let url = "http://35.247.33.79:8080/post/1"
-        let access = UserDefaults.standard.string(forKey: "accessToken")!
-        
-        let header : HTTPHeaders = [
-            "X-AUTH-TOKEN" : access
-        ]
-        
-        AF.request(url,
-                   method: .get,
-                   parameters: nil,
-                   encoding: JSONEncoding.default,
-                   headers: header
-        )
-        .validate(statusCode: 200..<300)
-        .responseData { response in
-            print(response)
-            switch response.result {
-            case .success(let data):
-                do {
-                    let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
-                    let res = asJSON["data"] as! NSDictionary
-                    let img = res["imageFile"] as! String
+                    let list = asJSON["list"] as! NSArray
+                    let msg = asJSON["msg"] as! String
+                    let suc = asJSON["success"] as! Bool
                     
-                    if let data = Data(base64Encoded: img, options: .ignoreUnknownCharacters) {
-                        let decodedImg = UIImage(data: data)
-                        
-                        self.testImg.image = decodedImg
+                    if list.count != 10 {
+                        self.moreData = false
                     }
                     
+                    for row in list {
+                        let res = row as! NSDictionary
+                        
+                        let feedData = FeedInfo()
+                        feedData.id = res["id"] as? Int
+                        feedData.imageString = res["image"] as? String
+                        
+                        if let data = Data(base64Encoded: feedData.imageString!, options: .ignoreUnknownCharacters) {
+                            let decodedImg = UIImage(data: data)
+                            feedData.image = decodedImg
+                        }
+                        
+                        self.list.append(feedData)
+                    }
+                    self.collectionView.reloadData()
+                    self.isLoading = false
+                    self.activityIndicator.stopAnimating()
                     
-                    print("Get Post")
-                    print(asJSON)
+                    print("Get Feed")
                 } catch {
                     print("error")
                 }
@@ -118,40 +133,24 @@ class HomeViewController: UIViewController {
                 print(error)
             }
         }
-        
-        
     }
     
-    func users() {
-        let url = "http://35.247.33.79:8080/v1/users"
-        let access = UserDefaults.standard.string(forKey: "accessToken")!
-        
-        AF.request(url,
-                   method: .get,
-                   parameters: nil,
-                   encoding: JSONEncoding.default,
-                   //encoding: URLEncoding.queryString,
-                   //headers: ["Content-Type":"application/json", "Accept":"application/json"])
-                   headers: ["X-AUTH-TOKEN" : access])
-        .validate(statusCode: 200..<300)
-        .responseData { response in
-            print(response)
-            switch response.result {
-            case .success(let data):
-                do {
-                    let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
-                    
-                    
-                    print("userList result")
-                    print(asJSON)
-                } catch {
-                    print("error")
-                }
-            case .failure(let error):
-                print(error)
-            }
+    func getMoreFeed() {
+        //        if !self.isLoading {
+        //            self.isLoading = true
+        //
+        //            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        //                self.getFeed()
+        //                self.isLoading = false
+        //            }
+        //        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.getFeed()
+            self.isLoading = false
         }
     }
+    
+    
 }
 
 
@@ -159,7 +158,8 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.countOfImageList
+        //return viewModel.countOfImageList
+        return self.list.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -167,25 +167,30 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             return UICollectionViewCell()
         }
         
-        cell.layer.cornerRadius = 10
+        cell.id = list[indexPath.row].id
+        cell.imageView.image = list[indexPath.row].image
         
-        let imageInfo = viewModel.imageInfo(at: indexPath.item)
-        cell.update(info: imageInfo)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imageInfo = viewModel.imageInfo(at: indexPath.item)
+        //let imageInfo = viewModel.imageInfo(at: indexPath.item)
+        let imageInfo = list[indexPath.row].image
+        let postId = list[indexPath.row].id
         
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "PostViewController") as? PostViewController else {return}
-        nextVC.image = imageInfo.image
+        
+        // 다음 뷰에 선택한 이미지랑 postId 전달
+        nextVC.image = imageInfo
+        nextVC.postId = postId
+        
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        if self.isLoading {
+        if self.isLoading || !moreData{
             return CGSize.zero
         } else {
             return CGSize(width: collectionView.bounds.size.width, height: 55)
@@ -204,6 +209,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         if elementKind == UICollectionView.elementKindSectionFooter {
+//            if self.isLoading {
+//                self.loadingView?.activityIndicator.startAnimating()
+//            } else {
+//                self.loadingView?.activityIndicator.stopAnimating()
+//            }
             self.loadingView?.activityIndicator.startAnimating()
         }
     }
@@ -212,6 +222,20 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         if elementKind == UICollectionView.elementKindSectionFooter {
             self.loadingView?.activityIndicator.stopAnimating()
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        if self.moreData == true && self.isLoading == false {
+//            self.isLoading = true
+//            getMoreFeed()
+//        }
+        let lastSectionIndex = collectionView.numberOfSections - 1
+        let lastRowIndex = collectionView.numberOfItems(inSection: lastSectionIndex) - 1
+        
+        if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex && moreData {
+            getMoreFeed()
+        }
+        
     }
 }
 
@@ -230,26 +254,4 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return sectionInsets
     }
-}
-
-extension UIImage {
-
-    public var base64: String {
-        return self.jpegData(compressionQuality: 1.0)!.base64EncodedString()
-    }
-
-    convenience init?(base64: String, withPrefix: Bool) {
-        var finalData: Data?
-
-        if withPrefix {
-            guard let url = URL(string: base64) else { return nil }
-            finalData = try? Data(contentsOf: url)
-        } else {
-            finalData = Data(base64Encoded: base64)
-        }
-
-        guard let data = finalData else { return nil }
-        self.init(data: data)
-    }
-
 }

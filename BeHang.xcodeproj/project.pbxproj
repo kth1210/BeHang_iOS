@@ -15,6 +15,8 @@
 		0E6517D028A560D9006F4917 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6517CF28A560D9006F4917 /* PhotoCell.swift */; };
 		0E6517D428ACEC62006F4917 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6517D328ACEC62006F4917 /* ListCell.swift */; };
 		0E6517D628AD275C006F4917 /* PlaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6517D528AD275B006F4917 /* PlaceInfo.swift */; };
+		0E76004F28B6439B00289962 /* TestCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E76004E28B6439B00289962 /* TestCode.swift */; };
+		0E76005128B64F3700289962 /* FeedInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E76005028B64F3700289962 /* FeedInfo.swift */; };
 		0E7C92922892DD2B00823A9E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7C92912892DD2B00823A9E /* AppDelegate.swift */; };
 		0E7C92942892DD2B00823A9E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7C92932892DD2B00823A9E /* SceneDelegate.swift */; };
 		0E7C92962892DD2B00823A9E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7C92952892DD2B00823A9E /* ViewController.swift */; };
@@ -93,6 +95,8 @@
 		0E6517CF28A560D9006F4917 /* PhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		0E6517D328ACEC62006F4917 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		0E6517D528AD275B006F4917 /* PlaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfo.swift; sourceTree = "<group>"; };
+		0E76004E28B6439B00289962 /* TestCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCode.swift; sourceTree = "<group>"; };
+		0E76005028B64F3700289962 /* FeedInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedInfo.swift; sourceTree = "<group>"; };
 		0E7C928E2892DD2B00823A9E /* BeHang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeHang.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E7C92912892DD2B00823A9E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E7C92932892DD2B00823A9E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -260,8 +264,8 @@
 				0E7C92952892DD2B00823A9E /* ViewController.swift */,
 				0EAC734B28B11A3A00C7ED4F /* LaunchViewController.swift */,
 				0E7C92B32893A21300823A9E /* TabViewController.swift */,
-				0EF5B60C28AF662600E18A71 /* PostViewController.swift */,
 				0E7C92B52893A24000823A9E /* HomeViewController.swift */,
+				0EF5B60C28AF662600E18A71 /* PostViewController.swift */,
 				0E7C92BF2893BEA300823A9E /* UploadViewController.swift */,
 				0E8A88112895054900E04853 /* PlaceListViewController.swift */,
 				0E7C92B72893A26900823A9E /* MapViewController.swift */,
@@ -295,6 +299,8 @@
 				0EAA91ED28AE89DF00963AF1 /* LoadingCollectionView.swift */,
 				0EAA91EE28AE89DF00963AF1 /* LoadingCollectionView.xib */,
 				0E97832328B3A730007DFE30 /* SettingCell.swift */,
+				0E76004E28B6439B00289962 /* TestCode.swift */,
+				0E76005028B64F3700289962 /* FeedInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -540,8 +546,10 @@
 			files = (
 				0E7C92B62893A24000823A9E /* HomeViewController.swift in Sources */,
 				0EF5B60F28AF66E500E18A71 /* MapSearchViewController.swift in Sources */,
+				0E76005128B64F3700289962 /* FeedInfo.swift in Sources */,
 				0E7C92BC2893A28C00823A9E /* UserViewController.swift in Sources */,
 				0E6517D628AD275C006F4917 /* PlaceInfo.swift in Sources */,
+				0E76004F28B6439B00289962 /* TestCode.swift in Sources */,
 				0EAC734C28B11A3A00C7ED4F /* LaunchViewController.swift in Sources */,
 				0EBFEA4A28A09D2F00B5340D /* SettingViewController.swift in Sources */,
 				0E6517C828A40A98006F4917 /* PostPhotoCell.swift in Sources */,

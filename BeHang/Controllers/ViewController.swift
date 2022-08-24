@@ -55,13 +55,10 @@ class ViewController: UIViewController {
                     print(error)
                 } else {
                     print("loginWithKakaoTalk() success")
-                    
-                    
+      
                     _ = oauthToken
                     let accessToken = oauthToken?.accessToken
-                    
-                    //self.getUserInfo()
-                    
+                                    
                     if UserDefaults.standard.string(forKey: "accessToken") == nil {
                         print("call signup")
                         self.signup(accessToken: accessToken!)
@@ -70,19 +67,12 @@ class ViewController: UIViewController {
                         self.login(accessToken: accessToken!)
                     }
                     
-                    
-                    guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
-                    nextVC.modalPresentationStyle = .fullScreen
-                    nextVC.modalTransitionStyle = .crossDissolve
-                    self.present(nextVC, animated: true, completion: nil)
-                    
                 }
             }
         }
     }
     
     func signup(accessToken : String) {
-        //let url = "https://ptsv2.com/t/oiexm-1660281750/post"
         let signupUrl = "http://35.247.33.79:8080/v1/social/signup/kakao"
         
         let accessToken = accessToken
@@ -148,27 +138,27 @@ class ViewController: UIViewController {
                     let token = res["accessToken"] as! String
                     
                     UserDefaults.standard.setValue(token, forKey: "accessToken")
+                    UserDefaults.standard.setValue(true, forKey: "isLogin")
                     
                     print(asJSON)
                     print("Success Login")
                     
-                    //self.test(accessToken: UserDefaults.standard.string(forKey: "accessToken")!)
-                    
+                    guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
+                    nextVC.modalPresentationStyle = .fullScreen
+                    nextVC.modalTransitionStyle = .crossDissolve
+                    self.present(nextVC, animated: true, completion: nil)
+                                        
                 } catch {
                     print("error")
                 }
-
             case .failure(let error):
                 print("Alamofire Request Error\nCode:\(error._code), Message: \(error.errorDescription!)")
             }
         }
     }
     
-    func test(accessToken: String) {
-        
-    }
-    
     @IBAction func withoutLoginButtonPressed(_ sender: UIButton) {
+        // isLogin == false
         guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
         nextVC.modalPresentationStyle = .fullScreen
         nextVC.modalTransitionStyle = .crossDissolve
@@ -181,8 +171,12 @@ class ViewController: UIViewController {
 extension ViewController: ASAuthorizationControllerDelegate {
     // authorization 성공
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        //let a = ASAuthorizationAppleIDProvider()
-        //a.getCredentialState(forUserID: <#T##String#>, completion: <#T##(ASAuthorizationAppleIDProvider.CredentialState, Error?) -> Void#>)
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            let userIdentifier = appleIDCredential.user
+            let userName = appleIDCredential.fullName
+            
+            
+        }
     }
     
     // authorization 실패

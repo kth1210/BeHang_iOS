@@ -14,6 +14,7 @@ class PlaceInfo {
     var thumbnail: String?
     var mapx: String?
     var mapy: String?
+    var tel: String?
     var title: String?
     
     var thumbnailImg: UIImage?

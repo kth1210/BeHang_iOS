@@ -87,7 +87,7 @@ class MapSearchViewController: UIViewController {
             "MobileApp" : "BeHang",
             "_type" : "json",
             "listYN" : "Y",
-            "arrange" : "P"
+            "arrange" : "O"
         ]
         
         param["pageNo"] = pageNo

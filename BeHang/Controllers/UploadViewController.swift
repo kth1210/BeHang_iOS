@@ -84,11 +84,19 @@ class UploadViewController: UIViewController {
             let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: nil)
             
             alert.addAction(confirm)
-            self.present(alert, animated: false)
+            self.present(alert, animated: true)
             return
         }
-        print(imageData)
         
+        if selectedPlaceInfo.title == nil {
+            let alert = UIAlertController(title: "알림", message: "장소를 선택하시기 바랍니다.", preferredStyle: UIAlertController.Style.alert)
+            let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: nil)
+            
+            alert.addAction(confirm)
+            self.present(alert, animated: true)
+            return
+        }
+                
         let url = "http://35.247.33.79:8080/post"
 
         let header : HTTPHeaders = [
@@ -97,21 +105,21 @@ class UploadViewController: UIViewController {
         ]
         
         let place: [String: Any] = [
-            "address" : "수성구 어쩌고",
-            "contentId" : 0,
-            "mapx" : 0,
-            "mapy" : 0,
-            "name" : "우리집",
-            "phoneNumber" : "01062214335"
+            "address" : selectedPlaceInfo.address ?? "",
+            "contentId" : selectedPlaceInfo.contentId ?? "",
+            "mapx" : selectedPlaceInfo.mapx ?? "",
+            "mapy" : selectedPlaceInfo.mapy ?? "",
+            "name" : selectedPlaceInfo.title ?? "",
+            "phoneNumber" : selectedPlaceInfo.tel ?? ""
         ]
         
         let tag: [String: Any] = [
-            "comfortablePubTransit": true,
-            "convenientParking": true,
-            "indoor": true,
-            "withChild": true,
-            "withLover": false,
-            "withMyDog": true
+            "comfortablePubTransit": tagButton1.isSelected,
+            "convenientParking": tagButton2.isSelected,
+            "indoor": tagButton3.isSelected,
+            "withChild": tagButton4.isSelected,
+            "withLover": tagButton5.isSelected,
+            "withMyDog": tagButton6.isSelected
         ]
         var arrFormData = [String:Any]()
 

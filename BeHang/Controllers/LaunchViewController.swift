@@ -9,7 +9,7 @@ import UIKit
 
 class LaunchViewController: UIViewController {
     
-    private let appDelegate = UIApplication.shared.delegate as? AppDelegate
+    //private let appDelegate = UIApplication.shared.delegate as? AppDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +21,7 @@ class LaunchViewController: UIViewController {
         super.viewWillAppear(animated)
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-            if self.appDelegate?.isLogin == true {
+            if UserDefaults.standard.bool(forKey: "isLogin") {
                 print("true")
                 self.presentToMain()
             } else {
