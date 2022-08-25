@@ -33,7 +33,6 @@ class PlaceListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // navigationController 설정
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.title = "장소 목록"
@@ -172,6 +171,8 @@ class PlaceListViewController: UIViewController {
         })
     }
 }
+
+//MARK: - Setting TableView
 
 extension PlaceListViewController: UITableViewDataSource, UITableViewDelegate {
     

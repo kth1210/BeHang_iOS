@@ -96,7 +96,20 @@ class UploadViewController: UIViewController {
             self.present(alert, animated: true)
             return
         }
-                
+        
+        let alert = UIAlertController(title: "알림", message: "업로드 하시겠습니까?", preferredStyle: UIAlertController.Style.alert)
+        let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.default) { _ in
+            self.uploadPost(imageData: imageData)
+        }
+        let cancel = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler: nil)
+        
+        alert.addAction(confirm)
+        alert.addAction(cancel)
+        self.present(alert, animated: true)
+    }
+    
+    
+    func uploadPost(imageData: Data) {
         let url = "http://35.247.33.79:8080/posts"
 
         let header : HTTPHeaders = [
@@ -142,6 +155,7 @@ class UploadViewController: UIViewController {
                 switch response.result {
                 case .success:
                     print("success upload")
+                    self.navigationController?.popViewController(animated: true)
                 case .failure(let error):
                     print("success failed")
                     print(error)
@@ -149,8 +163,7 @@ class UploadViewController: UIViewController {
             }
         } catch {
             print("error")
-        }   
-        
+        }
     }
 
     
@@ -158,10 +171,12 @@ class UploadViewController: UIViewController {
         if sender.isSelected {
             sender.isSelected = false
             sender.backgroundColor = UIColor(named: "unselectedColor")
+
         } else {
             sender.isSelected = true
             sender.backgroundColor = UIColor(named: "mainColor")
         }
+
     }
     
 

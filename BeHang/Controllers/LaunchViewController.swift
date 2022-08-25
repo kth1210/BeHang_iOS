@@ -27,7 +27,6 @@ class LaunchViewController: UIViewController {
                 print("true")
                 // 자체 accessToken이랑 refreshToken 받았을테니까 그거로 재발급 받고 메인으로
                 self.reissue()
-                self.presentToMain()
             } else {
                 // 이전에 로그인 안했으면 로그인 화면으로
                 print("false")
@@ -93,10 +92,11 @@ class LaunchViewController: UIViewController {
                     print(asJSON)
 
                     // 메인 화면으로 이동
-                    guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
-                    nextVC.modalPresentationStyle = .fullScreen
-                    nextVC.modalTransitionStyle = .crossDissolve
-                    self.present(nextVC, animated: true, completion: nil)
+//                    guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
+//                    nextVC.modalPresentationStyle = .fullScreen
+//                    nextVC.modalTransitionStyle = .crossDissolve
+//                    self.present(nextVC, animated: true, completion: nil)
+                    self.presentToMain()
 
                 } catch {
                     print("error")

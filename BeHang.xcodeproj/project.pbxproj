@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		08652CEE8E7190F66B9209DB /* Pods_BeHang.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2CCFCE1580A0A74C45ED25D /* Pods_BeHang.framework */; };
+		0E3CEA8228B7C18F00CC78AC /* AccountSettingView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E3CEA8128B7C18F00CC78AC /* AccountSettingView.storyboard */; };
+		0E3CEA8428B7C1AC00CC78AC /* AccountSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3CEA8328B7C1AC00CC78AC /* AccountSettingViewController.swift */; };
 		0E6517C428A3ED95006F4917 /* PostView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E6517C328A3ED95006F4917 /* PostView.storyboard */; };
 		0E6517C828A40A98006F4917 /* PostPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6517C728A40A98006F4917 /* PostPhotoCell.swift */; };
 		0E6517CB28A4129D006F4917 /* PostCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6517C928A4129D006F4917 /* PostCollectionReusableView.swift */; };
@@ -88,6 +90,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E3CEA8128B7C18F00CC78AC /* AccountSettingView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AccountSettingView.storyboard; sourceTree = "<group>"; };
+		0E3CEA8328B7C1AC00CC78AC /* AccountSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewController.swift; sourceTree = "<group>"; };
 		0E6517C328A3ED95006F4917 /* PostView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PostView.storyboard; sourceTree = "<group>"; };
 		0E6517C728A40A98006F4917 /* PostPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPhotoCell.swift; sourceTree = "<group>"; };
 		0E6517C928A4129D006F4917 /* PostCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -254,6 +258,7 @@
 				0E7C92AF2893A1E500823A9E /* FlagTab.storyboard */,
 				0E7C92B12893A1F000823A9E /* UserTab.storyboard */,
 				0EBFEA4728A09CBC00B5340D /* SettingView.storyboard */,
+				0E3CEA8128B7C18F00CC78AC /* AccountSettingView.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -273,6 +278,7 @@
 				0E7C92B92893A27800823A9E /* FlagViewController.swift */,
 				0E7C92BB2893A28C00823A9E /* UserViewController.swift */,
 				0EBFEA4928A09D2F00B5340D /* SettingViewController.swift */,
+				0E3CEA8328B7C1AC00CC78AC /* AccountSettingViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -462,6 +468,7 @@
 				0EF5B5F128AF4F1300E18A71 /* noimage256.png in Resources */,
 				0EF5B5DE28AF4F1300E18A71 /* map_pinup_custom@3x.png in Resources */,
 				0E7C929B2892DD2D00823A9E /* Assets.xcassets in Resources */,
+				0E3CEA8228B7C18F00CC78AC /* AccountSettingView.storyboard in Resources */,
 				0EF5B5F228AF4F1300E18A71 /* map_present_direction.png in Resources */,
 				0EF5B5F428AF4F1300E18A71 /* map_present.png in Resources */,
 				0EAC734F28B11EE900C7ED4F /* LaunchScreen.storyboard in Resources */,
@@ -555,6 +562,7 @@
 				0E6517C828A40A98006F4917 /* PostPhotoCell.swift in Sources */,
 				0E7C92B82893A26900823A9E /* MapViewController.swift in Sources */,
 				0E6517CB28A4129D006F4917 /* PostCollectionReusableView.swift in Sources */,
+				0E3CEA8428B7C1AC00CC78AC /* AccountSettingViewController.swift in Sources */,
 				0E7C92B42893A21300823A9E /* TabViewController.swift in Sources */,
 				0EF5B60D28AF662600E18A71 /* PostViewController.swift in Sources */,
 				0EBFEA4E28A1591100B5340D /* ImageInfo.swift in Sources */,
@@ -728,7 +736,10 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BeHang/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "비행";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "업로드할 사진 선택을 위해 사용자의 앨범에 접근합니다.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "주변 관광지 조회를 위해 사용자의 위치 정보에 접근합니다.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "주변 관광지 조회를 위해 사용자의 위치 정보에 접근합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "주변 관광지 조회를 위해 사용자의 위치 정보에 접근합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진의 저장 또는 업로드를 위해 사용자의 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchView;
@@ -769,7 +780,10 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BeHang/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "비행";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "업로드할 사진 선택을 위해 사용자의 앨범에 접근합니다.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "주변 관광지 조회를 위해 사용자의 위치 정보에 접근합니다.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "주변 관광지 조회를 위해 사용자의 위치 정보에 접근합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "주변 관광지 조회를 위해 사용자의 위치 정보에 접근합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진의 저장 또는 업로드를 위해 사용자의 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchView;

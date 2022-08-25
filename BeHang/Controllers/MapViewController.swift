@@ -60,10 +60,12 @@ class MapViewController: UIViewController, MTMapViewDelegate {
             mapView.delegate = self
             mapView.baseMapType = .standard
             
-            mapView.currentLocationTrackingMode = .onWithoutHeading
-            mapView.showCurrentLocationMarker = true
             
-            mapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: latitude, longitude: longitude)), zoomLevel: 5, animated: true)
+//            mapView.currentLocationTrackingMode = .onWithoutHeading
+//            mapView.showCurrentLocationMarker = true
+            
+            //mapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: latitude, longitude: longitude)), zoomLevel: 5, animated: true)
+            
             self.view.addSubview(mapView)
         }
         
@@ -74,6 +76,7 @@ class MapViewController: UIViewController, MTMapViewDelegate {
         
         
         print("here")
+        mapView?.removeAllPOIItems()
         makeMarker()
     }
     
@@ -81,11 +84,17 @@ class MapViewController: UIViewController, MTMapViewDelegate {
         print("makeMarker")
         var cnt = 0
         
+        if list.count == 0 {
+            return
+        }
+        
+        //mapView?.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: Double(list[0].mapy!)!, longitude: Double(list[0].mapx!)!)), zoomLevel: 5, animated: true)
+        
         for item in list {
             let lon = Double(item.mapx!)
             let lat = Double(item.mapy!)
-            print(lat!)
-            print(lon!)
+            //print(lat!)
+            //print(lon!)
 
             self.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: lat!, longitude: lon!))
             
@@ -97,6 +106,11 @@ class MapViewController: UIViewController, MTMapViewDelegate {
             mapView?.add(poiItem)
             cnt += 1
         }
+    
+        //mapView?.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: 36.9891594599, longitude: 127.1037563697)), zoomLevel: 5, animated: true)
+        //mapView?.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: 127.1037563697, longitude: 36.9891594599)), zoomLevel: 5, animated: true)
+        mapView?.fitAreaToShowAllPOIItems()
+        list.removeAll()
     }
     
 //    @IBAction func tagPressed(_ sender: UIButton) {

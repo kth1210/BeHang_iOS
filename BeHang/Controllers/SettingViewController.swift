@@ -9,6 +9,8 @@ import UIKit
 import KakaoSDKUser
 
 class SettingViewController: UIViewController {
+    @IBOutlet var tableView: UITableView!
+    
     let settingTitle = ["- 계정 설정", "- 알림 설정", "- 공지사항", "- 약관 및 정책", "- 버전 정보", "- 서비스 문의"]
 
     override func viewDidLoad() {
@@ -17,6 +19,9 @@ class SettingViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.title = "설정"
+        
+        tableView.isScrollEnabled = false
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,5 +79,28 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let index = indexPath.row
+        
+        switch index {
+        case 0:
+            print(settingTitle[index])
+            
+            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "AccountSettingViewController") as? AccountSettingViewController else {return}
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        case 1:
+            print(settingTitle[index])
+        case 2:
+            print(settingTitle[index])
+        case 3:
+            print(settingTitle[index])
+        case 4:
+            print(settingTitle[index])
+        case 5:
+            print(settingTitle[index])
+        default:
+            print("error")
+        }
+    }
     
 }

@@ -12,12 +12,12 @@ import Alamofire
 class HomeViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
-    let viewModel = ImageViewModel()
     let sectionInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
     var isLoading = false
     var moreData = true
     var loadingView: LoadingCollectionView?
     let activityIndicator = UIActivityIndicatorView(style: .large)
+    let overlayView = UIView()
     
     var pageNo = 0
     
@@ -35,12 +35,22 @@ class HomeViewController: UIViewController {
         let loadingReusableNib = UINib(nibName: "LoadingCollectionView", bundle: nil)
         collectionView.register(loadingReusableNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "loadingCollectionView")
         
+        overlayView.backgroundColor = UIColor(white: 0, alpha: 0.4)
+        overlayView.frame = collectionView.bounds
+        overlayView.center = collectionView.center
+        overlayView.layer.cornerRadius = 10
+        
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         activityIndicator.center = self.view.center
+        activityIndicator.color = .white
+        //activityIndicator.backgroundColor = UIColor(named: "unselectedColor")
+        //activityIndicator.layer.cornerRadius = 10
         activityIndicator.hidesWhenStopped = true
         
+        self.view.addSubview(self.overlayView)
         self.view.addSubview(self.activityIndicator)
         
+        overlayView.isHidden = false
         activityIndicator.startAnimating()
         getFeed()
     }
@@ -50,7 +60,9 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func uploadButtonPressed(_ sender: UIButton) {
-        if UserDefaults.standard.bool(forKey: "isLogin") {
+        let nowLogin = UserDefaults.standard.string(forKey: "login")
+        
+        if nowLogin != "none" {
             guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "UploadViewController") as? UploadViewController else {return}
             self.navigationController?.pushViewController(nextVC, animated: true)
         } else {
@@ -123,6 +135,7 @@ class HomeViewController: UIViewController {
                     }
                     self.collectionView.reloadData()
                     self.isLoading = false
+                    self.overlayView.isHidden = true
                     self.activityIndicator.stopAnimating()
                     
                     print("Get Feed")
@@ -158,7 +171,6 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //return viewModel.countOfImageList
         return self.list.count
     }
     
@@ -174,7 +186,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //let imageInfo = viewModel.imageInfo(at: indexPath.item)
         let imageInfo = list[indexPath.row].image
         let postId = list[indexPath.row].id
         

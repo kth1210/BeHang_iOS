@@ -106,7 +106,12 @@ class MapSearchViewController: UIViewController {
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                     
-                    let res = asJSON["response"] as! NSDictionary
+                    guard let res = asJSON["response"] as? NSDictionary else {
+                        self.moreData = false
+                        self.mapTableView.tableFooterView?.isHidden = true
+                        self.mapTableView.reloadData()
+                        return
+                    }
                     let body = res["body"] as! NSDictionary
                     guard let items = body["items"] as? NSDictionary else {
                         self.mapSearchBar.text = ""
@@ -127,10 +132,11 @@ class MapSearchViewController: UIViewController {
             
                         let placeData = PlaceInfo()
                         placeData.address = r["addr1"] as? String
-                        placeData.contentId = r["contentId"] as? String
+                        placeData.contentId = r["contentid"] as? String
                         placeData.mapx = r["mapx"] as? String
                         placeData.mapy = r["mapy"] as? String
                         placeData.title = r["title"] as? String
+                        placeData.tel = r["tel"] as? String
                         placeData.thumbnail = r["firstimage"] as? String
                         
                         if placeData.thumbnail != "" {

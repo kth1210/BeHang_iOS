@@ -59,7 +59,6 @@ class ViewController: UIViewController {
                         print("call login")
                         self.kakaoSignup(accessToken: accessToken!)
                     }
-                    //self.kakaoSignup(accessToken: accessToken!)
                 }
             }
         }
@@ -138,6 +137,7 @@ class ViewController: UIViewController {
                     UserDefaults.standard.setValue(xToken, forKey: "accessToken")
                     UserDefaults.standard.setValue(refreshToken, forKey: "refreshToken")
                     UserDefaults.standard.setValue(true, forKey: "isLogin")
+                    UserDefaults.standard.setValue("kakao", forKey: "login")
                     
                     print(asJSON)
                     print("Success Login")
@@ -181,6 +181,7 @@ class ViewController: UIViewController {
         let accessToken = idToken
         //let refreshToken = refreshToken
         
+        // 회원가입할 때 userName 등록 (한번 밖에 안옴)
         UserDefaults.standard.setValue(userName, forKey: "appleName")
         
        
@@ -252,6 +253,7 @@ class ViewController: UIViewController {
                     UserDefaults.standard.setValue(xToken, forKey: "accessToken")
                     UserDefaults.standard.setValue(refreshToken, forKey: "refreshToken")
                     UserDefaults.standard.setValue(true, forKey: "isLogin")
+                    UserDefaults.standard.setValue("apple", forKey: "login")
                     
                     print(asJSON)
                     print("Success apple Login")
@@ -276,6 +278,7 @@ class ViewController: UIViewController {
     // 로그인 없이 서비스 접속
     @IBAction func withoutLoginButtonPressed(_ sender: UIButton) {
         // isLogin == false
+        UserDefaults.standard.setValue("none", forKey: "login")
         guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
         nextVC.modalPresentationStyle = .fullScreen
         nextVC.modalTransitionStyle = .crossDissolve
