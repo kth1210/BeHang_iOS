@@ -54,7 +54,7 @@ class PostViewController: UIViewController {
     
     func getPostInfo() {
         print("start Get Post Info")
-        let url = "http://35.247.33.79:8080/post/\(postId!)"
+        let url = "http://35.247.33.79:8080/posts/\(postId!)"
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         
         let header : HTTPHeaders = [

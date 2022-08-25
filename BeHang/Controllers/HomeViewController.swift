@@ -72,7 +72,7 @@ class HomeViewController: UIViewController {
         self.isLoading = true
         
         print("start Get Feed")
-        let url = "http://35.247.33.79:8080/post/feed"
+        let url = "http://35.247.33.79:8080/posts/feed"
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         
         let header : HTTPHeaders = [

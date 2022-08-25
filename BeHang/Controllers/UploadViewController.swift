@@ -97,7 +97,7 @@ class UploadViewController: UIViewController {
             return
         }
                 
-        let url = "http://35.247.33.79:8080/post"
+        let url = "http://35.247.33.79:8080/posts"
 
         let header : HTTPHeaders = [
             "Content-Type" : "multipart/form-data",
@@ -112,6 +112,7 @@ class UploadViewController: UIViewController {
             "name" : selectedPlaceInfo.title ?? "",
             "phoneNumber" : selectedPlaceInfo.tel ?? ""
         ]
+        let name = selectedPlaceInfo.title ?? ""
         
         let tag: [String: Any] = [
             "comfortablePubTransit": tagButton1.isSelected,
@@ -131,7 +132,7 @@ class UploadViewController: UIViewController {
             let jsonData = try JSONSerialization.data(withJSONObject: arrFormData, options: .prettyPrinted)
 
             AF.upload(multipartFormData: { multipartFormData in
-                multipartFormData.append(imageData, withName: "file", fileName: "test.jpeg", mimeType: "image/jpeg")
+                multipartFormData.append(imageData, withName: "file", fileName: "\(name).jpeg", mimeType: "image/jpeg")
                 multipartFormData.append(jsonData, withName: "postRequestDto", mimeType: "application/json")
             }, to: url, method: .post, headers: header)
             .validate(statusCode: 200..<300)

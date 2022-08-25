@@ -20,34 +20,24 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        //kakaoLoginButton.layer.cornerRadius = 12
-        //appleLoginButton.layer.cornerRadius = 12
-        
         withoutLoginButton.layer.addBorder([.bottom], color: UIColor.black, width: 2.0)
         
-        let tapKakaoLogin = UITapGestureRecognizer(target: self, action: #selector(loginKakao))
+        let tapKakaoLogin = UITapGestureRecognizer(target: self, action: #selector(loginKakaoPressed))
         kakaoLoginButton.addGestureRecognizer(tapKakaoLogin)
         kakaoLoginButton.isUserInteractionEnabled = true
         
-        let tapAppleLogin = UITapGestureRecognizer(target: self, action: #selector(loginApple))
+        let tapAppleLogin = UITapGestureRecognizer(target: self, action: #selector(loginApplePressed))
         appleLoginButton.addGestureRecognizer(tapAppleLogin)
         appleLoginButton.isUserInteractionEnabled = true
     }
     
-    @objc func loginApple() {
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.fullName, .email]
-        
-        let controller = ASAuthorizationController(authorizationRequests: [request])
-        controller.delegate = self as ASAuthorizationControllerDelegate
-        controller.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
-        controller.performRequests()
-    }
-
-    @objc func loginKakao() {
+    //MARK: - Kakao Login
+    
+    // 카카오 로그인 버튼 눌렀을 때
+    @objc func loginKakaoPressed() {
         print("loginKakao() called")
         
+        // 카카오톡으로 로그인 가능한지 확인
         if (UserApi.isKakaoTalkLoginAvailable()) {
             UserApi.shared.loginWithKakaoTalk { oauthToken, error in
                 if let error = error {
@@ -55,29 +45,32 @@ class ViewController: UIViewController {
                     print(error)
                 } else {
                     print("loginWithKakaoTalk() success")
-      
+                    
                     _ = oauthToken
                     let accessToken = oauthToken?.accessToken
-                                    
-                    if UserDefaults.standard.string(forKey: "accessToken") == nil {
-                        print("call signup")
-                        self.signup(accessToken: accessToken!)
-                    } else {
-                        print("call login")
-                        self.login(accessToken: accessToken!)
-                    }
+                    //let refreshToken = oauthToken?.refreshToken
                     
+                    if UserDefaults.standard.bool(forKey: "signupKakao") {
+                        // 카카오로 회원가입한 적이 있으면
+                        print("call signup")
+                        self.kakaoLogin(accessToken: accessToken!)
+                    } else {
+                        // 카카오로 회원가입한 적이 없으면
+                        print("call login")
+                        self.kakaoSignup(accessToken: accessToken!)
+                    }
+                    //self.kakaoSignup(accessToken: accessToken!)
                 }
             }
         }
     }
     
-    func signup(accessToken : String) {
-        let signupUrl = "http://35.247.33.79:8080/v1/social/signup/kakao"
+    // 카카오 토큰으로 회원가입
+    func kakaoSignup(accessToken : String) {
+        let signupUrl = "http://35.247.33.79:8080/social/signup/kakao"
         
         let accessToken = accessToken
         //let refreshToken = refreshToken
-       
         
         let header : HTTPHeaders = [
             "Content-Type" : "application/json"
@@ -99,8 +92,10 @@ class ViewController: UIViewController {
         .responseData { (response) in
             switch response.result {
             case .success:
+                // 회원가입 성공하면 카카오 토큰으로 로그인
                 print("Success Signup")
-                self.login(accessToken: accessToken)
+                UserDefaults.standard.setValue(true, forKey: "signupKakao")
+                self.kakaoLogin(accessToken: accessToken)
             case .failure(let error):
                 print(error)
             }
@@ -109,9 +104,9 @@ class ViewController: UIViewController {
     }
     
     
-    func login(accessToken: String) {
-        let loginUrl = "http://35.247.33.79:8080/v1/social/login/kakao"
-        print(accessToken)
+    func kakaoLogin(accessToken: String) {
+        let loginUrl = "http://35.247.33.79:8080/social/login/kakao"
+        
         let header : HTTPHeaders = [
             "Content-Type" : "application/json"
         ]
@@ -135,14 +130,19 @@ class ViewController: UIViewController {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                     
                     let res = asJSON["data"] as! NSDictionary
-                    let token = res["accessToken"] as! String
                     
-                    UserDefaults.standard.setValue(token, forKey: "accessToken")
+                    // 자체 토큰 발급
+                    let xToken = res["accessToken"] as! String
+                    let refreshToken = res["refreshToken"] as! String
+                    
+                    UserDefaults.standard.setValue(xToken, forKey: "accessToken")
+                    UserDefaults.standard.setValue(refreshToken, forKey: "refreshToken")
                     UserDefaults.standard.setValue(true, forKey: "isLogin")
                     
                     print(asJSON)
                     print("Success Login")
                     
+                    // 메인 화면으로 이동
                     guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
                     nextVC.modalPresentationStyle = .fullScreen
                     nextVC.modalTransitionStyle = .crossDissolve
@@ -157,6 +157,123 @@ class ViewController: UIViewController {
         }
     }
     
+    //MARK: - Apple Login
+    
+    @objc func loginApplePressed() {
+        print("loginApplePressed")
+        
+        
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self as ASAuthorizationControllerDelegate
+        controller.presentationContextProvider = self as ASAuthorizationControllerPresentationContextProviding
+        controller.performRequests()
+    }
+
+    func appleSignup(idToken: String, userName: String) {
+        print("appleSignup")
+        
+        let signupUrl = "http://35.247.33.79:8080/social/signup/apple"
+        
+        let accessToken = idToken
+        //let refreshToken = refreshToken
+        
+        UserDefaults.standard.setValue(userName, forKey: "appleName")
+        
+       
+        let header : HTTPHeaders = [
+            "Content-Type" : "application/json"
+        ]
+
+        let bodyData : Parameters = [
+            "socialId" : accessToken,
+            "nickName" : userName
+        ] as Dictionary
+        
+        
+        AF.request(
+            signupUrl,
+            method: .post,
+            parameters: bodyData,
+            encoding: JSONEncoding.default,
+            headers: header
+        )
+        .validate(statusCode: 200..<300)
+        .responseData { (response) in
+            switch response.result {
+            case .success:
+                // 회원가입 성공하면 애플 토큰, 이름으로 로그인
+                print("Success Signup")
+                UserDefaults.standard.setValue(true, forKey: "signupApple")
+                self.appleLogin(idToken: idToken, userName: userName)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func appleLogin(idToken: String, userName: String) {
+        print("appleLogin")
+        
+        let loginUrl = "http://35.247.33.79:8080/social/login/apple"
+        
+        let header : HTTPHeaders = [
+            "Content-Type" : "application/json"
+        ]
+
+        let bodyData : Parameters = [
+            "socialId" : idToken,
+            "nickName" : userName
+        ] as Dictionary
+        
+        AF.request(
+            loginUrl,
+            method: .post,
+            parameters: bodyData,
+            encoding: JSONEncoding.default,
+            headers: header
+        )
+        .validate(statusCode: 200..<300)
+        .responseData { (response) in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    
+                    let res = asJSON["data"] as! NSDictionary
+                    
+                    // 자체 토큰 발급
+                    let xToken = res["accessToken"] as! String
+                    let refreshToken = res["refreshToken"] as! String
+                    
+                    UserDefaults.standard.setValue(xToken, forKey: "accessToken")
+                    UserDefaults.standard.setValue(refreshToken, forKey: "refreshToken")
+                    UserDefaults.standard.setValue(true, forKey: "isLogin")
+                    
+                    print(asJSON)
+                    print("Success apple Login")
+                    
+                    // 메인 화면으로 이동
+                    guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
+                    nextVC.modalPresentationStyle = .fullScreen
+                    nextVC.modalTransitionStyle = .crossDissolve
+                    self.present(nextVC, animated: true, completion: nil)
+                                        
+                } catch {
+                    print("error")
+                }
+            case .failure(let error):
+                print("Alamofire Request Error\nCode:\(error._code), Message: \(error.errorDescription!)")
+            }
+        }
+    }
+    
+    //MARK: - Unless Login
+    
+    // 로그인 없이 서비스 접속
     @IBAction func withoutLoginButtonPressed(_ sender: UIButton) {
         // isLogin == false
         guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
@@ -165,26 +282,43 @@ class ViewController: UIViewController {
         self.present(nextVC, animated: true, completion: nil)
     }
     
-    
 }
 
-extension ViewController: ASAuthorizationControllerDelegate {
+//MARK: - Apple Authorization
+
+extension ViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     // authorization 성공
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let userIdentifier = appleIDCredential.user
-            let userName = appleIDCredential.fullName
+            let userName = (appleIDCredential.fullName?.familyName ?? "") + (appleIDCredential.fullName?.givenName ?? "")
+            //let idToken = appleIDCredential.identityToken
+            print(userIdentifier)
+            print(userName)
             
+            if UserDefaults.standard.bool(forKey: "signupApple") {
+                // apple 계정으로 회원가입한 적이 있으면
+                self.appleLogin(idToken: userIdentifier, userName: UserDefaults.standard.string(forKey: "appleName")!)
+            } else {
+                // apple 계정으로 회원가입한 적이 없으면
+                self.appleSignup(idToken: userIdentifier, userName: userName)
+            }
             
         }
     }
     
     // authorization 실패
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-       //
+       print("authorization Error: \(error)")
+    }
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
     }
 }
 
+
+//
 extension ViewController {
     
     private func getUserInfo() {
