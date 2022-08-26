@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KakaoSDK.initSDK(appKey: "086319f41e8822717e011c9211e2511c")
         
         UserDefaults.standard.setValue(false, forKey: "isLogin")
+        //UserDefaults.standard.setValue(true, forKey: "signupKakao")
         //sleep(1)
         return true
     }

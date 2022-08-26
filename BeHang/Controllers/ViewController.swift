@@ -52,11 +52,11 @@ class ViewController: UIViewController {
                     
                     if UserDefaults.standard.bool(forKey: "signupKakao") {
                         // 카카오로 회원가입한 적이 있으면
-                        print("call signup")
+                        print("call login")
                         self.kakaoLogin(accessToken: accessToken!)
                     } else {
                         // 카카오로 회원가입한 적이 없으면
-                        print("call login")
+                        print("call signup")
                         self.kakaoSignup(accessToken: accessToken!)
                     }
                 }
@@ -66,6 +66,7 @@ class ViewController: UIViewController {
     
     // 카카오 토큰으로 회원가입
     func kakaoSignup(accessToken : String) {
+        print("start kakao signup")
         let signupUrl = "http://35.247.33.79:8080/social/signup/kakao"
         
         let accessToken = accessToken
@@ -104,6 +105,7 @@ class ViewController: UIViewController {
     
     
     func kakaoLogin(accessToken: String) {
+        print("start kakao login")
         let loginUrl = "http://35.247.33.79:8080/social/login/kakao"
         
         let header : HTTPHeaders = [
