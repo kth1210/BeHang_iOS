@@ -71,12 +71,6 @@ class UserViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
     }
     
-
-    
-    
-    
-    
-    
     func getUserFeed() {
         let nowLogin = UserDefaults.standard.string(forKey: "login")
         
@@ -114,9 +108,18 @@ class UserViewController: UIViewController {
             case .success(let data):
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    let code = asJSON["code"] as! Int
+                    
+                    // 자체 토큰이 만료
+                    if code == -1014 {
+                        // 토큰 재발급
+                        self.reissue()
+                        return
+                    }
+                    
                     let list = asJSON["list"] as! NSArray
-                    let msg = asJSON["msg"] as! String
-                    let suc = asJSON["success"] as! Bool
+                    //let msg = asJSON["msg"] as! String
+                    //let suc = asJSON["success"] as! Bool
                     
                     if list.count != 10 {
                         self.moreData = false
@@ -184,10 +187,60 @@ class UserViewController: UIViewController {
         } else {
             self.userName.text = "로그인이 필요합니다."
         }
-        
-        
     }
 
+    
+    func reissue() {
+        let loginUrl = "http://35.247.33.79:8080/reissue"
+
+        let header : HTTPHeaders = [
+            "Content-Type" : "application/json"
+        ]
+
+        let accessToken = UserDefaults.standard.string(forKey: "accessToken")
+        let refreshToken = UserDefaults.standard.string(forKey: "refreshToken")
+        
+        let bodyData : Parameters = [
+            "accessToken" : accessToken!,
+            "refreshToken" : refreshToken!
+        ] as Dictionary
+        
+        AF.request(
+            loginUrl,
+            method: .post,
+            parameters: bodyData,
+            encoding: JSONEncoding.default,
+            headers: header
+        )
+        .validate(statusCode: 200..<300)
+        .responseData { (response) in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+
+                    let res = asJSON["data"] as! NSDictionary
+
+                    // 자체 토큰 재발급
+                    let xToken = res["accessToken"] as! String
+                    let refreshToken = res["refreshToken"] as! String
+
+                    UserDefaults.standard.setValue(xToken, forKey: "accessToken")
+                    UserDefaults.standard.setValue(refreshToken, forKey: "refreshToken")
+                    
+                    print("토큰 재발급")
+                    print(asJSON)
+                    
+                    self.getUserFeed()
+
+                } catch {
+                    print("error")
+                }
+            case .failure(let error):
+                print("Alamofire Request Error\nCode:\(error._code), Message: \(error.errorDescription!)")
+            }
+        }
+    }
 }
 
 extension UserViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -202,6 +255,7 @@ extension UserViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         cell.id = list[indexPath.row].id
         cell.imageView.image = list[indexPath.row].image
+        cell.imageView.layer.cornerRadius = 8
         
         return cell
     }
@@ -264,9 +318,10 @@ extension UserViewController: UICollectionViewDataSource, UICollectionViewDelega
 
 extension UserViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let margin: CGFloat = 1
-        
-        let width: CGFloat = (collectionView.bounds.width - margin * 4) / 3
+        let margin: CGFloat = 2
+        //let padding: CGFloat = margin * 4
+        let width: CGFloat = (collectionView.bounds.width - margin * 2) / 3
+        //let width: CGFloat = (collectionView.frame.width - padding) / 3 - 4
         let height: CGFloat = width
         
         return CGSize(width: width, height: height)
@@ -274,5 +329,13 @@ extension UserViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return sectionInsets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return sectionInsets.top
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return sectionInsets.left
     }
 }

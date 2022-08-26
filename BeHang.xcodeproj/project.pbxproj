@@ -266,8 +266,8 @@
 		0E7C92A62893A06500823A9E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				0E7C92952892DD2B00823A9E /* ViewController.swift */,
 				0EAC734B28B11A3A00C7ED4F /* LaunchViewController.swift */,
+				0E7C92952892DD2B00823A9E /* ViewController.swift */,
 				0E7C92B32893A21300823A9E /* TabViewController.swift */,
 				0E7C92B52893A24000823A9E /* HomeViewController.swift */,
 				0EF5B60C28AF662600E18A71 /* PostViewController.swift */,
