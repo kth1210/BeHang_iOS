@@ -84,7 +84,7 @@ class HomeViewController: UIViewController {
         self.isLoading = true
         
         print("start Get Feed")
-        let url = "http://35.247.33.79:8080/posts/feed"
+        let url = "http://35.247.33.79/posts/feed"
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         
         let header : HTTPHeaders = [
@@ -102,7 +102,7 @@ class HomeViewController: UIViewController {
                    parameters: param,
                    encoding: URLEncoding.queryString,
                    //encoding: JSONEncoding.default,
-                   headers: header
+                   headers: nil//header
         )
         .validate(statusCode: 200..<300)
         .responseData { response in
@@ -134,11 +134,13 @@ class HomeViewController: UIViewController {
                         
                         let feedData = FeedInfo()
                         feedData.id = res["id"] as? Int
-                        feedData.imageString = res["image"] as? String
-                        
-                        if let data = Data(base64Encoded: feedData.imageString!, options: .ignoreUnknownCharacters) {
-                            let decodedImg = UIImage(data: data)
-                            feedData.image = decodedImg
+                        feedData.imageString = res["imageUrl"] as? String
+                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
+
+                        if feedData.imageString != "" {
+                            let url: URL! = Foundation.URL(string: imageUrl)
+                            let imageData = try! Data(contentsOf: url)
+                            feedData.image = UIImage(data: imageData)
                         }
                         
                         self.list.append(feedData)
@@ -175,7 +177,7 @@ class HomeViewController: UIViewController {
     }
     
     func reissue() {
-        let loginUrl = "http://35.247.33.79:8080/reissue"
+        let loginUrl = "http://35.247.33.79/reissue"
 
         let header : HTTPHeaders = [
             "Content-Type" : "application/json"

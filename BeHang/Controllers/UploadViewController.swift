@@ -110,7 +110,7 @@ class UploadViewController: UIViewController {
     
     
     func uploadPost(imageData: Data) {
-        let url = "http://35.247.33.79:8080/posts"
+        let url = "http://35.247.33.79/posts"
 
         let header : HTTPHeaders = [
             "Content-Type" : "multipart/form-data",
@@ -193,7 +193,7 @@ class UploadViewController: UIViewController {
     }
     
     func reissue(imageData: Data) {
-        let loginUrl = "http://35.247.33.79:8080/reissue"
+        let loginUrl = "http://35.247.33.79/reissue"
 
         let header : HTTPHeaders = [
             "Content-Type" : "application/json"

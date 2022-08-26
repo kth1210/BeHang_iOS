@@ -54,7 +54,7 @@ class PostViewController: UIViewController {
     
     func getPostInfo() {
         print("start Get Post Info")
-        let url = "http://35.247.33.79:8080/posts/\(postId!)"
+        let url = "http://35.247.33.79/posts/\(postId!)"
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         
         let header : HTTPHeaders = [
@@ -70,7 +70,7 @@ class PostViewController: UIViewController {
                    parameters: param,
                    encoding: URLEncoding.queryString,
                    //encoding: JSONEncoding.default,
-                   headers: header
+                   headers: nil//header
         )
         .validate(statusCode: 200..<300)
         .responseData { response in
@@ -134,7 +134,7 @@ class PostViewController: UIViewController {
 //
     
     func reissue() {
-        let loginUrl = "http://35.247.33.79:8080/reissue"
+        let loginUrl = "http://35.247.33.79/reissue"
 
         let header : HTTPHeaders = [
             "Content-Type" : "application/json"

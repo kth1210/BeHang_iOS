@@ -67,7 +67,7 @@ class ViewController: UIViewController {
     // 카카오 토큰으로 회원가입
     func kakaoSignup(accessToken : String) {
         print("start kakao signup")
-        let signupUrl = "http://35.247.33.79:8080/social/signup/kakao"
+        let signupUrl = "http://35.247.33.79/social/signup/kakao"
         
         let accessToken = accessToken
         //let refreshToken = refreshToken
@@ -106,7 +106,7 @@ class ViewController: UIViewController {
     
     func kakaoLogin(accessToken: String) {
         print("start kakao login")
-        let loginUrl = "http://35.247.33.79:8080/social/login/kakao"
+        let loginUrl = "http://35.247.33.79/social/login/kakao"
         
         let header : HTTPHeaders = [
             "Content-Type" : "application/json"
@@ -178,7 +178,7 @@ class ViewController: UIViewController {
     func appleSignup(idToken: String, userName: String) {
         print("appleSignup")
         
-        let signupUrl = "http://35.247.33.79:8080/social/signup/apple"
+        let signupUrl = "http://35.247.33.79/social/signup/apple"
         
         let accessToken = idToken
         //let refreshToken = refreshToken
@@ -221,7 +221,7 @@ class ViewController: UIViewController {
     func appleLogin(idToken: String, userName: String) {
         print("appleLogin")
         
-        let loginUrl = "http://35.247.33.79:8080/social/login/apple"
+        let loginUrl = "http://35.247.33.79/social/login/apple"
         
         let header : HTTPHeaders = [
             "Content-Type" : "application/json"
