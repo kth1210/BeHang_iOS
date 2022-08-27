@@ -157,7 +157,7 @@
                                         <constraint firstItem="PIK-ej-nTr" firstAttribute="leading" secondItem="VbU-Yy-qTf" secondAttribute="leading" id="puf-u8-JOF"/>
                                     </constraints>
                                     <connections>
-                                        <outlet property="buttomPhoto" destination="CwG-Ga-Gdq" id="vLX-A0-N34"/>
+                                        <outlet property="bottomLabel" destination="CwG-Ga-Gdq" id="OlL-mD-JUN"/>
                                         <outlet property="imgView" destination="v3G-jm-lW3" id="doV-mq-40U"/>
                                         <outlet property="placeName" destination="PsZ-OP-3cH" id="KpP-yb-QnN"/>
                                         <outlet property="postView" destination="PIK-ej-nTr" id="5Qz-8j-YRp"/>

@@ -12,13 +12,13 @@ class PostViewController: UIViewController {
     @IBOutlet var collectionView: UICollectionView!
     
     lazy var reportButton: UIBarButtonItem = {
-        var image = UIImage(named: "exclamationmark.bubble")
+        var image = UIImage(systemName: "exclamationmark.bubble")
         let button = UIBarButtonItem (image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(reportButtonPressed))
         return button
     }()
     
     lazy var deleteButton: UIBarButtonItem = {
-        var image = UIImage(named: "trash")
+        var image = UIImage(systemName: "trash")
         let button = UIBarButtonItem (image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(deleteButtonPressed))
         return button
     }()
@@ -66,6 +66,7 @@ class PostViewController: UIViewController {
             self.navigationItem.rightBarButtonItem = self.deleteButton
         } else {
             // 다른 사람 포스트면 신고버튼
+            print("다른사람포스트 신고버튼")
             self.navigationItem.rightBarButtonItem = self.reportButton
         }
         self.navigationItem.rightBarButtonItem?.tintColor = .black
@@ -156,6 +157,7 @@ class PostViewController: UIViewController {
                     
                     self.isGet = true
                     self.isShareImage = false
+                    self.overlayView.isHidden = true
                     self.collectionView.reloadData()
                     self.activityIndicator.stopAnimating()
                 } catch {
@@ -275,7 +277,7 @@ class PostViewController: UIViewController {
     
     @objc func deleteButtonPressed() {
         let alert = UIAlertController(title: "알림", message: "게시물을 삭제하시겠습니까?", preferredStyle: UIAlertController.Style.alert)
-        let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.default) { _ in
+        let confirm = UIAlertAction(title: "삭제", style: UIAlertAction.Style.destructive) { _ in
             let url = "http://35.247.33.79/posts/\(self.postId!)"
             let xToken = UserDefaults.standard.string(forKey: "accessToken")!
             
@@ -330,14 +332,14 @@ class PostViewController: UIViewController {
     // 토큰 만료 처리
     func reissue() {
         let loginUrl = "http://35.247.33.79/reissue"
-
-        let header : HTTPHeaders = [
-            "Content-Type" : "application/json"
-        ]
-
         let accessToken = UserDefaults.standard.string(forKey: "accessToken")
         let refreshToken = UserDefaults.standard.string(forKey: "refreshToken")
-        
+
+        let header : HTTPHeaders = [
+            "Content-Type" : "application/json",
+            //"X-AUTH-TOKEN" : accessToken!
+        ]
+
         let bodyData : Parameters = [
             "accessToken" : accessToken!,
             "refreshToken" : refreshToken!
@@ -449,6 +451,11 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             typedHeaderView.imgView.image = self.image
             typedHeaderView.placeName.text = self.placeName
             
+            if self.isMine {
+                typedHeaderView.bottomLabel.text = "내가 올린 사진"
+            } else {
+                typedHeaderView.bottomLabel.text = "같은 장소의 사진"
+            }
             
             if self.tag1 == false{
                 typedHeaderView.tag1.backgroundColor = UIColor(named: "unselectedColor")

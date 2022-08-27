@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import CoreLocation
+import Alamofire
 
-class MapViewController: UIViewController, MTMapViewDelegate {
+class MapViewController: UIViewController, MTMapViewDelegate, CLLocationManagerDelegate {
     
 //    @IBOutlet weak var tag1: UIButton!
 //    @IBOutlet weak var tag2: UIButton!
@@ -18,20 +20,19 @@ class MapViewController: UIViewController, MTMapViewDelegate {
     
     @IBOutlet weak var mapSearchBar: UISearchBar!
     @IBOutlet weak var searchLabel: UILabel!
+    @IBOutlet var buttonView: UIView!
+    @IBOutlet var nearButton: UIButton!
+    @IBOutlet var subView: UIView!
     
     lazy var list: [PlaceInfo] = {
         var datalist = [PlaceInfo]()
         return datalist
     }()
     
-    @IBOutlet var subView: UIView!
     var mapView: MTMapView?
     
     var mapPoint: MTMapPoint?
     var poiItem: MTMapPOIItem?
-    
-    var latitude: Double = 37.579617
-    var longitude: Double = 126.977041
     
     
     override func viewDidLoad() {
@@ -40,6 +41,10 @@ class MapViewController: UIViewController, MTMapViewDelegate {
         // Do any additional setup after loading the view.
         
         searchLabel.layer.addBorder([.bottom], color: UIColor(hex: "AEAEAE"), width: 2.0)
+        
+        //buttonView.layer.addBorder([.top, .left, .right, .bottom], color: UIColor(named: "mainColor")!, width: 1.5)
+        buttonView.layer.cornerRadius = buttonView.frame.width / 2
+        buttonView.clipsToBounds = true
         
 //        tag1.layer.cornerRadius = 8
 //        tag2.layer.cornerRadius = 8
@@ -52,6 +57,7 @@ class MapViewController: UIViewController, MTMapViewDelegate {
         self.mapSearchBar.searchBarStyle = .minimal
         self.mapSearchBar.placeholder = "장소 이름 검색"
         self.hideKeyboardWhenTappedAround()
+        
         
         
         mapView = MTMapView(frame: subView.frame)
@@ -73,7 +79,7 @@ class MapViewController: UIViewController, MTMapViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
-        
+        self.view.bringSubviewToFront(buttonView)
         
         print("here")
         mapView?.removeAllPOIItems()
@@ -100,6 +106,7 @@ class MapViewController: UIViewController, MTMapViewDelegate {
     }
     
     func makeMarker() {
+        //mapView?.removeAllPOIItems()
         print("makeMarker")
 
         var cnt = 0
@@ -122,15 +129,112 @@ class MapViewController: UIViewController, MTMapViewDelegate {
             mapView?.add(poiItem)
             cnt += 1
         }
-    
+        setMap()
         list.removeAll()
     }
 
 
-    @IBAction func test(_ sender: UIButton) {
-        print("test!")
-        mapView?.fitAreaToShowAllPOIItems()
+    @IBAction func nearButtonPressed(_ sender: UIButton) {
+        mapView?.removeAllPOIItems()
+        mapSearchBar.text = ""
+        
+        let locationManager = CLLocationManager()
+        locationManager.delegate = self
+        
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        locationManager.startUpdatingLocation()
+        
+        let coor = locationManager.location?.coordinate
+        let latitude = coor?.latitude
+        let longitude = coor?.longitude
+        
+        print("lat = \(latitude), lng = \(longitude)")
+        locationManager.stopUpdatingLocation()
+        
+        self.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: latitude!, longitude: longitude!))
+        
+        getNearPlace(mapX: String(longitude!), mapY: String(latitude!))
+        
+        poiItem = MTMapPOIItem()
+        poiItem?.markerType = MTMapPOIItemMarkerType.yellowPin
+        poiItem?.mapPoint = mapPoint
+        poiItem?.itemName = "현위치"
+        mapView?.add(poiItem)
     }
+    
+    func getNearPlace(mapX: String, mapY: String) {
+        let URL = "http://apis.data.go.kr/B551011/KorService/locationBasedList"
+        var param: Parameters = [
+            "serviceKey" : "A8dJ8nKE9AlL1AWJ8bwxLGO/zRDGpaUHZpxXR2axdgbrLT0uSQ49GSfWi4EtwfnfoFGNLJw6rHLB0ix9Qtl+EQ==",
+            "numOfRows" : "10",
+            "pageNo" : "1",
+            "MobileOS" : "IOS",
+            "MobileApp" : "BeHang",
+            "_type" : "json",
+            "listYN" : "Y",
+            "arrange" : "E",
+            "radius" : "5000"
+        ]
+        param["mapX"] = mapX
+        param["mapY"] = mapY
+        
+        
+        AF.request(URL,
+                   method: .get,
+                   parameters: param,
+                   encoding: URLEncoding.queryString,
+                   headers: ["Content-Type":"application/json", "Accept":"application/json"])
+        .validate(statusCode: 200..<300)
+        .responseData { response in
+            print(response)
+            switch response.result {
+            case .success(let data):
+                do {
+                    let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    
+                    guard let res = asJSON["response"] as? NSDictionary else {
+                        return
+                    }
+                    let body = res["body"] as! NSDictionary
+                    guard let items = body["items"] as? NSDictionary else {
+                        return
+                    }
+                    let item = items["item"] as! NSArray
+                    
+                    for row in item {
+                        let r = row as! NSDictionary
+            
+                        let placeData = PlaceInfo()
+                        placeData.address = r["addr1"] as? String
+                        placeData.contentId = r["contentid"] as? String
+                        placeData.mapx = r["mapx"] as? String
+                        placeData.mapy = r["mapy"] as? String
+                        placeData.title = r["title"] as? String
+                        placeData.tel = r["tel"] as? String
+                        placeData.thumbnail = r["firstimage"] as? String
+                        
+//                        if placeData.thumbnail != "" {
+//                            let url: URL! = Foundation.URL(string: placeData.thumbnail!)
+//                            let imageData = try! Data(contentsOf: url)
+//                            placeData.thumbnailImg = UIImage(data: imageData)
+//                        }
+                        
+                        self.list.append(placeData)
+                    }
+                    self.makeMarker()
+                    print(asJSON)
+                } catch {
+                    print("error")
+                }
+
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     
 }
 

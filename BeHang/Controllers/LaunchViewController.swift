@@ -28,8 +28,8 @@ class LaunchViewController: UIViewController {
                 print(UserDefaults.standard.string(forKey: "accessToken"))
                 print(UserDefaults.standard.string(forKey: "refreshToken"))
                 // 자체 accessToken이랑 refreshToken 받았을테니까 그거로 재발급 받고 메인으로
-                self.presentToMain()
-                //self.reissue()
+                //self.presentToMain()
+                self.reissue()
             } else {
                 // 이전에 로그인 안했으면 로그인 화면으로
                 print("false")
@@ -54,6 +54,7 @@ class LaunchViewController: UIViewController {
     }
     
     func reissue() {
+        print("call reissue")
         let loginUrl = "http://35.247.33.79/reissue"
         
         let accessToken = UserDefaults.standard.string(forKey: "accessToken")
@@ -61,11 +62,9 @@ class LaunchViewController: UIViewController {
 
         let header : HTTPHeaders = [
             "Content-Type" : "application/json",
-            "X-AUTH-TOKEN" : accessToken!
+            //"X-AUTH-TOKEN" : accessToken!
         ]
-
-        
-        
+  
         let bodyData : Parameters = [
             "accessToken" : accessToken!,
             "refreshToken" : refreshToken!

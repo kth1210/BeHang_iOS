@@ -195,12 +195,13 @@ class UploadViewController: UIViewController {
     func reissue(imageData: Data) {
         let loginUrl = "http://35.247.33.79/reissue"
 
-        let header : HTTPHeaders = [
-            "Content-Type" : "application/json"
-        ]
-
         let accessToken = UserDefaults.standard.string(forKey: "accessToken")
         let refreshToken = UserDefaults.standard.string(forKey: "refreshToken")
+
+        let header : HTTPHeaders = [
+            "Content-Type" : "application/json",
+            //"X-AUTH-TOKEN" : accessToken!
+        ]
         
         let bodyData : Parameters = [
             "accessToken" : accessToken!,

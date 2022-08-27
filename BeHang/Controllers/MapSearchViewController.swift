@@ -213,6 +213,7 @@ extension MapSearchViewController: UITableViewDataSource, UITableViewDelegate {
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "PostViewController") as? PostViewController else {return}
         nextVC.image = selectPlace.thumbnailImg
         nextVC.placeName = selectPlace.title
+        // 같은 장소 이미지
         
         self.navigationController?.pushViewController(nextVC, animated: true)
     }

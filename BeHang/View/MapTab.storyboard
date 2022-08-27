@@ -37,28 +37,45 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d0f-hZ-jH2">
-                                <rect key="frame" x="339" y="65" width="51" height="51"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" name="mainColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="내 주변">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="test:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="ENZ-DU-9nu"/>
-                                </connections>
-                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jCT-gd-3Xh">
+                                <rect key="frame" x="300" y="671" width="70" height="70"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d0f-hZ-jH2">
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                        <color key="backgroundColor" name="mainColor"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="내 주변">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="nearButtonPressed:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="622-8i-FS9"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="jCT-gd-3Xh" secondAttribute="height" multiplier="1:1" id="Fze-l2-Lzt"/>
+                                    <constraint firstAttribute="bottom" secondItem="d0f-hZ-jH2" secondAttribute="bottom" id="IRo-2q-dDu"/>
+                                    <constraint firstAttribute="width" constant="70" id="SfQ-4T-itF"/>
+                                    <constraint firstAttribute="height" constant="70" id="VKy-2a-z3U"/>
+                                    <constraint firstItem="d0f-hZ-jH2" firstAttribute="top" secondItem="jCT-gd-3Xh" secondAttribute="top" id="eY3-Wl-Bfr"/>
+                                    <constraint firstAttribute="trailing" secondItem="d0f-hZ-jH2" secondAttribute="trailing" id="w9L-bG-Izp"/>
+                                    <constraint firstItem="d0f-hZ-jH2" firstAttribute="leading" secondItem="jCT-gd-3Xh" secondAttribute="leading" id="wNZ-KC-yKH"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="jCT-gd-3Xh" secondAttribute="trailing" constant="20" id="15k-jh-gKY"/>
                             <constraint firstItem="hm7-bc-qnf" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="4yn-ce-bki"/>
                             <constraint firstItem="s0b-PY-fdq" firstAttribute="top" secondItem="hm7-bc-qnf" secondAttribute="bottom" id="BeA-rk-xsu"/>
                             <constraint firstItem="hm7-bc-qnf" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="CzH-jZ-AuK"/>
                             <constraint firstItem="s0b-PY-fdq" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="KY7-RO-aRU"/>
                             <constraint firstItem="hm7-bc-qnf" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="44" id="Wsv-Nt-aBv"/>
                             <constraint firstItem="s0b-PY-fdq" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="g3d-gR-JFN"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="jCT-gd-3Xh" secondAttribute="bottom" constant="20" id="o5q-RG-TYS"/>
                             <constraint firstItem="s0b-PY-fdq" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="vg7-1G-QaD"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="hm7-bc-qnf" secondAttribute="bottom" constant="637" id="wrk-b4-6gr"/>
                         </constraints>
@@ -66,7 +83,9 @@
                     <navigationItem key="navigationItem" id="cTK-cj-U8L"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="buttonView" destination="jCT-gd-3Xh" id="B22-5M-gWA"/>
                         <outlet property="mapSearchBar" destination="vZ6-Z3-Esv" id="sjW-Gs-slA"/>
+                        <outlet property="nearButton" destination="d0f-hZ-jH2" id="3H0-Ts-eQR"/>
                         <outlet property="searchLabel" destination="hm7-bc-qnf" id="vw2-6F-66j"/>
                         <outlet property="subView" destination="s0b-PY-fdq" id="R9b-P1-XGB"/>
                     </connections>
