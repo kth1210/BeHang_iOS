@@ -11,6 +11,21 @@ import Alamofire
 class PostViewController: UIViewController {
     @IBOutlet var collectionView: UICollectionView!
     
+    lazy var reportButton: UIBarButtonItem = {
+        var image = UIImage(named: "exclamationmark.bubble")
+        let button = UIBarButtonItem (image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(reportButtonPressed))
+        return button
+    }()
+    
+    lazy var deleteButton: UIBarButtonItem = {
+        var image = UIImage(named: "trash")
+        let button = UIBarButtonItem (image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(deleteButtonPressed))
+        return button
+    }()
+    
+    let sectionInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+    let activityIndicator = UIActivityIndicatorView(style: .large)
+    
     var tag1 = true
     var tag2 = true
     var tag3 = true
@@ -18,34 +33,74 @@ class PostViewController: UIViewController {
     var tag5 = true
     var tag6 = true
     
+    var isShareImage = true
+    var isMine = false // 내 게시물에서 접근한 것인지
+    var isGet = false
+    
     var postId: Int?
     var image: UIImage?
     var shareImage: UIImage?
     var placeName: String?
     let viewModel = ImageViewModel()
-    let sectionInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+    let overlayView = UIView()
     
-    let activityIndicator = UIActivityIndicatorView(style: .large)
+    var loadingView: LoadingCollectionView?
+    var isLoading = false
+    var moreData = true
+    var pageNo = 0
     
-    var isShareImage = true
+    lazy var list: [FeedInfo] = {
+        var datalist = [FeedInfo]()
+        return datalist
+    }()
+    
+    //var selectFeed = FeedInfo()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         self.navigationController?.navigationBar.tintColor = .black
-        //self.navigationItem.title = placeName
         
-        self.view.addSubview(self.activityIndicator)
-        self.view.bringSubviewToFront(self.activityIndicator)
+        if isMine {
+            // 내 피드에서 왔으면 삭제버튼
+            self.navigationItem.rightBarButtonItem = self.deleteButton
+        } else {
+            // 다른 사람 포스트면 신고버튼
+            self.navigationItem.rightBarButtonItem = self.reportButton
+        }
+        self.navigationItem.rightBarButtonItem?.tintColor = .black
+        
+        let loadingReusableNib = UINib(nibName: "LoadingCollectionView", bundle: nil)
+        collectionView.register(loadingReusableNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "loadingCollectionView")
+        
+        overlayView.backgroundColor = UIColor(white: 0, alpha: 0.4)
+        overlayView.frame = collectionView.bounds
+        overlayView.center = collectionView.center
+        overlayView.layer.cornerRadius = 10
+    
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         activityIndicator.color = .white
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
         
+        self.view.addSubview(self.overlayView)
+        self.view.addSubview(self.activityIndicator)
+        self.view.bringSubviewToFront(self.activityIndicator)
+        
+        overlayView.isHidden = false
         activityIndicator.startAnimating()
         
+        // 메인 포스트 정보 가져오고
         getPostInfo()
+        
+        if self.isMine {
+            // 내 피드에서 왔으면 내 피드 더 가져오기
+            getMyFeed()
+        } else {
+            // 다른 사람 포스트면 같은 장소 사진 피드들 가져오기
+            getSamePlaceFeed()
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,10 +112,6 @@ class PostViewController: UIViewController {
         let url = "http://35.247.33.79/posts/\(postId!)"
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         
-        let header : HTTPHeaders = [
-            "X-AUTH-TOKEN" : xToken
-        ]
-        
         var param : Parameters = [:]
         param["postId"] = postId
         
@@ -70,7 +121,7 @@ class PostViewController: UIViewController {
                    parameters: param,
                    encoding: URLEncoding.queryString,
                    //encoding: JSONEncoding.default,
-                   headers: nil//header
+                   headers: nil
         )
         .validate(statusCode: 200..<300)
         .responseData { response in
@@ -87,7 +138,6 @@ class PostViewController: UIViewController {
                     }
                     
                     let data = asJSON["data"] as! NSDictionary
-                    //let imageFile = data["imageFile"] as! String
                     
                     let place = data["place"] as! NSDictionary
                     self.placeName = place["name"] as? String
@@ -102,10 +152,9 @@ class PostViewController: UIViewController {
                     self.tag5 = tag["withLover"] as! Bool
                     self.tag6 = tag["withMyDog"] as! Bool
                     
-                    
                     print("Get Feed")
-                    //print(asJSON)
                     
+                    self.isGet = true
                     self.isShareImage = false
                     self.collectionView.reloadData()
                     self.activityIndicator.stopAnimating()
@@ -120,6 +169,94 @@ class PostViewController: UIViewController {
         
     }
     
+    func getSamePlaceFeed() {
+        
+    }
+    
+    func getMyFeed() {
+        let nowLogin = UserDefaults.standard.string(forKey: "login")
+        
+        if nowLogin == "none" {
+            return
+        }
+        
+        self.isLoading = true
+        
+        print("start Get Feed")
+        let url = "http://35.247.33.79/posts/feed/me"
+        let xToken = UserDefaults.standard.string(forKey: "accessToken")!
+        
+        let header : HTTPHeaders = [
+            "X-AUTH-TOKEN" : xToken
+        ]
+        
+        var param : Parameters = [:]
+        param["page"] = pageNo
+        param["size"] = 10
+        
+        AF.request(url,
+                   method: .get,
+                   parameters: param,
+                   encoding: URLEncoding.queryString,
+                   //encoding: JSONEncoding.default,
+                   headers: header
+        )
+        .validate(statusCode: 200..<300)
+        .responseData { response in
+            print(response)
+            switch response.result {
+            case .success(let data):
+                do {
+                    let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    let code = asJSON["code"] as! Int
+                    
+                    // 자체 토큰이 만료
+                    if code == -1014 {
+                        // 토큰 재발급
+                        self.reissue()
+                        return
+                    }
+                    
+                    let list = asJSON["list"] as! NSArray
+                    //let msg = asJSON["msg"] as! String
+                    //let suc = asJSON["success"] as! Bool
+                    
+                    if list.count != 10 {
+                        self.moreData = false
+                    }
+                    
+                    for row in list {
+                        let res = row as! NSDictionary
+                        
+                        let feedData = FeedInfo()
+                        feedData.id = res["id"] as? Int
+                        feedData.imageString = res["imageUrl"] as? String
+                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
+                        
+                        if feedData.imageString != "" {
+                            let url: URL! = Foundation.URL(string: imageUrl)
+                            let imageData = try! Data(contentsOf: url)
+                            feedData.image = UIImage(data: imageData)
+                        }
+                        
+                        self.list.append(feedData)
+                    }
+                    self.collectionView.reloadData()
+                    self.pageNo += 1
+                    self.isLoading = false
+                    self.overlayView.isHidden = true
+                    self.activityIndicator.stopAnimating()
+                    
+                    print("Get Feed")
+                } catch {
+                    print("error")
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
 
     @objc func shareButtonPressed() {
         print("shareButtonPressed()")
@@ -131,8 +268,66 @@ class PostViewController: UIViewController {
             self.present(activityViewController, animated: true, completion: nil)
         }
     }
-//
     
+    @objc func reportButtonPressed() {
+        
+    }
+    
+    @objc func deleteButtonPressed() {
+        let alert = UIAlertController(title: "알림", message: "게시물을 삭제하시겠습니까?", preferredStyle: UIAlertController.Style.alert)
+        let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.default) { _ in
+            let url = "http://35.247.33.79/posts/\(self.postId!)"
+            let xToken = UserDefaults.standard.string(forKey: "accessToken")!
+            
+            let header : HTTPHeaders = [
+                "X-AUTH-TOKEN" : xToken
+            ]
+            
+            var param : Parameters = [:]
+            param["postId"] = self.postId
+            
+            
+            AF.request(url,
+                       method: .delete,
+                       parameters: param,
+                       encoding: URLEncoding.queryString,
+                       //encoding: JSONEncoding.default,
+                       headers: header
+            )
+            .validate(statusCode: 200..<300)
+            .responseData { response in
+                print(response)
+                switch response.result {
+                case .success:
+                    print("delete Success")
+                    self.navigationController?.popViewController(animated: true)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+        let cancel = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler: nil)
+        
+        alert.addAction(confirm)
+        alert.addAction(cancel)
+        self.present(alert, animated: true)
+    }
+    
+    func getMoreFeed() {
+        if isMine {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.getMyFeed()
+                self.isLoading = false
+            }
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.getSamePlaceFeed()
+                self.isLoading = false
+            }
+        }
+    }
+    
+    // 토큰 만료 처리
     func reissue() {
         let loginUrl = "http://35.247.33.79/reissue"
 
@@ -174,8 +369,21 @@ class PostViewController: UIViewController {
                     print("토큰 재발급")
                     print(asJSON)
                     
-                    self.getPostInfo()
-
+                    // 메인 포스트 가져오다가 토큰 만료
+                    if self.isGet == false {
+                        self.getPostInfo()
+                        return
+                    }
+                    
+                    
+                    if self.isMine {
+                        self.getMyFeed()
+                        return
+                    } else {
+                        self.getSamePlaceFeed()
+                        return
+                    }
+                    
                 } catch {
                     print("error")
                 }
@@ -187,32 +395,50 @@ class PostViewController: UIViewController {
 
 }
 
+
+//MARK: - CollectionView Setting
+
 extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.countOfImageList
+        return self.list.count
+        //return viewModel.countOfImageList
     }
     
+    // 셀 설정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postPhotoCell", for: indexPath) as? PostPhotoCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postPhotoCell", for: indexPath) as? PhotoCell else {
             print("error")
             return UICollectionViewCell()
         }
         
-        cell.layer.cornerRadius = 10
-        
-        let imageInfo = viewModel.imageInfo(at: indexPath.item)
-        cell.update(info: imageInfo)
+        cell.id = list[indexPath.row].id
+        cell.imageView.image = list[indexPath.row].image
+        cell.layer.masksToBounds = false
+        cell.layer.shadowOffset = .zero
+        cell.layer.shadowRadius = 3
+        cell.layer.shadowOpacity = 0.8
+        cell.layer.shadowColor = UIColor.black.cgColor
+
         return cell
     }
     
+    // 사진 선택했을때 다음 포스트 설정
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imageInfo = viewModel.imageInfo(at: indexPath.item)
+        let imageInfo = list[indexPath.row].image
+        let postId = list[indexPath.row].id
         
+        // 선택한 포스트 불러오기
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "PostViewController") as? PostViewController else {return}
-        nextVC.image = imageInfo.image
+        
+        // 다음 뷰에 선택한 이미지랑 postId 전달
+        nextVC.image = imageInfo
+        nextVC.postId = postId
+        nextVC.isMine = self.isMine
+        
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
+    // collecvionView 헤더 설정
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     
         switch kind {
@@ -258,9 +484,44 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             typedHeaderView.shareButton.addTarget(self, action: #selector(self.shareButtonPressed), for: .touchUpInside)
             
             return typedHeaderView
+        case UICollectionView.elementKindSectionFooter:
+            let aFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "loadingCollectionView", for: indexPath) as! LoadingCollectionView
+            loadingView = aFooterView
+            loadingView?.backgroundColor = UIColor.clear
+            return aFooterView
         default:
             assert(false, "error")
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        if self.isLoading || !moreData{
+            return CGSize.zero
+        } else {
+            return CGSize(width: collectionView.bounds.size.width, height: 55)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+        if elementKind == UICollectionView.elementKindSectionFooter {
+            self.loadingView?.activityIndicator.startAnimating()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+        if elementKind == UICollectionView.elementKindSectionFooter {
+            self.loadingView?.activityIndicator.stopAnimating()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let lastSectionIndex = collectionView.numberOfSections - 1
+        let lastRowIndex = collectionView.numberOfItems(inSection: lastSectionIndex) - 1
+        
+        if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex && moreData {
+            getMoreFeed()
+        }
+        
     }
 }
 
@@ -280,6 +541,8 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
         return sectionInsets
     }
 }
+
+
 
 extension UIView {
     func convertToImage() -> UIImage? {

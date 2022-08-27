@@ -16,6 +16,7 @@ class PlaceListViewController: UIViewController {
         let button = UIBarButtonItem(title: "확인", style: .plain, target: self, action: #selector(confirmButtonPressed))
         return button
     }()
+    
     let activityIndicator = UIActivityIndicatorView(style: .large)
     
     // API JSON 데이터 배열로 받아오기

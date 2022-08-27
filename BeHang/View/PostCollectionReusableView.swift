@@ -13,6 +13,7 @@ class PostCollectionReusableView: UICollectionReusableView {
     @IBOutlet var postView: UIView!
     @IBOutlet var shareButton: UIButton!
     @IBOutlet var placeName: UILabel!
+    @IBOutlet var buttomPhoto: UILabel!
     
     @IBOutlet var tag1: UILabel!
     @IBOutlet var tag2: UILabel!

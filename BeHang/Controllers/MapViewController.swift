@@ -78,51 +78,59 @@ class MapViewController: UIViewController, MTMapViewDelegate {
         print("here")
         mapView?.removeAllPOIItems()
         makeMarker()
+//        mapView?.currentLocationTrackingMode = .onWithoutHeading
+//        mapView?.showCurrentLocationMarker = true
+        
+//        mapView?.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: 36.9891594599, longitude: 127.1037563697)), zoomLevel: 5, animated: true)
+        
+        //mapView?.refreshMapTiles()
+        //mapView?.fitAreaToShowAllPOIItems()
+        setMap()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("viewDidAppear")
+        setMap()
+    }
+    
+    func setMap() {
+        print("setMap")
+
+        mapView?.fitAreaToShowAllPOIItems()
     }
     
     func makeMarker() {
         print("makeMarker")
+
         var cnt = 0
-        
+
         if list.count == 0 {
             return
         }
-        
-        //mapView?.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: Double(list[0].mapy!)!, longitude: Double(list[0].mapx!)!)), zoomLevel: 5, animated: true)
-        
+
         for item in list {
             let lon = Double(item.mapx!)
             let lat = Double(item.mapy!)
-            //print(lat!)
-            //print(lon!)
 
             self.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: lat!, longitude: lon!))
-            
+
             poiItem = MTMapPOIItem()
             poiItem?.markerType = MTMapPOIItemMarkerType.redPin
             poiItem?.mapPoint = mapPoint
             poiItem?.itemName = item.title
-            poiItem?.tag = cnt            
+            poiItem?.tag = cnt
             mapView?.add(poiItem)
             cnt += 1
         }
     
-        //mapView?.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: 36.9891594599, longitude: 127.1037563697)), zoomLevel: 5, animated: true)
-        //mapView?.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: 127.1037563697, longitude: 36.9891594599)), zoomLevel: 5, animated: true)
-        mapView?.fitAreaToShowAllPOIItems()
         list.removeAll()
     }
-    
-//    @IBAction func tagPressed(_ sender: UIButton) {
-//        if sender.isSelected {
-//            sender.isSelected = false
-//            sender.backgroundColor = UIColor(hex: "#AEAEAE")
-//        } else {
-//            sender.isSelected = true
-//            sender.backgroundColor = UIColor(hex: "#455AE4")
-//        }
-//    }
 
+
+    @IBAction func test(_ sender: UIButton) {
+        print("test!")
+        mapView?.fitAreaToShowAllPOIItems()
+    }
     
 }
 

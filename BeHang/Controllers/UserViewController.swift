@@ -43,15 +43,10 @@ class UserViewController: UIViewController {
         
         profileImage.layer.cornerRadius = profileImage.frame.width / 2
         profileImage.clipsToBounds = true
-        
-//        if UserDefaults.standard.bool(forKey: "isLogin") {
-//            self.setUserInfo()
-//        } else {
-//            self.userName.text = "로그인이 필요합니다."
-//        }
+
         
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
-        activityIndicator.center = self.view.center
+        activityIndicator.center = self.collectionView.center
         activityIndicator.color = .white
         //activityIndicator.backgroundColor = UIColor(named: "unselectedColor")
         activityIndicator.layer.cornerRadius = 10
@@ -91,8 +86,6 @@ class UserViewController: UIViewController {
         var param : Parameters = [:]
         param["page"] = pageNo
         param["size"] = 10
-        
-        self.pageNo += 1
         
         AF.request(url,
                    method: .get,
@@ -142,6 +135,7 @@ class UserViewController: UIViewController {
                         self.list.append(feedData)
                     }
                     self.collectionView.reloadData()
+                    self.pageNo += 1
                     self.isLoading = false
                     //self.overlayView.isHidden = true
                     self.activityIndicator.stopAnimating()
@@ -271,6 +265,7 @@ extension UserViewController: UICollectionViewDataSource, UICollectionViewDelega
         // 다음 뷰에 선택한 이미지랑 postId 전달
         nextVC.image = imageInfo
         nextVC.postId = postId
+        nextVC.isMine = true
         
         self.navigationController?.pushViewController(nextVC, animated: true)
     }

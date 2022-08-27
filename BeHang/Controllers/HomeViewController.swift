@@ -26,7 +26,7 @@ class HomeViewController: UIViewController {
         return datalist
     }()
     
-    var selectFeed = FeedInfo()
+    //var selectFeed = FeedInfo()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -162,14 +162,6 @@ class HomeViewController: UIViewController {
     }
     
     func getMoreFeed() {
-        //        if !self.isLoading {
-        //            self.isLoading = true
-        //
-        //            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-        //                self.getFeed()
-        //                self.isLoading = false
-        //            }
-        //        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.getFeed()
             self.isLoading = false
@@ -257,6 +249,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         let imageInfo = list[indexPath.row].image
         let postId = list[indexPath.row].id
         
+        // 선택한 포스트 불러오기
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "PostViewController") as? PostViewController else {return}
         
         // 다음 뷰에 선택한 이미지랑 postId 전달
