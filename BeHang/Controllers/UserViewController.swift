@@ -85,7 +85,7 @@ class UserViewController: UIViewController {
         
         var param : Parameters = [:]
         param["page"] = pageNo
-        param["size"] = 10
+        param["size"] = 15
         
         AF.request(url,
                    method: .get,

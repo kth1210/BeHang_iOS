@@ -51,11 +51,11 @@ class ViewController: UIViewController {
                     //let refreshToken = oauthToken?.refreshToken
                     
                     if UserDefaults.standard.bool(forKey: "signupKakao") {
-                        // 카카오로 회원가입한 적이 있으면
+                        // 카카오로 회원가입한 적이 있으면 토큰 받아온거로 로그인
                         print("call login")
                         self.kakaoLogin(accessToken: accessToken!)
                     } else {
-                        // 카카오로 회원가입한 적이 없으면
+                        // 카카오로 회원가입한 적이 없으면 토큰 받아온거로 회원가입
                         print("call signup")
                         self.kakaoSignup(accessToken: accessToken!)
                     }

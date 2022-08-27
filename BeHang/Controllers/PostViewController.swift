@@ -157,9 +157,8 @@ class PostViewController: UIViewController {
                     
                     self.isGet = true
                     self.isShareImage = false
-                    self.overlayView.isHidden = true
                     self.collectionView.reloadData()
-                    self.activityIndicator.stopAnimating()
+                    
                 } catch {
                     print("error")
                 }
@@ -172,7 +171,8 @@ class PostViewController: UIViewController {
     }
     
     func getSamePlaceFeed() {
-        
+        self.overlayView.isHidden = true
+        self.activityIndicator.stopAnimating()
     }
     
     func getMyFeed() {
