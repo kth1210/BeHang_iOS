@@ -19,6 +19,7 @@ class SettingViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.title = "설정"
+        self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
         
         tableView.isScrollEnabled = false
         
@@ -82,6 +83,7 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = indexPath.row
         
+        tableView.deselectRow(at: indexPath, animated: true)
         switch index {
         case 0:
             print(settingTitle[index])

@@ -70,6 +70,7 @@ class PostViewController: UIViewController {
             self.navigationItem.rightBarButtonItem = self.reportButton
         }
         self.navigationItem.rightBarButtonItem?.tintColor = .black
+        self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
         
         let loadingReusableNib = UINib(nibName: "LoadingCollectionView", bundle: nil)
         collectionView.register(loadingReusableNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "loadingCollectionView")
@@ -111,7 +112,6 @@ class PostViewController: UIViewController {
     func getPostInfo() {
         print("start Get Post Info")
         let url = "http://35.247.33.79/posts/\(postId!)"
-        let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         
         var param : Parameters = [:]
         param["postId"] = postId
@@ -233,21 +233,27 @@ class PostViewController: UIViewController {
                         let feedData = FeedInfo()
                         feedData.id = res["id"] as? Int
                         feedData.imageString = res["imageUrl"] as? String
-                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
-                        
-                        if feedData.imageString != "" {
-                            let url: URL! = Foundation.URL(string: imageUrl)
-                            let imageData = try! Data(contentsOf: url)
-                            feedData.image = UIImage(data: imageData)
-                        }
+//                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
+//
+//                        if feedData.imageString != "" {
+//                            let url: URL! = Foundation.URL(string: imageUrl)
+//                            let imageData = try! Data(contentsOf: url)
+//                            feedData.image = UIImage(data: imageData)
+//                        }
                         
                         self.list.append(feedData)
                     }
                     self.collectionView.reloadData()
                     self.pageNo += 1
                     self.isLoading = false
-                    self.overlayView.isHidden = true
-                    self.activityIndicator.stopAnimating()
+//                    self.overlayView.isHidden = true
+//                    self.activityIndicator.stopAnimating()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        print("merr")
+                        self.overlayView.isHidden = true
+                        self.activityIndicator.stopAnimating()
+                    }
                     
                     print("Get Feed")
                 } catch {
@@ -414,7 +420,26 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
         
         cell.id = list[indexPath.row].id
-        cell.imageView.image = list[indexPath.row].image
+//        cell.imageView.image = list[indexPath.row].image
+        
+        if list[indexPath.row].image == nil {
+            DispatchQueue.global(qos: .userInteractive).async {
+                print("dispatch global")
+                
+                let url: URL! = Foundation.URL(string: "http://35.247.33.79/\(self.list[indexPath.row].imageString!)")
+                let imageData = try! Data(contentsOf: url)
+                self.list[indexPath.row].image = UIImage(data: imageData)
+                
+                DispatchQueue.main.async {
+                    cell.imageView.image = self.list[indexPath.row].image
+                }
+                
+                print("dispatch global end")
+            }
+        } else {
+            cell.imageView.image = list[indexPath.row].image
+        }
+        
         cell.layer.masksToBounds = false
         cell.layer.shadowOffset = .zero
         cell.layer.shadowRadius = 3

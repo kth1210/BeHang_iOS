@@ -31,6 +31,10 @@ class ViewController: UIViewController {
         appleLoginButton.isUserInteractionEnabled = true
     }
     
+    @IBAction func unwindToLaunch (segue: UIStoryboardSegue){
+        
+    }
+    
     //MARK: - Kakao Login
     
     // 카카오 로그인 버튼 눌렀을 때
@@ -297,7 +301,9 @@ extension ViewController: ASAuthorizationControllerDelegate, ASAuthorizationCont
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let userIdentifier = appleIDCredential.user
             let userName = (appleIDCredential.fullName?.familyName ?? "") + (appleIDCredential.fullName?.givenName ?? "")
-            //let idToken = appleIDCredential.identityToken
+            let idToken = appleIDCredential.identityToken
+            let autho = appleIDCredential.authorizationCode
+            
             print(userIdentifier)
             print(userName)
             

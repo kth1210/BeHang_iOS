@@ -14,6 +14,7 @@ class UserViewController: UIViewController {
     @IBOutlet weak var userLabel: UILabel!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
+    @IBOutlet var changeProfileButton: UIButton!
     
     let sectionInsets = UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
     var isLoading = false
@@ -27,35 +28,43 @@ class UserViewController: UIViewController {
     var selectFeed = FeedInfo()
     
     let activityIndicator = UIActivityIndicatorView(style: .large)
-
-    
+    let refreshControl = UIRefreshControl()
+    let overlayView = UIView()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        changeProfileButton.layer.cornerRadius = 10
+        if UserDefaults.standard.string(forKey: "login") == "none" {
+            changeProfileButton.titleLabel?.text = "로그인으로 이동"
+        }
         
         let loadingReusableNib = UINib(nibName: "LoadingCollectionView", bundle: nil)
         collectionView.register(loadingReusableNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "loadingCollectionView")
-        
+        collectionView.refreshControl = refreshControl
         // Do any additional setup after loading the view.
         userLabel.layer.addBorder([.bottom], color: UIColor(hex: "AEAEAE"), width: 1.0)
         
+        refreshControl.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
+        
         profileImage.layer.cornerRadius = profileImage.frame.width / 2
         profileImage.clipsToBounds = true
-
         
+        overlayView.backgroundColor = UIColor(white: 0, alpha: 0.2)
+        overlayView.frame = collectionView.bounds
+        overlayView.center = collectionView.center
+//        overlayView.layer.cornerRadius = 10
+
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
-        activityIndicator.center = self.collectionView.center
+        activityIndicator.center = self.view.center
         activityIndicator.color = .white
-        //activityIndicator.backgroundColor = UIColor(named: "unselectedColor")
-        activityIndicator.layer.cornerRadius = 10
         activityIndicator.hidesWhenStopped = true
         
-        //self.view.addSubview(self.overlayView)
         self.view.addSubview(self.activityIndicator)
+        self.view.addSubview(self.overlayView)
+        self.view.bringSubviewToFront(activityIndicator)
         
-        //overlayView.isHidden = false
+        overlayView.isHidden = false
         activityIndicator.startAnimating()
         
         self.setUserInfo()
@@ -64,6 +73,16 @@ class UserViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    @objc func refreshCollectionView() {
+        self.list.removeAll()
+        self.overlayView.isHidden = false
+        
+        self.pageNo = 0
+
+        getUserFeed()
+        
     }
     
     func getUserFeed() {
@@ -124,13 +143,14 @@ class UserViewController: UIViewController {
                         let feedData = FeedInfo()
                         feedData.id = res["id"] as? Int
                         feedData.imageString = res["imageUrl"] as? String
-                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
+
+//                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
                         
-                        if feedData.imageString != "" {
-                            let url: URL! = Foundation.URL(string: imageUrl)
-                            let imageData = try! Data(contentsOf: url)
-                            feedData.image = UIImage(data: imageData)
-                        }
+//                        if feedData.imageString != "" {
+//                            let url: URL! = Foundation.URL(string: imageUrl)
+//                            let imageData = try! Data(contentsOf: url)
+//                            feedData.image = UIImage(data: imageData)
+//                        }
                         
                         self.list.append(feedData)
                     }
@@ -138,7 +158,13 @@ class UserViewController: UIViewController {
                     self.pageNo += 1
                     self.isLoading = false
                     //self.overlayView.isHidden = true
-                    self.activityIndicator.stopAnimating()
+//                    self.activityIndicator.stopAnimating()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        print("merr")
+                        self.overlayView.isHidden = true
+                        self.activityIndicator.stopAnimating()
+                        self.refreshControl.endRefreshing()
+                    }
                     
                     print("Get Feed")
                 } catch {
@@ -160,20 +186,6 @@ class UserViewController: UIViewController {
     
     
     func setUserInfo() {
-//        UserApi.shared.me { user, error in
-//            if let error = error {
-//                print(error)
-//            } else {
-//                print("me() success")
-//
-//                _ = user
-//                self.userName.text = user?.kakaoAccount?.profile?.nickname
-//                if let url = user?.kakaoAccount?.profile?.profileImageUrl, let data = try? Data(contentsOf: url) {
-//                    self.profileImage.image = UIImage(data: data)
-//                }
-//
-//            }
-//        }
         let nowLogin = UserDefaults.standard.string(forKey: "login")
         
         if nowLogin == "kakao" {
@@ -185,6 +197,22 @@ class UserViewController: UIViewController {
         }
     }
 
+    @IBAction func changeProfileButtonPressed(_ sender: UIButton) {
+        if UserDefaults.standard.string(forKey: "login") == "none" {
+            performSegue(withIdentifier: "unwindToLaunch", sender: self)
+        }
+        
+        
+        guard let nextVC = UIStoryboard(name: "ChangeProfileView", bundle: nil).instantiateViewController(withIdentifier: "ChangeProfileViewController") as? ChangeProfileViewController else {return}
+        
+        nextVC.image = self.profileImage.image
+        nextVC.name = self.userName.text
+        
+        
+//        nextVC.modalTransitionStyle = .coverVertical
+//        self.present(nextVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
     
     func reissue() {
         let loginUrl = "http://35.247.33.79/reissue"
@@ -251,8 +279,26 @@ extension UserViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
         
         cell.id = list[indexPath.row].id
-        cell.imageView.image = list[indexPath.row].image
+//        cell.imageView.image = list[indexPath.row].image
         cell.imageView.layer.cornerRadius = 8
+        
+        if list[indexPath.row].image == nil {
+            DispatchQueue.global(qos: .userInteractive).async {
+                print("dispatch global")
+                
+                let url: URL! = Foundation.URL(string: "http://35.247.33.79/\(self.list[indexPath.row].imageString!)")
+                let imageData = try! Data(contentsOf: url)
+                self.list[indexPath.row].image = UIImage(data: imageData)
+                
+                DispatchQueue.main.async {
+                    cell.imageView.image = self.list[indexPath.row].image
+                }
+                
+                print("dispatch global end")
+            }
+        } else {
+            cell.imageView.image = list[indexPath.row].image
+        }
         
         return cell
     }

@@ -25,8 +25,8 @@ class LaunchViewController: UIViewController {
             if UserDefaults.standard.bool(forKey: "isLogin") {
                 // 이전에 로그인 했으면
                 print("true")
-                print(UserDefaults.standard.string(forKey: "accessToken"))
-                print(UserDefaults.standard.string(forKey: "refreshToken"))
+//                print(UserDefaults.standard.string(forKey: "accessToken"))
+//                print(UserDefaults.standard.string(forKey: "refreshToken"))
                 // 자체 accessToken이랑 refreshToken 받았을테니까 그거로 재발급 받고 메인으로
                 //self.presentToMain()
                 self.reissue()
@@ -37,6 +37,8 @@ class LaunchViewController: UIViewController {
             }
         }
     }
+    
+
     
     private func presentToMain() {
         guard let mainVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}

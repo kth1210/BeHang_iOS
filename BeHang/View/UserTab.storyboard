@@ -87,6 +87,19 @@
                                     <outlet property="delegate" destination="Y6W-OH-hqX" id="y9h-F5-eEb"/>
                                 </connections>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="etU-Bp-w6h">
+                                <rect key="frame" x="134" y="146" width="192" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" name="unselectedColor"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="프로필 수정">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="changeProfileButtonPressed:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="hVm-Uf-Pb3"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -103,15 +116,26 @@
                     <navigationItem key="navigationItem" id="C4F-Lc-biU"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="changeProfileButton" destination="etU-Bp-w6h" id="Y5Z-0d-y6a"/>
                         <outlet property="collectionView" destination="XGQ-JS-FRQ" id="IzP-gl-vih"/>
                         <outlet property="profileImage" destination="vWm-Sx-byW" id="62q-mg-jy2"/>
                         <outlet property="userLabel" destination="h4Q-SG-d98" id="nHE-Rd-2eM"/>
                         <outlet property="userName" destination="xqd-TM-ecJ" id="DWF-0L-5X0"/>
+                        <segue destination="U3P-aH-peE" kind="unwind" identifier="unwindToLaunch" unwindAction="unwindToLaunchWithSegue:" id="2RF-fu-cVX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="U3P-aH-peE" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="821.53846153846155" y="98.815165876777243"/>
+        </scene>
+        <!--ChangeProfileView-->
+        <scene sceneID="ipZ-Zu-qJS">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="ChangeProfileViewController" storyboardName="ChangeProfileView" id="mGg-Vo-Kop" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pb6-mA-t3W" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1522" y="-80"/>
         </scene>
         <!--PostView-->
         <scene sceneID="icp-QZ-u7N">

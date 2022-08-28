@@ -21,12 +21,15 @@ class UploadViewController: UIViewController {
     @IBOutlet weak var tagButton5: UIButton!    // 연인과 함께
     @IBOutlet weak var tagButton6: UIButton!    // 반려견과 함께
     
+    let activityIndicator = UIActivityIndicatorView(style: .large)
+    let overlayView = UIView()
     
     let imagePickerController = UIImagePickerController()
     lazy var registerButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "등록", style: .plain, target: self, action: #selector(registerButtonPressed))
         return button
     }()
+    
     
     // 선택한 장소의 정보
     var selectedPlaceInfo = PlaceInfo()
@@ -44,15 +47,27 @@ class UploadViewController: UIViewController {
         tagButton5.layer.cornerRadius = 15
         tagButton6.layer.cornerRadius = 15
         
+        overlayView.backgroundColor = UIColor(white: 0, alpha: 0.2)
+        overlayView.frame = self.view.bounds
+        overlayView.center = self.view.center
+        overlayView.layer.cornerRadius = 10
+        
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activityIndicator.center = self.view.center
+        activityIndicator.color = .white
+        activityIndicator.hidesWhenStopped = true
+        
+        self.view.addSubview(self.overlayView)
+        self.view.addSubview(self.activityIndicator)
         
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.title = "새 게시물"
-        self.navigationController?.navigationBar.topItem?.backButtonTitle = "이전"
+        self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
         
         self.navigationItem.rightBarButtonItem = registerButton
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor(hex: "#455AE4")
         
-        
+        overlayView.isHidden = true
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(selectPhotoPressed))
         uploadedImageView.addGestureRecognizer(tapGesture)
@@ -110,6 +125,9 @@ class UploadViewController: UIViewController {
     
     
     func uploadPost(imageData: Data) {
+        overlayView.isHidden = false
+        activityIndicator.startAnimating()
+        
         let url = "http://35.247.33.79/posts"
 
         let header : HTTPHeaders = [
@@ -120,8 +138,8 @@ class UploadViewController: UIViewController {
         let place: [String: Any] = [
             "address" : selectedPlaceInfo.address ?? "",
             "contentId" : selectedPlaceInfo.contentId ?? "",
-            "mapx" : selectedPlaceInfo.mapx ?? "",
-            "mapy" : selectedPlaceInfo.mapy ?? "",
+            "mapX" : selectedPlaceInfo.mapx ?? "",
+            "mapY" : selectedPlaceInfo.mapy ?? "",
             "name" : selectedPlaceInfo.title ?? "",
             "phoneNumber" : selectedPlaceInfo.tel ?? ""
         ]

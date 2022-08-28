@@ -41,7 +41,7 @@
                                     <constraint firstAttribute="width" secondItem="TbE-aN-PCd" secondAttribute="height" multiplier="32:5" id="LuJ-8F-5bd"/>
                                 </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="appleid_button (1)" translatesAutoresizingMaskIntoConstraints="NO" id="ytT-jL-4rR">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="appleid_button" translatesAutoresizingMaskIntoConstraints="NO" id="ytT-jL-4rR">
                                 <rect key="frame" x="35" y="574" width="320" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ytT-jL-4rR" secondAttribute="height" multiplier="32:5" id="IGZ-hG-AH2"/>
@@ -94,7 +94,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="appleid_button (1)" width="320" height="45"/>
+        <image name="appleid_button" width="320" height="45"/>
         <image name="kakaoLoginButton" width="600" height="90"/>
         <image name="비행_로고" width="500" height="500"/>
         <namedColor name="mainColor">

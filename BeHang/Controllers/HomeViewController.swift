@@ -8,8 +8,9 @@
 import UIKit
 import AVFoundation
 import Alamofire
+import CoreLocation
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     
     let sectionInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
@@ -18,8 +19,12 @@ class HomeViewController: UIViewController {
     var loadingView: LoadingCollectionView?
     let activityIndicator = UIActivityIndicatorView(style: .large)
     let overlayView = UIView()
+    let refreshControl = UIRefreshControl()
     
     var pageNo = 0
+    
+    var curX: Double?
+    var curY: Double?
     
     lazy var list: [FeedInfo] = {
         var datalist = [FeedInfo]()
@@ -34,8 +39,10 @@ class HomeViewController: UIViewController {
         
         let loadingReusableNib = UINib(nibName: "LoadingCollectionView", bundle: nil)
         collectionView.register(loadingReusableNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "loadingCollectionView")
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
         
-        overlayView.backgroundColor = UIColor(white: 0, alpha: 0.4)
+        overlayView.backgroundColor = UIColor(white: 0, alpha: 0.2)
         overlayView.frame = collectionView.bounds
         overlayView.center = collectionView.center
         overlayView.layer.cornerRadius = 10
@@ -43,8 +50,6 @@ class HomeViewController: UIViewController {
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         activityIndicator.center = self.view.center
         activityIndicator.color = .white
-        //activityIndicator.backgroundColor = UIColor(named: "unselectedColor")
-        //activityIndicator.layer.cornerRadius = 10
         activityIndicator.hidesWhenStopped = true
         
         self.view.addSubview(self.overlayView)
@@ -52,11 +57,26 @@ class HomeViewController: UIViewController {
         
         overlayView.isHidden = false
         activityIndicator.startAnimating()
-        getFeed()
+        
+        getCurrent()
+//        getFeed()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    @objc func refreshCollectionView() {
+        self.list.removeAll()
+        self.overlayView.isHidden = false
+        
+        self.pageNo = 0
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//            self.getFeed()
+//        }
+        getFeed()
+        
     }
     
     @IBAction func uploadButtonPressed(_ sender: UIButton) {
@@ -84,24 +104,30 @@ class HomeViewController: UIViewController {
         self.isLoading = true
         
         print("start Get Feed")
-        let url = "http://35.247.33.79/posts/feed"
-        let xToken = UserDefaults.standard.string(forKey: "accessToken")!
+//        let url = "http://35.247.33.79/posts/feed"
+        let url = "http://35.247.33.79/posts/feed/sort=Distance?page=\(pageNo)&size=10"
         
-        let header : HTTPHeaders = [
-            "X-AUTH-TOKEN" : xToken
+//        let header : HTTPHeaders = [
+//            "X-AUTH-TOKEN" : xToken
+//        ]
+        
+        let bodyData : Parameters = [
+            "curX" : curX!,
+            "curY" : curY!
         ]
         
-        var param : Parameters = [:]
-        param["page"] = pageNo
-        param["size"] = 10
+//        var param : Parameters = [:]
+//        param["page"] = pageNo
+//        param["size"] = 10
         
         //self.pageNo += 1
         
         AF.request(url,
-                   method: .get,
-                   parameters: param,
-                   encoding: URLEncoding.queryString,
-                   //encoding: JSONEncoding.default,
+                   //method: .get,
+                   method: .post,
+                   parameters: bodyData,
+                   //encoding: URLEncoding.queryString,
+                   encoding: JSONEncoding.default,
                    headers: nil//header
         )
         .validate(statusCode: 200..<300)
@@ -111,6 +137,7 @@ class HomeViewController: UIViewController {
             case .success(let data):
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    print(asJSON)
                     let code = asJSON["code"] as! Int
                     
                     // 자체 토큰이 만료
@@ -135,21 +162,34 @@ class HomeViewController: UIViewController {
                         let feedData = FeedInfo()
                         feedData.id = res["id"] as? Int
                         feedData.imageString = res["imageUrl"] as? String
-                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
+//                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
 
-                        if feedData.imageString != "" {
-                            let url: URL! = Foundation.URL(string: imageUrl)
-                            let imageData = try! Data(contentsOf: url)
-                            feedData.image = UIImage(data: imageData)
-                        }
+//                        if feedData.imageString != "" {
+//                            DispatchQueue.global(qos: .userInteractive).async {
+//                                let url: URL! = Foundation.URL(string: imageUrl)
+//                                let imageData = try! Data(contentsOf: url)
+//                                feedData.image = UIImage(data: imageData)
+//                                self.list.append(feedData)
+//                            }
+//                            let url: URL! = Foundation.URL(string: imageUrl)
+//                            let imageData = try! Data(contentsOf: url)
+//                            feedData.image = UIImage(data: imageData)
+                            
+//                        }
                         
                         self.list.append(feedData)
                     }
                     self.collectionView.reloadData()
                     self.pageNo += 1
                     self.isLoading = false
-                    self.overlayView.isHidden = true
-                    self.activityIndicator.stopAnimating()
+//                    self.overlayView.isHidden = true
+//                    self.activityIndicator.stopAnimating()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        print("merr")
+                        self.overlayView.isHidden = true
+                        self.activityIndicator.stopAnimating()
+                        self.refreshControl.endRefreshing()
+                    }
                     
                     print("Get Feed")
                 } catch {
@@ -167,6 +207,32 @@ class HomeViewController: UIViewController {
             self.isLoading = false
         }
     }
+    
+    func getCurrent() {
+        let locationManager = CLLocationManager()
+        locationManager.delegate = self
+        
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        locationManager.startUpdatingLocation()
+        
+        let coor = locationManager.location?.coordinate
+        let latitude = coor?.latitude
+        let longitude = coor?.longitude
+        
+        locationManager.stopUpdatingLocation()
+        
+        self.curX = longitude
+        self.curY = latitude
+//        print("X: \(curX), Y: \(curY)")
+        
+        getFeed()
+    }
+    
+    
+    
+    
     
     func reissue() {
         let loginUrl = "http://35.247.33.79/reissue"
@@ -234,9 +300,36 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCell else {
             return UICollectionViewCell()
         }
+        print("coll start")
         
         cell.id = list[indexPath.row].id
-        cell.imageView.image = list[indexPath.row].image
+        //cell.imageView.image = list[indexPath.row].image
+        
+        if list[indexPath.row].image == nil {
+            DispatchQueue.global(qos: .userInteractive).async {
+                print("dispatch global")
+                
+                let url: URL! = Foundation.URL(string: "http://35.247.33.79/\(self.list[indexPath.row].imageString!)")
+                let imageData = try! Data(contentsOf: url)
+                self.list[indexPath.row].image = UIImage(data: imageData)
+                
+                DispatchQueue.main.async {
+                    cell.imageView.image = self.list[indexPath.row].image
+                }
+                
+                print("dispatch global end")
+            }
+        } else {
+            cell.imageView.image = list[indexPath.row].image
+        }
+        
+//            let url: URL! = Foundation.URL(string: "http://35.247.33.79/\(self.list[indexPath.row].imageString!)")
+//            let imageData = try! Data(contentsOf: url)
+//            self.list[indexPath.row].image = UIImage(data: imageData)
+//            cell.imageView.image = self.list[indexPath.row].image
+//            print("dispatch end")
+
+        
         cell.layer.masksToBounds = false
         cell.layer.shadowOffset = .zero
         cell.layer.shadowRadius = 3

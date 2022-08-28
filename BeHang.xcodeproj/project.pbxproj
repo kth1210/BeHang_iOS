@@ -10,6 +10,8 @@
 		08652CEE8E7190F66B9209DB /* Pods_BeHang.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2CCFCE1580A0A74C45ED25D /* Pods_BeHang.framework */; };
 		0E3CEA8228B7C18F00CC78AC /* AccountSettingView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E3CEA8128B7C18F00CC78AC /* AccountSettingView.storyboard */; };
 		0E3CEA8428B7C1AC00CC78AC /* AccountSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3CEA8328B7C1AC00CC78AC /* AccountSettingViewController.swift */; };
+		0E3CEA8628BB8DB400CC78AC /* ChangeProfileView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E3CEA8528BB8DB400CC78AC /* ChangeProfileView.storyboard */; };
+		0E3CEA8828BB8DC800CC78AC /* ChangeProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3CEA8728BB8DC800CC78AC /* ChangeProfileViewController.swift */; };
 		0E6517C428A3ED95006F4917 /* PostView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E6517C328A3ED95006F4917 /* PostView.storyboard */; };
 		0E6517C828A40A98006F4917 /* PostPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6517C728A40A98006F4917 /* PostPhotoCell.swift */; };
 		0E6517CB28A4129D006F4917 /* PostCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6517C928A4129D006F4917 /* PostCollectionReusableView.swift */; };
@@ -92,6 +94,8 @@
 /* Begin PBXFileReference section */
 		0E3CEA8128B7C18F00CC78AC /* AccountSettingView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AccountSettingView.storyboard; sourceTree = "<group>"; };
 		0E3CEA8328B7C1AC00CC78AC /* AccountSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewController.swift; sourceTree = "<group>"; };
+		0E3CEA8528BB8DB400CC78AC /* ChangeProfileView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChangeProfileView.storyboard; sourceTree = "<group>"; };
+		0E3CEA8728BB8DC800CC78AC /* ChangeProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileViewController.swift; sourceTree = "<group>"; };
 		0E6517C328A3ED95006F4917 /* PostView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PostView.storyboard; sourceTree = "<group>"; };
 		0E6517C728A40A98006F4917 /* PostPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPhotoCell.swift; sourceTree = "<group>"; };
 		0E6517C928A4129D006F4917 /* PostCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -259,6 +263,7 @@
 				0E7C92B12893A1F000823A9E /* UserTab.storyboard */,
 				0EBFEA4728A09CBC00B5340D /* SettingView.storyboard */,
 				0E3CEA8128B7C18F00CC78AC /* AccountSettingView.storyboard */,
+				0E3CEA8528BB8DB400CC78AC /* ChangeProfileView.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -279,6 +284,7 @@
 				0E7C92BB2893A28C00823A9E /* UserViewController.swift */,
 				0EBFEA4928A09D2F00B5340D /* SettingViewController.swift */,
 				0E3CEA8328B7C1AC00CC78AC /* AccountSettingViewController.swift */,
+				0E3CEA8728BB8DC800CC78AC /* ChangeProfileViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -495,6 +501,7 @@
 				0EF5B5E228AF4F1300E18A71 /* detail_button.png in Resources */,
 				0EF5B5E328AF4F1300E18A71 /* map_pin_custom@3x.png in Resources */,
 				0EAC734A28B11A1B00C7ED4F /* LaunchView.storyboard in Resources */,
+				0E3CEA8628BB8DB400CC78AC /* ChangeProfileView.storyboard in Resources */,
 				0E6517C428A3ED95006F4917 /* PostView.storyboard in Resources */,
 				0EF5B5E128AF4F1300E18A71 /* map_pinup.png in Resources */,
 				0EF5B60928AF643000E18A71 /* MapSearchView.storyboard in Resources */,
@@ -553,6 +560,7 @@
 			files = (
 				0E7C92B62893A24000823A9E /* HomeViewController.swift in Sources */,
 				0EF5B60F28AF66E500E18A71 /* MapSearchViewController.swift in Sources */,
+				0E3CEA8828BB8DC800CC78AC /* ChangeProfileViewController.swift in Sources */,
 				0E76005128B64F3700289962 /* FeedInfo.swift in Sources */,
 				0E7C92BC2893A28C00823A9E /* UserViewController.swift in Sources */,
 				0E6517D628AD275C006F4917 /* PlaceInfo.swift in Sources */,
