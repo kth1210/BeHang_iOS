@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         KakaoSDK.initSDK(appKey: "086319f41e8822717e011c9211e2511c")
+        UserDefaults.standard.setValue(false, forKey: "isLogin")
         
 //        for key in UserDefaults.standard.dictionaryRepresentation().keys {
 //            UserDefaults.standard.removeObject(forKey: key.description)

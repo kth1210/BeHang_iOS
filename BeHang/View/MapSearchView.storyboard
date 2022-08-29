@@ -17,13 +17,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N1T-7O-lhR">
-                                <rect key="frame" x="72" y="54" width="302" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="N1T-7O-lhR">
+                                <rect key="frame" x="70" y="60" width="305" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="W61-m2-rDv"/>
+                                </constraints>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5fT-MP-bw7">
                                 <rect key="frame" x="0.0" y="44" width="390" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="Lts-rj-DFb"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -71,9 +76,12 @@
                                     <outlet property="delegate" destination="Y6W-OH-hqX" id="C6s-5J-OsR"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="24I-l7-DQe">
-                                <rect key="frame" x="27" y="64" width="40" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="24I-l7-DQe">
+                                <rect key="frame" x="20" y="65" width="40" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="eCC-s0-9uj"/>
+                                    <constraint firstAttribute="width" constant="40" id="lBz-Aq-ObG"/>
+                                </constraints>
                                 <color key="tintColor" red="0.26911818980000002" green="0.3539839387" blue="0.89368408919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" backgroundImage="map.fill" catalog="system"/>
@@ -85,14 +93,18 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="N1T-7O-lhR" firstAttribute="leading" secondItem="24I-l7-DQe" secondAttribute="trailing" constant="10" id="5Nq-Ol-xjh"/>
+                            <constraint firstItem="N1T-7O-lhR" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="16" id="8UG-VC-XOb"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="N1T-7O-lhR" secondAttribute="trailing" constant="15" id="91v-AH-9el"/>
                             <constraint firstItem="rKb-yL-4JY" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="80" id="CzA-1j-JdB"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="5fT-MP-bw7" secondAttribute="bottom" constant="637" id="GJl-4P-PTZ"/>
+                            <constraint firstItem="24I-l7-DQe" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="LeT-wr-mvX"/>
                             <constraint firstItem="5fT-MP-bw7" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="SY8-lR-xmF"/>
                             <constraint firstItem="5fT-MP-bw7" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="44" id="UWr-rh-2Mz"/>
                             <constraint firstItem="rKb-yL-4JY" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="Vht-Mf-FfF"/>
                             <constraint firstItem="rKb-yL-4JY" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="XJM-IX-O7m"/>
                             <constraint firstItem="rKb-yL-4JY" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="Y1e-wu-U7A"/>
                             <constraint firstItem="5fT-MP-bw7" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="qHA-GL-4cZ"/>
+                            <constraint firstItem="24I-l7-DQe" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="yuI-Qv-j6P"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="location_icon" selectedImage="locationSelected_icon" id="Gxp-7s-Vok"/>

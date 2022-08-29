@@ -301,6 +301,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             return UICollectionViewCell()
         }
         print("coll start")
+        print("indexPath = \(indexPath.row)")
         
         cell.id = list[indexPath.row].id
         //cell.imageView.image = list[indexPath.row].image
@@ -310,8 +311,15 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 print("dispatch global")
                 
                 let url: URL! = Foundation.URL(string: "http://35.247.33.79/\(self.list[indexPath.row].imageString!)")
-                let imageData = try! Data(contentsOf: url)
-                self.list[indexPath.row].image = UIImage(data: imageData)
+                do {
+                    let imageData = try Data(contentsOf: url)
+                    self.list[indexPath.row].image = UIImage(data: imageData)
+                } catch {
+                    self.list[indexPath.row].image = UIImage(systemName: "exclamationmark.triangle.fill")
+                    print("feed load error")
+                }
+//                let imageData = try Data(contentsOf: url)
+//                self.list[indexPath.row].image = UIImage(data: imageData)
                 
                 DispatchQueue.main.async {
                     cell.imageView.image = self.list[indexPath.row].image

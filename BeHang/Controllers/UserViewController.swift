@@ -36,7 +36,9 @@ class UserViewController: UIViewController {
         super.viewDidLoad()
         changeProfileButton.layer.cornerRadius = 10
         if UserDefaults.standard.string(forKey: "login") == "none" {
-            changeProfileButton.titleLabel?.text = "로그인으로 이동"
+            print("로그인으로 이동")
+            //changeProfileButton.titleLabel?.text = "로그인으로 이동"
+            changeProfileButton.setTitle("로그인으로 이동", for: .normal)
         }
         
         let loadingReusableNib = UINib(nibName: "LoadingCollectionView", bundle: nil)
@@ -75,6 +77,7 @@ class UserViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
     }
     
+    
     @objc func refreshCollectionView() {
         self.list.removeAll()
         self.overlayView.isHidden = false
@@ -89,6 +92,9 @@ class UserViewController: UIViewController {
         let nowLogin = UserDefaults.standard.string(forKey: "login")
         
         if nowLogin == "none" {
+            self.collectionView.isHidden = true
+            self.overlayView.isHidden = true
+            self.activityIndicator.stopAnimating()
             return
         }
         
@@ -193,7 +199,7 @@ class UserViewController: UIViewController {
         } else if nowLogin == "apple" {
             self.userName.text = UserDefaults.standard.string(forKey: "appleName")
         } else {
-            self.userName.text = "로그인이 필요합니다."
+            self.userName.text = "로그인"
         }
     }
 
@@ -337,13 +343,14 @@ extension UserViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         if elementKind == UICollectionView.elementKindSectionFooter {
-
+            print("start animating")
             self.loadingView?.activityIndicator.startAnimating()
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
         if elementKind == UICollectionView.elementKindSectionFooter {
+            print("stop animating")
             self.loadingView?.activityIndicator.stopAnimating()
         }
     }

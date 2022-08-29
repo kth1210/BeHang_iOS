@@ -18,9 +18,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="비행_로고" translatesAutoresizingMaskIntoConstraints="NO" id="BEd-UK-QBr">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="비행_로고" translatesAutoresizingMaskIntoConstraints="NO" id="BEd-UK-QBr">
                                 <rect key="frame" x="20" y="44" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="Ck6-LO-Zfi"/>
+                                    <constraint firstAttribute="height" constant="80" id="S2I-sr-PcK"/>
+                                </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s0b-PY-fdq">
                                 <rect key="frame" x="0.0" y="124" width="390" height="637"/>
@@ -28,13 +31,18 @@
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hm7-bc-qnf">
                                 <rect key="frame" x="0.0" y="44" width="390" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="6bp-Ow-cvU"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vZ6-Z3-Esv">
-                                <rect key="frame" x="100" y="54" width="274" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="vZ6-Z3-Esv">
+                                <rect key="frame" x="100" y="60" width="275" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="7pc-Ce-A81"/>
+                                </constraints>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jCT-gd-3Xh">
@@ -70,14 +78,18 @@
                         <constraints>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="jCT-gd-3Xh" secondAttribute="trailing" constant="20" id="15k-jh-gKY"/>
                             <constraint firstItem="hm7-bc-qnf" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="4yn-ce-bki"/>
+                            <constraint firstItem="BEd-UK-QBr" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="44" id="65D-k6-Uyz"/>
                             <constraint firstItem="s0b-PY-fdq" firstAttribute="top" secondItem="hm7-bc-qnf" secondAttribute="bottom" id="BeA-rk-xsu"/>
                             <constraint firstItem="hm7-bc-qnf" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="CzH-jZ-AuK"/>
                             <constraint firstItem="s0b-PY-fdq" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="KY7-RO-aRU"/>
+                            <constraint firstItem="vZ6-Z3-Esv" firstAttribute="leading" secondItem="BEd-UK-QBr" secondAttribute="trailing" id="NEH-s3-ijI"/>
                             <constraint firstItem="hm7-bc-qnf" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="44" id="Wsv-Nt-aBv"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="vZ6-Z3-Esv" secondAttribute="trailing" constant="15" id="bCs-YZ-MNv"/>
                             <constraint firstItem="s0b-PY-fdq" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="g3d-gR-JFN"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="jCT-gd-3Xh" secondAttribute="bottom" constant="20" id="o5q-RG-TYS"/>
+                            <constraint firstItem="vZ6-Z3-Esv" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="60" id="rXD-pV-m8N"/>
+                            <constraint firstItem="BEd-UK-QBr" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="tcd-01-QFq"/>
                             <constraint firstItem="s0b-PY-fdq" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="vg7-1G-QaD"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="hm7-bc-qnf" secondAttribute="bottom" constant="637" id="wrk-b4-6gr"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cTK-cj-U8L"/>

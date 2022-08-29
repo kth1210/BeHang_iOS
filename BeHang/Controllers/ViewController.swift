@@ -179,16 +179,16 @@ class ViewController: UIViewController {
         controller.performRequests()
     }
 
-    func appleSignup(idToken: String, userName: String) {
+    func appleSignup(code: String, id_token: String, nickName: String, userId: String) {
         print("appleSignup")
         
         let signupUrl = "http://35.247.33.79/social/signup/apple"
         
-        let accessToken = idToken
+        //let accessToken = idToken
         //let refreshToken = refreshToken
         
         // 회원가입할 때 userName 등록 (한번 밖에 안옴)
-        UserDefaults.standard.setValue(userName, forKey: "appleName")
+        UserDefaults.standard.setValue(nickName, forKey: "appleName")
         
        
         let header : HTTPHeaders = [
@@ -196,8 +196,10 @@ class ViewController: UIViewController {
         ]
 
         let bodyData : Parameters = [
-            "socialId" : accessToken,
-            "nickName" : userName
+            "code" : code,
+            "id_token" : id_token,
+            "nickName" : nickName,
+            "userId" : userId
         ] as Dictionary
         
         
@@ -211,18 +213,31 @@ class ViewController: UIViewController {
         .validate(statusCode: 200..<300)
         .responseData { (response) in
             switch response.result {
-            case .success:
+            case .success(let data):
                 // 회원가입 성공하면 애플 토큰, 이름으로 로그인
                 print("Success Signup")
-                UserDefaults.standard.setValue(true, forKey: "signupApple")
-                self.appleLogin(idToken: idToken, userName: userName)
+                do{
+                    let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    
+                    let data = asJSON["data"] as! NSDictionary
+                    let appleRefresh = data["refreshToken"] as! String
+                    
+                    UserDefaults.standard.setValue(appleRefresh, forKey: "appleRefreshToken")
+                    UserDefaults.standard.setValue(true, forKey: "signupApple")
+                    
+                    print(asJSON)
+                    self.appleLogin()
+                } catch {
+                    print("error")
+                }
+                
             case .failure(let error):
                 print(error)
             }
         }
     }
     
-    func appleLogin(idToken: String, userName: String) {
+    func appleLogin() {
         print("appleLogin")
         
         let loginUrl = "http://35.247.33.79/social/login/apple"
@@ -230,10 +245,10 @@ class ViewController: UIViewController {
         let header : HTTPHeaders = [
             "Content-Type" : "application/json"
         ]
+        let refreshToken = UserDefaults.standard.string(forKey: "appleRefreshToken")
 
         let bodyData : Parameters = [
-            "socialId" : idToken,
-            "nickName" : userName
+            "refreshToken" : refreshToken!
         ] as Dictionary
         
         AF.request(
@@ -301,18 +316,21 @@ extension ViewController: ASAuthorizationControllerDelegate, ASAuthorizationCont
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let userIdentifier = appleIDCredential.user
             let userName = (appleIDCredential.fullName?.familyName ?? "") + (appleIDCredential.fullName?.givenName ?? "")
-            let idToken = appleIDCredential.identityToken
+            let identity = appleIDCredential.identityToken
+            let id_token = String(data: identity!, encoding: .utf8)
             let autho = appleIDCredential.authorizationCode
+            let code = String(data: autho!, encoding: .utf8)
+            
             
             print(userIdentifier)
             print(userName)
             
             if UserDefaults.standard.bool(forKey: "signupApple") {
                 // apple 계정으로 회원가입한 적이 있으면
-                self.appleLogin(idToken: userIdentifier, userName: UserDefaults.standard.string(forKey: "appleName")!)
+                self.appleLogin()
             } else {
                 // apple 계정으로 회원가입한 적이 없으면
-                self.appleSignup(idToken: userIdentifier, userName: userName)
+                self.appleSignup(code: code!, id_token: id_token!, nickName: userName, userId: userIdentifier)
             }
             
         }

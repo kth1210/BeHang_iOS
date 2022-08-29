@@ -35,7 +35,6 @@ class PostViewController: UIViewController {
     
     var isShareImage = true
     var isMine = false // 내 게시물에서 접근한 것인지
-    var isGet = false
     
     var postId: Int?
     var image: UIImage?
@@ -48,6 +47,7 @@ class PostViewController: UIViewController {
     var isLoading = false
     var moreData = true
     var pageNo = 0
+    var reissueCase = 0
     
     lazy var list: [FeedInfo] = {
         var datalist = [FeedInfo]()
@@ -111,6 +111,7 @@ class PostViewController: UIViewController {
     
     func getPostInfo() {
         print("start Get Post Info")
+        self.reissueCase = 0
         let url = "http://35.247.33.79/posts/\(postId!)"
         
         var param : Parameters = [:]
@@ -155,7 +156,6 @@ class PostViewController: UIViewController {
                     
                     print("Get Feed")
                     
-                    self.isGet = true
                     self.isShareImage = false
                     self.collectionView.reloadData()
                     
@@ -171,11 +171,15 @@ class PostViewController: UIViewController {
     }
     
     func getSamePlaceFeed() {
+        self.reissueCase = 1
+        
         self.overlayView.isHidden = true
         self.activityIndicator.stopAnimating()
     }
     
     func getMyFeed() {
+        self.reissueCase = 2
+        
         let nowLogin = UserDefaults.standard.string(forKey: "login")
         
         if nowLogin == "none" {
@@ -267,6 +271,7 @@ class PostViewController: UIViewController {
     
 
     @objc func shareButtonPressed() {
+        
         print("shareButtonPressed()")
         if let shareImage = shareImage {
             
@@ -277,13 +282,14 @@ class PostViewController: UIViewController {
         }
     }
     
-    @objc func reportButtonPressed() {
-        
-    }
-    
     @objc func deleteButtonPressed() {
+        self.reissueCase = 3
+        
         let alert = UIAlertController(title: "알림", message: "게시물을 삭제하시겠습니까?", preferredStyle: UIAlertController.Style.alert)
         let confirm = UIAlertAction(title: "삭제", style: UIAlertAction.Style.destructive) { _ in
+            self.overlayView.isHidden = false
+            self.activityIndicator.startAnimating()
+            
             let url = "http://35.247.33.79/posts/\(self.postId!)"
             let xToken = UserDefaults.standard.string(forKey: "accessToken")!
             
@@ -306,14 +312,92 @@ class PostViewController: UIViewController {
             .responseData { response in
                 print(response)
                 switch response.result {
-                case .success:
-                    print("delete Success")
-                    self.navigationController?.popViewController(animated: true)
+                case .success(let data):
+                    do {
+                        let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                        let code = asJSON["code"] as! Int
+                        
+                        if code == -1014 {
+                            self.reissue()
+                            return
+                        }
+                        
+                        print("delete Success")
+                        
+                        self.navigationController?.popViewController(animated: true)
+                        
+                    } catch {
+                        print("error")
+                    }
+                    
                 case .failure(let error):
                     print(error)
                 }
             }
         }
+        let cancel = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler: nil)
+        
+        alert.addAction(confirm)
+        alert.addAction(cancel)
+        self.present(alert, animated: true)
+    }
+    
+    @objc func reportButtonPressed() {
+        self.reissueCase = 4
+        
+        let alert = UIAlertController(title: "부적절한 게시물", message: "게시물을 신고하시겠습니까?/n(검토 이후 게시물이 삭제되거나 제재가 있을 수 있습니다.)", preferredStyle: UIAlertController.Style.alert)
+        let confirm = UIAlertAction(title: "신고", style: UIAlertAction.Style.destructive) { _ in
+            self.overlayView.isHidden = false
+            self.activityIndicator.startAnimating()
+            
+            let url = "http://35.247.33.79/report/\(self.postId!)"
+            let xToken = UserDefaults.standard.string(forKey: "accessToken")!
+            
+            let header : HTTPHeaders = [
+                "X-AUTH-TOKEN" : xToken
+            ]
+            
+            var param : Parameters = [:]
+            param["postId"] = self.postId
+            
+            
+            AF.request(url,
+                       method: .post,
+                       parameters: param,
+                       encoding: URLEncoding.queryString,
+                       //encoding: JSONEncoding.default,
+                       headers: header
+            )
+            .validate(statusCode: 200..<300)
+            .responseData { response in
+                print(response)
+                switch response.result {
+                case .success(let data):
+                    do {
+                        let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                        let code = asJSON["code"] as! Int
+                        
+                        if code == -1014 {
+                            self.reissue()
+                            return
+                        }
+                        
+                        print("report Success")
+                        self.navigationItem.rightBarButtonItem?.isEnabled = false
+                        self.navigationController?.popViewController(animated: true)
+                        
+                    } catch {
+                        print("error")
+                    }
+                    
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+        
+        
+        
         let cancel = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler: nil)
         
         alert.addAction(confirm)
@@ -376,20 +460,20 @@ class PostViewController: UIViewController {
                     
                     print("토큰 재발급")
                     print(asJSON)
-                    
-                    // 메인 포스트 가져오다가 토큰 만료
-                    if self.isGet == false {
+
+                    switch self.reissueCase {
+                    case 0:
                         self.getPostInfo()
-                        return
-                    }
-                    
-                    
-                    if self.isMine {
-                        self.getMyFeed()
-                        return
-                    } else {
+                    case 1:
                         self.getSamePlaceFeed()
-                        return
+                    case 2:
+                        self.getMyFeed()
+                    case 3:
+                        self.deleteButtonPressed()
+                    case 4:
+                        self.reportButtonPressed()
+                    default:
+                        print("error")
                     }
                     
                 } catch {
