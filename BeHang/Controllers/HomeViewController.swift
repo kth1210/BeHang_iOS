@@ -184,7 +184,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                     self.isLoading = false
 //                    self.overlayView.isHidden = true
 //                    self.activityIndicator.stopAnimating()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         print("merr")
                         self.overlayView.isHidden = true
                         self.activityIndicator.stopAnimating()
@@ -303,39 +303,37 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         print("coll start")
         print("indexPath = \(indexPath.row)")
         
-        cell.id = list[indexPath.row].id
-        //cell.imageView.image = list[indexPath.row].image
-        
-        if list[indexPath.row].image == nil {
-            DispatchQueue.global(qos: .userInteractive).async {
-                print("dispatch global")
-                
-                let url: URL! = Foundation.URL(string: "http://35.247.33.79/\(self.list[indexPath.row].imageString!)")
-                do {
-                    let imageData = try Data(contentsOf: url)
-                    self.list[indexPath.row].image = UIImage(data: imageData)
-                } catch {
-                    self.list[indexPath.row].image = UIImage(systemName: "exclamationmark.triangle.fill")
-                    print("feed load error")
+        if !list.isEmpty {
+            cell.id = list[indexPath.row].id
+            //cell.imageView.image = list[indexPath.row].image
+            
+            if list[indexPath.row].image == nil {
+                DispatchQueue.global(qos: .userInteractive).async {
+                    print("dispatch global")
+                    
+                    let url: URL! = Foundation.URL(string: "http://35.247.33.79/\(self.list[indexPath.row].imageString!)")
+                    do {
+                        let imageData = try Data(contentsOf: url)
+                        self.list[indexPath.row].image = UIImage(data: imageData)
+                    } catch {
+                        self.list[indexPath.row].image = UIImage(systemName: "exclamationmark.triangle.fill")
+                        print("feed load error")
+                    }
+    //                let imageData = try Data(contentsOf: url)
+    //                self.list[indexPath.row].image = UIImage(data: imageData)
+                    
+                    DispatchQueue.main.async {
+                        cell.imageView.image = self.list[indexPath.row].image
+                    }
+                    
+                    print("dispatch global end")
                 }
-//                let imageData = try Data(contentsOf: url)
-//                self.list[indexPath.row].image = UIImage(data: imageData)
-                
-                DispatchQueue.main.async {
-                    cell.imageView.image = self.list[indexPath.row].image
-                }
-                
-                print("dispatch global end")
+            } else {
+                cell.imageView.image = list[indexPath.row].image
             }
-        } else {
-            cell.imageView.image = list[indexPath.row].image
         }
         
-//            let url: URL! = Foundation.URL(string: "http://35.247.33.79/\(self.list[indexPath.row].imageString!)")
-//            let imageData = try! Data(contentsOf: url)
-//            self.list[indexPath.row].image = UIImage(data: imageData)
-//            cell.imageView.image = self.list[indexPath.row].image
-//            print("dispatch end")
+        
 
         
         cell.layer.masksToBounds = false
@@ -350,7 +348,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let imageInfo = list[indexPath.row].image
         let postId = list[indexPath.row].id
-        
+        print("indexPath = \(indexPath.row)")
         // 선택한 포스트 불러오기
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "PostViewController") as? PostViewController else {return}
         

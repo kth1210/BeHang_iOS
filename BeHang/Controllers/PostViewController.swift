@@ -125,17 +125,27 @@ class PostViewController: UIViewController {
                    //encoding: JSONEncoding.default,
                    headers: nil
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { response in
             print(response)
             switch response.result {
             case .success(let data):
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    print(asJSON)
                     let code = asJSON["code"] as! Int
                     
                     if code == -1014 {
                         self.reissue()
+                        return
+                    } else if code == -1009 {
+                        let alert = UIAlertController(title: "알림", message: "삭제된 포스트입니다.", preferredStyle: UIAlertController.Style.alert)
+                        let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel) { _ in
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                        
+                        alert.addAction(confirm)
+                        self.present(alert, animated: true)
                         return
                     }
                     
