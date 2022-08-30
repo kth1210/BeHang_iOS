@@ -11,7 +11,7 @@ import KakaoSDKUser
 class SettingViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
-    let settingTitle = ["- 계정 설정", "- 알림 설정", "- 공지사항", "- 약관 및 정책", "- 버전 정보", "- 서비스 문의"]
+    let settingTitle = ["- 계정 설정", "- 약관 및 정책", "- 버전 정보", "- 서비스 문의"]
 
     override func viewDidLoad() {
         super.viewDidLoad()

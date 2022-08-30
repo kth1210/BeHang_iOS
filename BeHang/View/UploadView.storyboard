@@ -125,9 +125,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="앨범에서 선택" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Awo-lh-F6W">
-                                <rect key="frame" x="133" y="225" width="125" height="28"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="앨범에서 선택" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Awo-lh-F6W">
+                                <rect key="frame" x="132.66666666666666" y="225" width="124.99999999999997" height="28"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="23"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -137,7 +136,12 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="FmH-b7-olb" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="P3K-3X-Cip"/>
+                            <constraint firstItem="Awo-lh-F6W" firstAttribute="centerY" secondItem="FmH-b7-olb" secondAttribute="centerY" id="Q18-AN-5OP"/>
+                            <constraint firstItem="FmH-b7-olb" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="Uni-OB-MbX"/>
+                            <constraint firstItem="FmH-b7-olb" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="YLr-um-4LP"/>
                             <constraint firstItem="FmH-b7-olb" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="ec4-Bq-Mhv"/>
+                            <constraint firstItem="Awo-lh-F6W" firstAttribute="centerX" secondItem="FmH-b7-olb" secondAttribute="centerX" id="ett-Fq-7Ug"/>
+                            <constraint firstItem="FmH-b7-olb" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="kyk-qE-gSz"/>
                             <constraint firstItem="FmH-b7-olb" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="qRm-x6-kqc"/>
                             <constraint firstItem="FmH-b7-olb" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="zwc-Dv-LzM"/>
                         </constraints>

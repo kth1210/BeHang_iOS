@@ -193,13 +193,57 @@ class UserViewController: UIViewController {
     
     func setUserInfo() {
         let nowLogin = UserDefaults.standard.string(forKey: "login")
-        
-        if nowLogin == "kakao" {
-            
-        } else if nowLogin == "apple" {
-            self.userName.text = UserDefaults.standard.string(forKey: "appleName")
+
+        if nowLogin == "none" {
+            self.userName.text = "게스트"
         } else {
-            self.userName.text = "로그인"
+            let url = "http://35.247.33.79/users/profile/me"
+            let xToken = UserDefaults.standard.string(forKey: "accessToken")!
+            
+            let header : HTTPHeaders = [
+                "X-AUTH-TOKEN" : xToken
+            ]
+
+            AF.request(url,
+                       method: .get,
+                       parameters: nil,
+                       encoding: URLEncoding.queryString,
+                       //encoding: JSONEncoding.default,
+                       headers: header
+            )
+            //.validate(statusCode: 200..<300)
+            .responseData { response in
+                print(response)
+                switch response.result {
+                case .success(let data):
+                    do {
+                        let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                        let code = asJSON["code"] as! Int
+                        
+                        // 자체 토큰이 만료
+                        if code == -1014 {
+                            // 토큰 재발급
+                            self.reissue()
+                            return
+                        }
+                        
+                        let data = asJSON["data"] as! NSDictionary
+                        let name = data["nickName"] as! String
+                        let imagestr = data["profileImage"] as! String
+                        print(imagestr)
+                        let url: URL! = Foundation.URL(string: imagestr)
+                        
+                        self.profileImage.image = self.downsample(imageAt: url, to: CGSize(width: 200, height: 200), scale: 1.0)
+                        self.userName.text = name
+                        
+                        print("Get Feed")
+                    } catch {
+                        print("error")
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
         }
     }
 
@@ -271,6 +315,18 @@ class UserViewController: UIViewController {
                 print("Alamofire Request Error\nCode:\(error._code), Message: \(error.errorDescription!)")
             }
         }
+    }
+    
+    func downsample(imageAt imageURL: URL, to pointSize: CGSize, scale: CGFloat) -> UIImage {
+        let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+        let imageSource = CGImageSourceCreateWithURL(imageURL as CFURL, imageSourceOptions)!
+        let maxDimensionInPixels = max(pointSize.width, pointSize.height) * scale
+        let downsampleOptions = [kCGImageSourceCreateThumbnailFromImageAlways: true,
+                                 kCGImageSourceShouldCacheImmediately: true,
+                                 kCGImageSourceCreateThumbnailWithTransform: true,
+                                 kCGImageSourceThumbnailMaxPixelSize: maxDimensionInPixels] as CFDictionary
+        let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions)!
+        return UIImage(cgImage: downsampledImage)
     }
 }
 

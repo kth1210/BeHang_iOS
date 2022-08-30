@@ -11,13 +11,50 @@ class FlagViewController: UIViewController {
     @IBOutlet var sharingView: UIView!
     @IBOutlet var shareInstagramButton: UIButton!
     
+    @IBOutlet var seoulFlag: UIImageView!
+    @IBOutlet var incheonFlag: UIImageView!
+    @IBOutlet var daejeonFlag: UIImageView!
+    @IBOutlet var daeguFlag: UIImageView!
+    @IBOutlet var gwangjuFlag: UIImageView!
+    @IBOutlet var busanFlag: UIImageView!
+    @IBOutlet var ulsanFlag: UIImageView!
+    @IBOutlet var sejongFlag: UIImageView!
+    @IBOutlet var gyeonggiFlag: UIImageView!
+    @IBOutlet var gangwonFlag: UIImageView!
+    @IBOutlet var chungbukFlag: UIImageView!
+    @IBOutlet var chungnamFlag: UIImageView!
+    @IBOutlet var kyungbukFlag: UIImageView!
+    @IBOutlet var kyungnamFlag: UIImageView!
+    @IBOutlet var jeonbukFlag: UIImageView!
+    @IBOutlet var jeonnamFlag: UIImageView!
+    @IBOutlet var jejuFlag: UIImageView!
+    
+    var flagArr : [UIImageView]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-//        shareInstagramButton.layer.borderWidth = 1.5
-//        shareInstagramButton.layer.borderColor = UIColor.black.cgColor
-//        shareInstagramButton.layer.cornerRadius = shareInstagramButton.frame.height / 2
+
+        seoulFlag.isHidden = true
+        incheonFlag.isHidden = true
+        daejeonFlag.isHidden = true
+        daeguFlag.isHidden = true
+        gwangjuFlag.isHidden = true
+        busanFlag.isHidden = true
+        ulsanFlag.isHidden = true
+        sejongFlag.isHidden = true
+        gyeonggiFlag.isHidden = true
+        gangwonFlag.isHidden = true
+        chungbukFlag.isHidden = true
+        chungnamFlag.isHidden = true
+        kyungbukFlag.isHidden = true
+        kyungnamFlag.isHidden = true
+        jeonbukFlag.isHidden = true
+        jeonnamFlag.isHidden = true
+        jejuFlag.isHidden = true
+
+
     }
     
     @IBAction func shareInstagramButtonPressed(_ sender: UIButton) {

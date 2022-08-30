@@ -67,9 +67,13 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @objc func refreshCollectionView() {
+        print("refresh!!!")
+        print("removeAll!!")
         self.list.removeAll()
+        self.isLoading = true
+        self.collectionView.reloadData()
         self.overlayView.isHidden = false
-        
+        self.moreData = true
         self.pageNo = 0
         
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -162,6 +166,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                         let feedData = FeedInfo()
                         feedData.id = res["id"] as? Int
                         feedData.imageString = res["imageUrl"] as? String
+                        feedData.contentId = res["contentId"] as? Int
 //                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
 
 //                        if feedData.imageString != "" {
@@ -286,6 +291,18 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    
+    func downsample(imageAt imageURL: URL, to pointSize: CGSize, scale: CGFloat) -> UIImage {
+        let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+        let imageSource = CGImageSourceCreateWithURL(imageURL as CFURL, imageSourceOptions)!
+        let maxDimensionInPixels = max(pointSize.width, pointSize.height) * scale
+        let downsampleOptions = [kCGImageSourceCreateThumbnailFromImageAlways: true,
+                                 kCGImageSourceShouldCacheImmediately: true,
+                                 kCGImageSourceCreateThumbnailWithTransform: true,
+                                 kCGImageSourceThumbnailMaxPixelSize: maxDimensionInPixels] as CFDictionary
+        let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions)!
+        return UIImage(cgImage: downsampledImage)
+    }
 }
 
 
@@ -300,21 +317,27 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCell else {
             return UICollectionViewCell()
         }
-        print("coll start")
-        print("indexPath = \(indexPath.row)")
+//        print("coll start")
+//        print("indexPath = \(indexPath.row)")
         
-        if !list.isEmpty {
+        if !list.isEmpty && !self.collectionView.refreshControl!.isRefreshing {
+            print("refresh? : \(self.collectionView.refreshControl?.isRefreshing)")
+
             cell.id = list[indexPath.row].id
             //cell.imageView.image = list[indexPath.row].image
             
             if list[indexPath.row].image == nil {
+                cell.imageView.image = UIImage(named: "loading")
                 DispatchQueue.global(qos: .userInteractive).async {
-                    print("dispatch global")
+//                    print("dispatch global")
                     
                     let url: URL! = Foundation.URL(string: "http://35.247.33.79/\(self.list[indexPath.row].imageString!)")
                     do {
-                        let imageData = try Data(contentsOf: url)
-                        self.list[indexPath.row].image = UIImage(data: imageData)
+                        print(self.list)
+                        print("indexPath = \(indexPath.row)")
+//                        let imageData = try Data(contentsOf: url)
+//                        self.list[indexPath.row].image = UIImage(data: imageData)
+                        self.list[indexPath.row].image = self.downsample(imageAt: url, to: CGSize(width: 400, height: 400), scale: 1.0)
                     } catch {
                         self.list[indexPath.row].image = UIImage(systemName: "exclamationmark.triangle.fill")
                         print("feed load error")
@@ -324,9 +347,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                     
                     DispatchQueue.main.async {
                         cell.imageView.image = self.list[indexPath.row].image
+                        //cell.imageView.image = self.list[indexPath.row].image?.resize(newWidth: (collectionView.bounds.width - 36) / 2)
                     }
                     
-                    print("dispatch global end")
+//                    print("dispatch global end")
                 }
             } else {
                 cell.imageView.image = list[indexPath.row].image
@@ -348,13 +372,16 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let imageInfo = list[indexPath.row].image
         let postId = list[indexPath.row].id
-        print("indexPath = \(indexPath.row)")
+        let contentId = list[indexPath.row].contentId
+        print("contetn = \(contentId)")
+//        print("indexPath = \(indexPath.row)")
         // 선택한 포스트 불러오기
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "PostViewController") as? PostViewController else {return}
         
         // 다음 뷰에 선택한 이미지랑 postId 전달
         nextVC.image = imageInfo
         nextVC.postId = postId
+        nextVC.contentId = contentId
         
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
@@ -386,12 +413,14 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 //            } else {
 //                self.loadingView?.activityIndicator.stopAnimating()
 //            }
+            print("willdisplay")
             self.loadingView?.activityIndicator.startAnimating()
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
         if elementKind == UICollectionView.elementKindSectionFooter {
+            print("didenddisplay")
             self.loadingView?.activityIndicator.stopAnimating()
         }
     }
@@ -426,4 +455,22 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return sectionInsets
     }
+}
+
+
+extension UIImage {
+    func resize(newWidth: CGFloat) -> UIImage {
+        let scale = newWidth / self.size.width
+        let newHeight = self.size.height * scale
+        let size = CGSize(width: newWidth, height: newHeight)
+        let render = UIGraphicsImageRenderer(size: size)
+        let renderImage = render.image {
+            context in self.draw(in: CGRect(origin: .zero, size: size))
+        }
+        print("화면 배율: \(UIScreen.main.scale)")// 배수
+        print("origin: \(self), resize: \(renderImage)")
+        return renderImage
+        
+    }
+    
 }

@@ -35,11 +35,13 @@ class PostViewController: UIViewController {
     
     var isShareImage = true
     var isMine = false // 내 게시물에서 접근한 것인지
+    var isMap = false
     
     var postId: Int?
     var image: UIImage?
     var shareImage: UIImage?
     var placeName: String?
+    var contentId: Int?
     let viewModel = ImageViewModel()
     let overlayView = UIView()
     
@@ -93,8 +95,12 @@ class PostViewController: UIViewController {
         activityIndicator.startAnimating()
         
         // 메인 포스트 정보 가져오고
-        getPostInfo()
-        
+        if self.isMap{
+            self.navigationItem.title = placeName
+        } else {
+            getPostInfo()
+        }
+   
         if self.isMine {
             // 내 피드에서 왔으면 내 피드 더 가져오기
             getMyFeed()
@@ -112,6 +118,12 @@ class PostViewController: UIViewController {
     func getPostInfo() {
         print("start Get Post Info")
         self.reissueCase = 0
+        
+        if self.postId == nil {
+            self.navigationItem.title = self.placeName
+            self.isShareImage = false
+        }
+        
         let url = "http://35.247.33.79/posts/\(postId!)"
         
         var param : Parameters = [:]
@@ -153,6 +165,7 @@ class PostViewController: UIViewController {
                     
                     let place = data["place"] as! NSDictionary
                     self.placeName = place["name"] as? String
+                    self.contentId = place["contentId"] as? Int
                     
                     self.navigationItem.title = place["name"] as? String
                     
@@ -183,8 +196,80 @@ class PostViewController: UIViewController {
     func getSamePlaceFeed() {
         self.reissueCase = 1
         
-        self.overlayView.isHidden = true
-        self.activityIndicator.stopAnimating()
+        self.isLoading = true
+        
+        print("start Get Feed")
+        let url = "http://35.247.33.79/posts/feed/place/\(contentId ?? 0)"
+        print(url)
+        
+        var param : Parameters = [:]
+        param["contentId"] = self.contentId
+        
+        AF.request(url,
+                   method: .get,
+                   parameters: param,
+                   encoding: URLEncoding.queryString,
+                   //encoding: JSONEncoding.default,
+                   headers: nil
+        )
+        //.validate(statusCode: 200..<300)
+        .responseData { response in
+            print(response)
+            switch response.result {
+            case .success(let data):
+                do {
+                    let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    let code = asJSON["code"] as! Int
+                    
+                    // 자체 토큰이 만료
+                    if code == -1014 {
+                        // 토큰 재발급
+                        self.reissue()
+                        return
+                    }
+                    
+                    let list = asJSON["list"] as! NSArray
+                    
+                    if list.count != 10 {
+                        self.moreData = false
+                    }
+                    
+                    for row in list {
+                        let res = row as! NSDictionary
+                        
+                        let feedData = FeedInfo()
+                        feedData.id = res["id"] as? Int
+                        feedData.imageString = res["imageUrl"] as? String
+//                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
+//
+//                        if feedData.imageString != "" {
+//                            let url: URL! = Foundation.URL(string: imageUrl)
+//                            let imageData = try! Data(contentsOf: url)
+//                            feedData.image = UIImage(data: imageData)
+//                        }
+                        
+                        self.list.append(feedData)
+                    }
+                    self.collectionView.reloadData()
+                    self.pageNo += 1
+                    self.isLoading = false
+//                    self.overlayView.isHidden = true
+//                    self.activityIndicator.stopAnimating()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        print("merr")
+                        self.overlayView.isHidden = true
+                        self.activityIndicator.stopAnimating()
+                    }
+                    
+                    print("Get Feed")
+                } catch {
+                    print("error")
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     func getMyFeed() {
@@ -547,6 +632,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let imageInfo = list[indexPath.row].image
         let postId = list[indexPath.row].id
+        let contentId = list[indexPath.row].contentId
         
         // 선택한 포스트 불러오기
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "PostViewController") as? PostViewController else {return}
@@ -554,6 +640,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
         // 다음 뷰에 선택한 이미지랑 postId 전달
         nextVC.image = imageInfo
         nextVC.postId = postId
+        nextVC.contentId = contentId
         nextVC.isMine = self.isMine
         
         self.navigationController?.pushViewController(nextVC, animated: true)

@@ -214,6 +214,8 @@ extension MapSearchViewController: UITableViewDataSource, UITableViewDelegate {
         nextVC.image = selectPlace.thumbnailImg
         nextVC.placeName = selectPlace.title
         // 같은 장소 이미지
+        nextVC.contentId = Int(selectPlace.contentId ?? "1")
+        nextVC.isMap = true
         
         self.navigationController?.pushViewController(nextVC, animated: true)
     }

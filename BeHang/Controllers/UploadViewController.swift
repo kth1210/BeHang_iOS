@@ -93,8 +93,8 @@ class UploadViewController: UIViewController {
     }
     
     @objc func registerButtonPressed() {
-        
-        guard let imageData = uploadedImageView.image?.jpegData(compressionQuality: 0.5) else {
+        //uploadedImageView.image?.resize(newWidth: 300).jpegData(compressionQuality: 1.0)
+        guard let imageData = uploadedImageView.image?.resize(newWidth: 400).jpegData(compressionQuality: 1.0) else {
             let alert = UIAlertController(title: "알림", message: "이미지를 업로드하시기 바랍니다.", preferredStyle: UIAlertController.Style.alert)
             let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: nil)
             

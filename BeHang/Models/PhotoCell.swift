@@ -11,6 +11,7 @@ class PhotoCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     var id: Int?
+    var contentId: Int?
     
     override func awakeFromNib() {
         super.awakeFromNib()
