@@ -20,11 +20,12 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     let activityIndicator = UIActivityIndicatorView(style: .large)
     let overlayView = UIView()
     let refreshControl = UIRefreshControl()
+    let locationManager = CLLocationManager()
     
     var pageNo = 0
     
-    var curX: Double?
-    var curY: Double?
+    var curX = 126.9784147
+    var curY = 37.5666805
     
     lazy var list: [FeedInfo] = {
         var datalist = [FeedInfo]()
@@ -58,7 +59,26 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         overlayView.isHidden = false
         activityIndicator.startAnimating()
         
-        getCurrent()
+        locationManager.delegate = self
+        
+        switch locationManager.authorizationStatus {
+        case .denied:
+            print("denied")
+            self.locationManager.requestWhenInUseAuthorization()
+            self.getFeed()
+        case .restricted, .notDetermined:
+            print("res, notDet")
+            self.locationManager.requestWhenInUseAuthorization()
+            self.getFeed()
+        case .authorizedWhenInUse, .authorizedAlways:
+            print("getCurrent")
+            self.getCurrent()
+        default:
+            print("error")
+        }
+        
+        
+        //getCurrent()
 //        getFeed()
     }
     
@@ -116,8 +136,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
 //        ]
         
         let bodyData : Parameters = [
-            "curX" : curX!,
-            "curY" : curY!
+            "curX" : curX,
+            "curY" : curY
         ]
         
 //        var param : Parameters = [:]
@@ -134,7 +154,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                    encoding: JSONEncoding.default,
                    headers: nil//header
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { response in
             print(response)
             switch response.result {
@@ -214,8 +234,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func getCurrent() {
-        let locationManager = CLLocationManager()
-        locationManager.delegate = self
         
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -228,9 +246,9 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         
         locationManager.stopUpdatingLocation()
         
-        self.curX = longitude
-        self.curY = latitude
-//        print("X: \(curX), Y: \(curY)")
+        self.curX = longitude ?? 126.9784147
+        self.curY = latitude ?? 37.5666805
+        print("X: \(curX), Y: \(curY)")
         
         getFeed()
     }
@@ -262,7 +280,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             encoding: JSONEncoding.default,
             headers: header
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { (response) in
             switch response.result {
             case .success(let data):
@@ -303,6 +321,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions)!
         return UIImage(cgImage: downsampledImage)
     }
+
 }
 
 
@@ -319,10 +338,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
 //        print("coll start")
 //        print("indexPath = \(indexPath.row)")
-        
-        if !list.isEmpty && !self.collectionView.refreshControl!.isRefreshing {
-            print("refresh? : \(self.collectionView.refreshControl?.isRefreshing)")
-
+//        && !self.collectionView.refreshControl!.isRefreshing
+        if list.count != 0 {
+            //print("refresh? : \(self.collectionView.refreshControl?.isRefreshing)")
+            var c = list.count
             cell.id = list[indexPath.row].id
             //cell.imageView.image = list[indexPath.row].image
             
@@ -333,11 +352,13 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                     
                     let url: URL! = Foundation.URL(string: "http://35.247.33.79/\(self.list[indexPath.row].imageString!)")
                     do {
-                        print(self.list)
+                        //print(self.list)
                         print("indexPath = \(indexPath.row)")
 //                        let imageData = try Data(contentsOf: url)
 //                        self.list[indexPath.row].image = UIImage(data: imageData)
+                        print(url)
                         self.list[indexPath.row].image = self.downsample(imageAt: url, to: CGSize(width: 400, height: 400), scale: 1.0)
+                        print("end photo setting")
                     } catch {
                         self.list[indexPath.row].image = UIImage(systemName: "exclamationmark.triangle.fill")
                         print("feed load error")
@@ -360,11 +381,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         
 
         
-        cell.layer.masksToBounds = false
-        cell.layer.shadowOffset = .zero
-        cell.layer.shadowRadius = 3
-        cell.layer.shadowOpacity = 0.8
-        cell.layer.shadowColor = UIColor.black.cgColor
+//        cell.layer.masksToBounds = false
+//        cell.layer.shadowOffset = .zero
+//        cell.layer.shadowRadius = 3
+//        cell.layer.shadowOpacity = 0.8
+//        cell.layer.shadowColor = UIColor.black.cgColor
         
         return cell
     }

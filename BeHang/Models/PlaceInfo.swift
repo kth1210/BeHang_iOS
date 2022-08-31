@@ -12,6 +12,7 @@ class PlaceInfo {
     var address: String?
     var contentId: String?
     var thumbnail: String?
+    var areaCode: String?
     var mapx: String?
     var mapy: String?
     var tel: String?

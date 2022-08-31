@@ -19,10 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="비행_로고" translatesAutoresizingMaskIntoConstraints="NO" id="BEd-UK-QBr">
-                                <rect key="frame" x="20" y="44" width="80" height="80"/>
+                                <rect key="frame" x="20" y="44" width="70" height="70"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="Ck6-LO-Zfi"/>
-                                    <constraint firstAttribute="height" constant="80" id="S2I-sr-PcK"/>
+                                    <constraint firstAttribute="width" constant="70" id="Ck6-LO-Zfi"/>
+                                    <constraint firstAttribute="width" secondItem="BEd-UK-QBr" secondAttribute="height" multiplier="1:1" id="phb-7v-ycD"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s0b-PY-fdq">
@@ -39,7 +39,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="vZ6-Z3-Esv">
-                                <rect key="frame" x="100" y="60" width="275" height="44"/>
+                                <rect key="frame" x="90" y="60" width="285" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="7pc-Ce-A81"/>
                                 </constraints>

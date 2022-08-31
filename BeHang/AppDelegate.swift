@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            //print(UserDefaults.standard.object(forKey: key.description))
 //        }
 //
-        //sleep(1)
+        //sleep(3)
         return true
     }
     

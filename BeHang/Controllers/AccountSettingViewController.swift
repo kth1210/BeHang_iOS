@@ -7,6 +7,8 @@
 
 import UIKit
 import Alamofire
+import KakaoSDKAuth
+import KakaoSDKUser
 
 class AccountSettingViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
@@ -43,7 +45,7 @@ class AccountSettingViewController: UIViewController {
                    //encoding: JSONEncoding.default,
                    headers: header
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { response in
             print(response)
             switch response.result {
@@ -81,12 +83,20 @@ class AccountSettingViewController: UIViewController {
                    //encoding: JSONEncoding.default,
                    headers: header
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { response in
             print(response)
             switch response.result {
             case .success:
                 print("withdrawal Success")
+                
+                AuthApi.shared.refreshToken { oauthToken, error in
+                    
+//                    let accessToken = oauthToken?.accessToken
+//                    let refreshToken = oauthToken?.refreshToken
+                }
+                
+                
                 for key in UserDefaults.standard.dictionaryRepresentation().keys {
                     UserDefaults.standard.removeObject(forKey: key.description)
                 }

@@ -64,7 +64,7 @@ class ChangeProfileViewController: UIViewController {
         }
         
         if profileImage.image != image || changeName != name {
-            let url = "http://35.247.33.79/users/profile/me?\(changeName)"
+            let url = "http://35.247.33.79/users/profile/me"
 
             let header : HTTPHeaders = [
                 "Content-Type" : "multipart/form-data",
@@ -75,8 +75,9 @@ class ChangeProfileViewController: UIViewController {
             
             AF.upload(multipartFormData: { multipartFormData in
                 multipartFormData.append(imageData!, withName: "file", fileName: "\(changeName).jpeg", mimeType: "image/jpeg")
-            }, to: url, method: .post, headers: header)
-            .validate(statusCode: 200..<300)
+                multipartFormData.append(changeName.data(using: .utf8)!, withName: "nickName")
+            }, to: url, method: .patch, headers: header)
+            //.validate(statusCode: 200..<300)
             .responseData { response in
                 print(response)
                 
@@ -85,13 +86,26 @@ class ChangeProfileViewController: UIViewController {
                     do {
                         let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                         let code = asJSON["code"] as! Int
-                        
+                        print(code)
                         if code == -1014 {
                             self.reissue()
                             return
                         }
                         
                         print("success change")
+                        
+                        let index = self.navigationController?.viewControllers.count
+                        let preVC = self.navigationController?.viewControllers[index! - 2]
+
+                        guard let vc = preVC as? UserViewController else {
+                            print("fail")
+                            return
+                        }
+                        
+//                        vc.selectedPlaceInfo = self.selectPlace
+                        vc.userName.text = changeName
+                        vc.profileImage.image = self.profileImage.image
+                        
                         self.navigationController?.popViewController(animated: true)
                     } catch {
                         print("error")
@@ -131,7 +145,7 @@ class ChangeProfileViewController: UIViewController {
             encoding: JSONEncoding.default,
             headers: header
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { (response) in
             switch response.result {
             case .success(let data):

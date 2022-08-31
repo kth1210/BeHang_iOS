@@ -138,6 +138,7 @@ class UploadViewController: UIViewController {
         let place: [String: Any] = [
             "address" : selectedPlaceInfo.address ?? "",
             "contentId" : selectedPlaceInfo.contentId ?? "",
+            "areaCode" : selectedPlaceInfo.areaCode ?? "",
             "mapX" : selectedPlaceInfo.mapx ?? "",
             "mapY" : selectedPlaceInfo.mapy ?? "",
             "name" : selectedPlaceInfo.title ?? "",
@@ -166,7 +167,7 @@ class UploadViewController: UIViewController {
                 multipartFormData.append(imageData, withName: "file", fileName: "\(name).jpeg", mimeType: "image/jpeg")
                 multipartFormData.append(jsonData, withName: "postRequestDto", mimeType: "application/json")
             }, to: url, method: .post, headers: header)
-            .validate(statusCode: 200..<300)
+            //.validate(statusCode: 200..<300)
             .responseData { response in
                 print(response)
 
@@ -233,7 +234,7 @@ class UploadViewController: UIViewController {
             encoding: JSONEncoding.default,
             headers: header
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { (response) in
             switch response.result {
             case .success(let data):

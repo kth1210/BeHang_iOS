@@ -97,6 +97,8 @@ class PostViewController: UIViewController {
         // 메인 포스트 정보 가져오고
         if self.isMap{
             self.navigationItem.title = placeName
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+            self.isShareImage = false
         } else {
             getPostInfo()
         }
@@ -220,7 +222,8 @@ class PostViewController: UIViewController {
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                     let code = asJSON["code"] as! Int
-                    
+                    print(code)
+                    print(self.contentId)
                     // 자체 토큰이 만료
                     if code == -1014 {
                         // 토큰 재발급
@@ -240,6 +243,7 @@ class PostViewController: UIViewController {
                         let feedData = FeedInfo()
                         feedData.id = res["id"] as? Int
                         feedData.imageString = res["imageUrl"] as? String
+                        feedData.contentId = res["contentId"] as? Int
 //                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
 //
 //                        if feedData.imageString != "" {
@@ -302,7 +306,7 @@ class PostViewController: UIViewController {
                    //encoding: JSONEncoding.default,
                    headers: header
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { response in
             print(response)
             switch response.result {
@@ -403,7 +407,7 @@ class PostViewController: UIViewController {
                        //encoding: JSONEncoding.default,
                        headers: header
             )
-            .validate(statusCode: 200..<300)
+            //.validate(statusCode: 200..<300)
             .responseData { response in
                 print(response)
                 switch response.result {
@@ -537,7 +541,7 @@ class PostViewController: UIViewController {
             encoding: JSONEncoding.default,
             headers: header
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { (response) in
             switch response.result {
             case .success(let data):
@@ -661,6 +665,15 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
                 typedHeaderView.bottomLabel.text = "내가 올린 사진"
             } else {
                 typedHeaderView.bottomLabel.text = "같은 장소의 사진"
+            }
+            
+            if self.isMap {
+                typedHeaderView.tag1.isHidden = true
+                typedHeaderView.tag2.isHidden = true
+                typedHeaderView.tag3.isHidden = true
+                typedHeaderView.tag4.isHidden = true
+                typedHeaderView.tag5.isHidden = true
+                typedHeaderView.tag6.isHidden = true
             }
             
             if self.tag1 == false{

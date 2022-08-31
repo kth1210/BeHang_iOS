@@ -137,6 +137,7 @@ class PlaceListViewController: UIViewController {
                         let placeData = PlaceInfo()
                         placeData.address = r["addr1"] as? String
                         placeData.contentId = r["contentid"] as? String
+                        placeData.areaCode = r["areacode"] as? String
                         placeData.mapx = r["mapx"] as? String
                         placeData.mapy = r["mapy"] as? String
                         placeData.title = r["title"] as? String

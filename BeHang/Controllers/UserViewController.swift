@@ -75,6 +75,8 @@ class UserViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+        //print("setUserInf")
+        //self.setUserInfo()
     }
     
     
@@ -119,7 +121,7 @@ class UserViewController: UIViewController {
                    //encoding: JSONEncoding.default,
                    headers: header
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { response in
             print(response)
             switch response.result {
@@ -230,10 +232,16 @@ class UserViewController: UIViewController {
                         let data = asJSON["data"] as! NSDictionary
                         let name = data["nickName"] as! String
                         let imagestr = data["profileImage"] as! String
-                        print(imagestr)
-                        let url: URL! = Foundation.URL(string: imagestr)
                         
-                        self.profileImage.image = self.downsample(imageAt: url, to: CGSize(width: 200, height: 200), scale: 1.0)
+                        let imageURL: URL!
+                        if imagestr.prefix(2) == "ht" {
+                            imageURL = Foundation.URL(string: imagestr)
+                        } else {
+                            imageURL = Foundation.URL(string: "http://35.247.33.79/\(imagestr)")
+                        }
+                        
+                        
+                        self.profileImage.image = self.downsample(imageAt: imageURL, to: CGSize(width: 200, height: 200), scale: 1.0)
                         self.userName.text = name
                         
                         print("Get Feed")
@@ -287,7 +295,7 @@ class UserViewController: UIViewController {
             encoding: JSONEncoding.default,
             headers: header
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { (response) in
             switch response.result {
             case .success(let data):
