@@ -42,7 +42,6 @@ class PostViewController: UIViewController {
     var shareImage: UIImage?
     var placeName: String?
     var contentId: Int?
-    let viewModel = ImageViewModel()
     let overlayView = UIView()
     
     var loadingView: LoadingCollectionView?
@@ -592,7 +591,6 @@ class PostViewController: UIViewController {
 extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.list.count
-        //return viewModel.countOfImageList
     }
     
     // 셀 설정

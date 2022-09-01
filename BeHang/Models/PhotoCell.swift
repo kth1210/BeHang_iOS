@@ -18,8 +18,5 @@ class PhotoCell: UICollectionViewCell {
         
         imageView.layer.cornerRadius = 12
     }
-    
-    func update(info: ImageInfo) {
-        imageView.image = info.image
-    }
+
 }

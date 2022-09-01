@@ -10,8 +10,5 @@ import UIKit
 class PostPhotoCell: UICollectionViewCell {
     
     @IBOutlet weak var imgView: UIImageView!
-    
-    func update(info: ImageInfo) {
-        imgView.image = info.image
-    }
+
 }
