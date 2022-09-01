@@ -338,7 +338,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
 //        print("coll start")
 //        print("indexPath = \(indexPath.row)")
-//        && !self.collectionView.refreshControl!.isRefreshing
+//        && !self.collectionView.refreshControl!.isRefreshing₩
         if list.count != 0 {
             //print("refresh? : \(self.collectionView.refreshControl?.isRefreshing)")
             var c = list.count
@@ -394,8 +394,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         let imageInfo = list[indexPath.row].image
         let postId = list[indexPath.row].id
         let contentId = list[indexPath.row].contentId
-        print("contetn = \(contentId)")
-//        print("indexPath = \(indexPath.row)")
+
         // 선택한 포스트 불러오기
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "PostViewController") as? PostViewController else {return}
         
@@ -429,11 +428,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         if elementKind == UICollectionView.elementKindSectionFooter {
-//            if self.isLoading {
-//                self.loadingView?.activityIndicator.startAnimating()
-//            } else {
-//                self.loadingView?.activityIndicator.stopAnimating()
-//            }
             print("willdisplay")
             self.loadingView?.activityIndicator.startAnimating()
         }
@@ -447,10 +441,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        if self.moreData == true && self.isLoading == false {
-//            self.isLoading = true
-//            getMoreFeed()
-//        }
         let lastSectionIndex = collectionView.numberOfSections - 1
         let lastRowIndex = collectionView.numberOfItems(inSection: lastSectionIndex) - 1
         

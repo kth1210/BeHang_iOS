@@ -37,7 +37,6 @@ class UserViewController: UIViewController {
         changeProfileButton.layer.cornerRadius = 10
         if UserDefaults.standard.string(forKey: "login") == "none" {
             print("로그인으로 이동")
-            //changeProfileButton.titleLabel?.text = "로그인으로 이동"
             changeProfileButton.setTitle("로그인으로 이동", for: .normal)
         }
         
@@ -55,7 +54,6 @@ class UserViewController: UIViewController {
         overlayView.backgroundColor = UIColor(white: 0, alpha: 0.2)
         overlayView.frame = collectionView.bounds
         overlayView.center = collectionView.center
-//        overlayView.layer.cornerRadius = 10
 
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         activityIndicator.center = self.view.center
@@ -165,8 +163,7 @@ class UserViewController: UIViewController {
                     self.collectionView.reloadData()
                     self.pageNo += 1
                     self.isLoading = false
-                    //self.overlayView.isHidden = true
-//                    self.activityIndicator.stopAnimating()
+
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         print("merr")
                         self.overlayView.isHidden = true
@@ -266,9 +263,6 @@ class UserViewController: UIViewController {
         nextVC.image = self.profileImage.image
         nextVC.name = self.userName.text
         
-        
-//        nextVC.modalTransitionStyle = .coverVertical
-//        self.present(nextVC, animated: true, completion: nil)
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
@@ -280,7 +274,6 @@ class UserViewController: UIViewController {
 
         let header : HTTPHeaders = [
             "Content-Type" : "application/json",
-            //"X-AUTH-TOKEN" : accessToken!
         ]
         
         let bodyData : Parameters = [
@@ -295,7 +288,6 @@ class UserViewController: UIViewController {
             encoding: JSONEncoding.default,
             headers: header
         )
-        //.validate(statusCode: 200..<300)
         .responseData { (response) in
             switch response.result {
             case .success(let data):

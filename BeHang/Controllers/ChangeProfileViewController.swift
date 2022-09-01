@@ -77,7 +77,6 @@ class ChangeProfileViewController: UIViewController {
                 multipartFormData.append(imageData!, withName: "file", fileName: "\(changeName).jpeg", mimeType: "image/jpeg")
                 multipartFormData.append(changeName.data(using: .utf8)!, withName: "nickName")
             }, to: url, method: .patch, headers: header)
-            //.validate(statusCode: 200..<300)
             .responseData { response in
                 print(response)
                 
@@ -145,7 +144,6 @@ class ChangeProfileViewController: UIViewController {
             encoding: JSONEncoding.default,
             headers: header
         )
-        //.validate(statusCode: 200..<300)
         .responseData { (response) in
             switch response.result {
             case .success(let data):
