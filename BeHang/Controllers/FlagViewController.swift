@@ -55,13 +55,6 @@ class FlagViewController: UIViewController {
         jeonnamFlag.isHidden = true
         jejuFlag.isHidden = true
 
-//        seoulFlag.isHidden = false
-//        gyeonggiFlag.isHidden = false
-//        daejeonFlag.isHidden = false
-//        daeguFlag.isHidden = false
-//        busanFlag.isHidden = false
-//        gwangjuFlag.isHidden = false
-//        jejuFlag.isHidden = false
         
         getHistory()
     }

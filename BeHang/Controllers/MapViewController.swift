@@ -84,13 +84,7 @@ class MapViewController: UIViewController, MTMapViewDelegate, CLLocationManagerD
         print("here")
         mapView?.removeAllPOIItems()
         makeMarker()
-//        mapView?.currentLocationTrackingMode = .onWithoutHeading
-//        mapView?.showCurrentLocationMarker = true
-        
-//        mapView?.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: 36.9891594599, longitude: 127.1037563697)), zoomLevel: 5, animated: true)
-        
-        //mapView?.refreshMapTiles()
-        //mapView?.fitAreaToShowAllPOIItems()
+
         setMap()
     }
     

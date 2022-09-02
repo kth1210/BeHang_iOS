@@ -118,23 +118,13 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         }
         
     }
-    
-    @IBAction func test(_ sender: UIButton) {
-        
-        getFeed()
-    }
-    
+
     func getFeed() {
         self.isLoading = true
         
         print("start Get Feed")
-//        let url = "http://35.247.33.79/posts/feed"
         let url = "http://35.247.33.79/posts/feed/sort=Distance?page=\(pageNo)&size=10"
-        
-//        let header : HTTPHeaders = [
-//            "X-AUTH-TOKEN" : xToken
-//        ]
-        
+
         let bodyData : Parameters = [
             "curX" : curX,
             "curY" : curY
