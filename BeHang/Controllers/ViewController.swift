@@ -184,9 +184,6 @@ class ViewController: UIViewController {
         
         let signupUrl = "http://35.247.33.79/social/signup/apple"
         
-        //let accessToken = idToken
-        //let refreshToken = refreshToken
-        
         // 회원가입할 때 userName 등록 (한번 밖에 안옴)
         UserDefaults.standard.setValue(nickName, forKey: "appleName")
         

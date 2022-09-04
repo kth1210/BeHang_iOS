@@ -331,7 +331,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 //        && !self.collectionView.refreshControl!.isRefreshing₩
         if list.count != 0 {
             //print("refresh? : \(self.collectionView.refreshControl?.isRefreshing)")
-            var c = list.count
             cell.id = list[indexPath.row].id
             //cell.imageView.image = list[indexPath.row].image
             
@@ -358,7 +357,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                     
                     DispatchQueue.main.async {
                         cell.imageView.image = self.list[indexPath.row].image
-                        //cell.imageView.image = self.list[indexPath.row].image?.resize(newWidth: (collectionView.bounds.width - 36) / 2)
                     }
                     
 //                    print("dispatch global end")

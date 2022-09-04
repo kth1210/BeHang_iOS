@@ -124,13 +124,7 @@ class PlaceListViewController: UIViewController {
                     if numOfRows != 10 {
                         self.moreData = false
                     }
-                    
-//                    if numOfRows == 0 {
-//                        self.moreData = false
-//                        self.activityIndicator.stopAnimating()
-//                        self.tableView.reloadData()
-//                    }
-                    
+
                     for row in item {
                         let r = row as! NSDictionary
             
