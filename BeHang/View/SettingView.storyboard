@@ -73,6 +73,14 @@
             </objects>
             <point key="canvasLocation" x="775" y="100"/>
         </scene>
+        <!--PolicyView-->
+        <scene sceneID="1cP-QJ-h7g">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="PolicyViewController" storyboardName="PolicyView" id="zhE-QJ-iTV" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="shN-5O-2Li" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="759" y="162"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">

@@ -92,6 +92,9 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             self.navigationController?.pushViewController(nextVC, animated: true)
         case 1:
             print(settingTitle[index])
+            
+            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "PolicyViewController") as? PolicyViewController else {return}
+            self.navigationController?.pushViewController(nextVC, animated: true)
         case 2:
             print(settingTitle[index])
         case 3:
