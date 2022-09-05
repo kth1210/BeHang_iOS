@@ -12,9 +12,14 @@ class PolicyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationItem.title = "개인정보처리약관"
+        self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
 
     /*
     // MARK: - Navigation

@@ -11,7 +11,7 @@ import KakaoSDKUser
 class SettingViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
-    let settingTitle = ["- 계정 설정", "- 약관 및 정책", "- 버전 정보", "- 서비스 문의"]
+    let settingTitle = ["- 계정 설정", "- 개인정보처리약관", "- 버전 정보", "- 서비스 문의"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,39 +31,6 @@ class SettingViewController: UIViewController {
     
 
 
-    @IBAction func logoutPressed(_ sender: UIButton) {
-        UserApi.shared.logout { error in
-            if let error = error {
-                print(error)
-            } else {
-                print("logout() success.")
-                
-                //self.navigationController?.popViewController(animated: true)
-                UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    exit(0)
-                }
-            }
-        }
-    }
-    
-    @IBAction func unlinkPressed(_ sender: UIButton) {
-        UserApi.shared.unlink { error in
-            if let error = error {
-                print(error)
-            } else {
-                print("unlink() success.")
-                
-                //self.navigationController?.popViewController(animated: true)
-                
-                UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    exit(0)
-                }
-            }
-        }
-    }
-    
 }
 
 extension SettingViewController: UITableViewDataSource, UITableViewDelegate {

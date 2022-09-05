@@ -36,8 +36,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+
         let loadingReusableNib = UINib(nibName: "LoadingCollectionView", bundle: nil)
         collectionView.register(loadingReusableNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "loadingCollectionView")
         collectionView.refreshControl = refreshControl
@@ -86,6 +85,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         self.navigationController?.isNavigationBarHidden = true
     }
     
+    
+    
     @objc func refreshCollectionView() {
         print("refresh!!!")
         print("removeAll!!")
@@ -96,9 +97,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         self.moreData = true
         self.pageNo = 0
         
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//            self.getFeed()
-//        }
         getFeed()
         
     }
@@ -130,12 +128,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             "curY" : curY
         ]
         
-//        var param : Parameters = [:]
-//        param["page"] = pageNo
-//        param["size"] = 10
-        
-        //self.pageNo += 1
-        
         AF.request(url,
                    //method: .get,
                    method: .post,
@@ -162,8 +154,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                     }
                     
                     let list = asJSON["list"] as! NSArray
-                    //let msg = asJSON["msg"] as! String
-                    //let suc = asJSON["success"] as! Bool
                     
                     // 다음 페이지 더 받아올 데이터가 없음
                     if list.count != 10 {
@@ -177,28 +167,13 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                         feedData.id = res["id"] as? Int
                         feedData.imageString = res["imageUrl"] as? String
                         feedData.contentId = res["contentId"] as? Int
-//                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
-
-//                        if feedData.imageString != "" {
-//                            DispatchQueue.global(qos: .userInteractive).async {
-//                                let url: URL! = Foundation.URL(string: imageUrl)
-//                                let imageData = try! Data(contentsOf: url)
-//                                feedData.image = UIImage(data: imageData)
-//                                self.list.append(feedData)
-//                            }
-//                            let url: URL! = Foundation.URL(string: imageUrl)
-//                            let imageData = try! Data(contentsOf: url)
-//                            feedData.image = UIImage(data: imageData)
-                            
-//                        }
                         
                         self.list.append(feedData)
                     }
                     self.collectionView.reloadData()
                     self.pageNo += 1
                     self.isLoading = false
-//                    self.overlayView.isHidden = true
-//                    self.activityIndicator.stopAnimating()
+
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         print("merr")
                         self.overlayView.isHidden = true
@@ -255,7 +230,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         
         let header : HTTPHeaders = [
             "Content-Type" : "application/json",
-            //"X-AUTH-TOKEN" : accessToken!
         ]
 
         let bodyData : Parameters = [

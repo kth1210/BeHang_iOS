@@ -85,6 +85,14 @@
             </objects>
             <point key="canvasLocation" x="-316.92307692307691" y="346.91943127962082"/>
         </scene>
+        <!--NetworkView-->
+        <scene sceneID="1oP-29-lQg">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="NetworkViewController" storyboardName="NetworkView" id="CsN-Fn-IEL" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WTn-P1-vWT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="485" y="272"/>
+        </scene>
         <!--Main-->
         <scene sceneID="Zee-xX-1L2">
             <objects>

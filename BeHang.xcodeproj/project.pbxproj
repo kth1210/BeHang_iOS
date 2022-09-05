@@ -40,6 +40,10 @@
 		0E97832428B3A730007DFE30 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E97832328B3A730007DFE30 /* SettingCell.swift */; };
 		0EA785A428C5AA29001D1BE2 /* PolicyView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EA785A328C5AA29001D1BE2 /* PolicyView.storyboard */; };
 		0EA785A628C5AA44001D1BE2 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA785A528C5AA44001D1BE2 /* PolicyViewController.swift */; };
+		0EA785AA28C61BB7001D1BE2 /* NetworkCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA785A928C61BB7001D1BE2 /* NetworkCheck.swift */; };
+		0EA785AC28C61E0C001D1BE2 /* NetworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA785AB28C61E0C001D1BE2 /* NetworkViewController.swift */; };
+		0EA785AE28C6202F001D1BE2 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA785AD28C6202F001D1BE2 /* ShowViewController.swift */; };
+		0EA785B028C62189001D1BE2 /* NetworkView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EA785AF28C62189001D1BE2 /* NetworkView.storyboard */; };
 		0EAA91EF28AE89DF00963AF1 /* LoadingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA91ED28AE89DF00963AF1 /* LoadingCollectionView.swift */; };
 		0EAA91F028AE89DF00963AF1 /* LoadingCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EAA91EE28AE89DF00963AF1 /* LoadingCollectionView.xib */; };
 		0EAC734A28B11A1B00C7ED4F /* LaunchView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EAC734928B11A1B00C7ED4F /* LaunchView.storyboard */; };
@@ -124,6 +128,10 @@
 		0E97832328B3A730007DFE30 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		0EA785A328C5AA29001D1BE2 /* PolicyView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PolicyView.storyboard; sourceTree = "<group>"; };
 		0EA785A528C5AA44001D1BE2 /* PolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
+		0EA785A928C61BB7001D1BE2 /* NetworkCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCheck.swift; sourceTree = "<group>"; };
+		0EA785AB28C61E0C001D1BE2 /* NetworkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkViewController.swift; sourceTree = "<group>"; };
+		0EA785AD28C6202F001D1BE2 /* ShowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowViewController.swift; sourceTree = "<group>"; };
+		0EA785AF28C62189001D1BE2 /* NetworkView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NetworkView.storyboard; sourceTree = "<group>"; };
 		0EAA91ED28AE89DF00963AF1 /* LoadingCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCollectionView.swift; sourceTree = "<group>"; };
 		0EAA91EE28AE89DF00963AF1 /* LoadingCollectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCollectionView.xib; sourceTree = "<group>"; };
 		0EAC734628B0B95C00C7ED4F /* BeHang.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BeHang.entitlements; sourceTree = "<group>"; };
@@ -261,6 +269,7 @@
 				0E3CEA8128B7C18F00CC78AC /* AccountSettingView.storyboard */,
 				0E3CEA8528BB8DB400CC78AC /* ChangeProfileView.storyboard */,
 				0EA785A328C5AA29001D1BE2 /* PolicyView.storyboard */,
+				0EA785AF28C62189001D1BE2 /* NetworkView.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -283,6 +292,7 @@
 				0E3CEA8328B7C1AC00CC78AC /* AccountSettingViewController.swift */,
 				0E3CEA8728BB8DC800CC78AC /* ChangeProfileViewController.swift */,
 				0EA785A528C5AA44001D1BE2 /* PolicyViewController.swift */,
+				0EA785AB28C61E0C001D1BE2 /* NetworkViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -307,6 +317,8 @@
 				0EAA91EE28AE89DF00963AF1 /* LoadingCollectionView.xib */,
 				0E97832328B3A730007DFE30 /* SettingCell.swift */,
 				0E76005028B64F3700289962 /* FeedInfo.swift */,
+				0EA785A928C61BB7001D1BE2 /* NetworkCheck.swift */,
+				0EA785AD28C6202F001D1BE2 /* ShowViewController.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -454,6 +466,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EA785B028C62189001D1BE2 /* NetworkView.storyboard in Resources */,
 				0E7C92B02893A1E500823A9E /* FlagTab.storyboard in Resources */,
 				0EF5B5E028AF4F1300E18A71 /* shadow_balloon.png in Resources */,
 				0E8A88102893C78C00E04853 /* UploadView.storyboard in Resources */,
@@ -554,6 +567,7 @@
 				0E7C92B62893A24000823A9E /* HomeViewController.swift in Sources */,
 				0EF5B60F28AF66E500E18A71 /* MapSearchViewController.swift in Sources */,
 				0E3CEA8828BB8DC800CC78AC /* ChangeProfileViewController.swift in Sources */,
+				0EA785AE28C6202F001D1BE2 /* ShowViewController.swift in Sources */,
 				0E76005128B64F3700289962 /* FeedInfo.swift in Sources */,
 				0E7C92BC2893A28C00823A9E /* UserViewController.swift in Sources */,
 				0E6517D628AD275C006F4917 /* PlaceInfo.swift in Sources */,
@@ -562,6 +576,7 @@
 				0E6517C828A40A98006F4917 /* PostPhotoCell.swift in Sources */,
 				0E7C92B82893A26900823A9E /* MapViewController.swift in Sources */,
 				0E6517CB28A4129D006F4917 /* PostCollectionReusableView.swift in Sources */,
+				0EA785AA28C61BB7001D1BE2 /* NetworkCheck.swift in Sources */,
 				0E3CEA8428B7C1AC00CC78AC /* AccountSettingViewController.swift in Sources */,
 				0EA785A628C5AA44001D1BE2 /* PolicyViewController.swift in Sources */,
 				0E7C92B42893A21300823A9E /* TabViewController.swift in Sources */,
@@ -569,6 +584,7 @@
 				0EBFEA4E28A1591100B5340D /* ImageInfo.swift in Sources */,
 				0E6517D028A560D9006F4917 /* PhotoCell.swift in Sources */,
 				0E97832428B3A730007DFE30 /* SettingCell.swift in Sources */,
+				0EA785AC28C61E0C001D1BE2 /* NetworkViewController.swift in Sources */,
 				0E7C92C02893BEA300823A9E /* UploadViewController.swift in Sources */,
 				0E7C92962892DD2B00823A9E /* ViewController.swift in Sources */,
 				0E8A88122895054900E04853 /* PlaceListViewController.swift in Sources */,

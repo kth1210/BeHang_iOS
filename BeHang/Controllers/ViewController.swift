@@ -53,6 +53,7 @@ class ViewController: UIViewController {
                     _ = oauthToken
                     let accessToken = oauthToken?.accessToken
                     //let refreshToken = oauthToken?.refreshToken
+                    UserDefaults.standard.setValue(accessToken, forKey: "kakaoAccessToken")
                     
                     if UserDefaults.standard.bool(forKey: "signupKakao") {
                         // 카카오로 회원가입한 적이 있으면 토큰 받아온거로 로그인
