@@ -55,8 +55,9 @@ class FlagViewController: UIViewController {
         jeonnamFlag.isHidden = true
         jejuFlag.isHidden = true
 
-        
-        getHistory()
+        if UserDefaults.standard.string(forKey: "login") != "none" {
+            getHistory()
+        }
     }
     
     @IBAction func shareInstagramButtonPressed(_ sender: UIButton) {
