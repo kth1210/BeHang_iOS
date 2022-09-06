@@ -79,7 +79,7 @@ class LaunchViewController: UIViewController {
             encoding: JSONEncoding.default,
             headers: header
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { (response) in
             switch response.result {
             case .success(let data):
@@ -98,11 +98,6 @@ class LaunchViewController: UIViewController {
 
                     print(asJSON)
 
-                    // 메인 화면으로 이동
-//                    guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
-//                    nextVC.modalPresentationStyle = .fullScreen
-//                    nextVC.modalTransitionStyle = .crossDissolve
-//                    self.present(nextVC, animated: true, completion: nil)
                     self.presentToMain()
 
                 } catch {

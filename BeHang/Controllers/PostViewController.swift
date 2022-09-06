@@ -222,7 +222,6 @@ class PostViewController: UIViewController {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                     let code = asJSON["code"] as! Int
                     print(code)
-                    print(self.contentId)
                     // 자체 토큰이 만료
                     if code == -1014 {
                         // 토큰 재발급

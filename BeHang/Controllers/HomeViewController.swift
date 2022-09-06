@@ -315,11 +315,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                     
                     let url: URL! = Foundation.URL(string: "http://35.247.33.79/\(self.list[indexPath.row].imageString!)")
                     do {
-                        //print(self.list)
-                        print("indexPath = \(indexPath.row)")
-//                        let imageData = try Data(contentsOf: url)
-//                        self.list[indexPath.row].image = UIImage(data: imageData)
-                        print(url)
                         self.list[indexPath.row].image = self.downsample(imageAt: url, to: CGSize(width: 400, height: 400), scale: 1.0)
                         print("end photo setting")
                     } catch {

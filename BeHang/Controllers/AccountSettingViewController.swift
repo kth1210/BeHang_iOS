@@ -29,7 +29,7 @@ class AccountSettingViewController: UIViewController {
     }
 
     func logoutKakao() {
-        let url = "http://35.247.33.79/logout/kakao"
+        let url = "http://35.247.33.79/social/logout/kakao"
         
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         
@@ -67,7 +67,7 @@ class AccountSettingViewController: UIViewController {
     }
     
     func withdrawalKakao() {
-        let url = "http://35.247.33.79/withdrawal/kakao"
+        let url = "http://35.247.33.79/social/withdrawal/kakao"
         
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         let kakaoAccessToken = UserDefaults.standard.string(forKey: "kakaoAccessToken")!
@@ -84,8 +84,8 @@ class AccountSettingViewController: UIViewController {
         AF.request(url,
                    method: .post,
                    parameters: bodyData,
-                   encoding: URLEncoding.queryString,
-                   //encoding: JSONEncoding.default,
+                   //encoding: URLEncoding.queryString,
+                   encoding: JSONEncoding.default,
                    headers: header
         )
         //.validate(statusCode: 200..<300)
@@ -130,7 +130,7 @@ class AccountSettingViewController: UIViewController {
     }
     
     func logoutApple() {
-        let url = "http://35.247.33.79/logout/apple"
+        let url = "http://35.247.33.79/social/logout/apple"
         
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         
@@ -168,7 +168,7 @@ class AccountSettingViewController: UIViewController {
     }
     
     func withdrawalApple() {
-        let url = "http://35.247.33.79/withdrawal/apple"
+        let url = "http://35.247.33.79/social/withdrawal/apple"
         
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         

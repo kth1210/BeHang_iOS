@@ -144,7 +144,6 @@ class MapViewController: UIViewController, MTMapViewDelegate, CLLocationManagerD
         let latitude = coor?.latitude
         let longitude = coor?.longitude
         
-        print("lat = \(latitude), lng = \(longitude)")
         locationManager.stopUpdatingLocation()
         
         self.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: latitude!, longitude: longitude!))

@@ -31,6 +31,7 @@ class FlagViewController: UIViewController {
     @IBOutlet var jejuFlag: UIImageView!
     
     var flagArr : [UIImageView]!
+    let activityIndicator = UIActivityIndicatorView(style: .large)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,8 +55,15 @@ class FlagViewController: UIViewController {
         jeonbukFlag.isHidden = true
         jeonnamFlag.isHidden = true
         jejuFlag.isHidden = true
+        
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activityIndicator.center = self.view.center
+        activityIndicator.color = .white
+        activityIndicator.hidesWhenStopped = true
+        self.view.addSubview(self.activityIndicator)
 
         if UserDefaults.standard.string(forKey: "login") != "none" {
+            activityIndicator.startAnimating()
             getHistory()
         }
     }
@@ -129,8 +137,8 @@ class FlagViewController: UIViewController {
                     let list = asJSON["list"] as! [[String:Any]]
                     
                     for data in list {
-                        var areaName = data["areaName"] as! String
-                        var count = data["numOfPlace"] as! Int
+                        let areaName = data["areaName"] as! String
+                        let count = data["numOfPlace"] as! Int
                         
                         switch areaName {
                         case "Seoul":
@@ -240,7 +248,7 @@ class FlagViewController: UIViewController {
                         }
                     }
 
-                    
+                    self.activityIndicator.stopAnimating()
                     print(asJSON)
                 } catch {
                     print("error")
