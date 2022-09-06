@@ -53,23 +53,17 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         switch index {
         case 0:
-            print(settingTitle[index])
-            
             guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "AccountSettingViewController") as? AccountSettingViewController else {return}
             self.navigationController?.pushViewController(nextVC, animated: true)
         case 1:
-            print(settingTitle[index])
-            
             guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "PolicyViewController") as? PolicyViewController else {return}
             self.navigationController?.pushViewController(nextVC, animated: true)
         case 2:
-            print(settingTitle[index])
-        case 3:
-            print(settingTitle[index])
-        case 4:
-            print(settingTitle[index])
-        case 5:
-            print(settingTitle[index])
+            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "VersionViewController") as? VersionViewController else {return}
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        case 3:            
+            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ContactViewController") as? ContactViewController else {return}
+            self.navigationController?.pushViewController(nextVC, animated: true)
         default:
             print("error")
         }

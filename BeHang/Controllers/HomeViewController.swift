@@ -36,6 +36,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NetworkCheck.shared.stopMonitoring()
 
         let loadingReusableNib = UINib(nibName: "LoadingCollectionView", bundle: nil)
         collectionView.register(loadingReusableNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "loadingCollectionView")
@@ -45,7 +46,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         overlayView.backgroundColor = UIColor(white: 0, alpha: 0.2)
         overlayView.frame = collectionView.bounds
         overlayView.center = collectionView.center
-        overlayView.layer.cornerRadius = 10
         
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         activityIndicator.center = self.view.center
@@ -76,9 +76,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             print("error")
         }
         
-        
-        //getCurrent()
-//        getFeed()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,7 +119,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         self.isLoading = true
         
         print("start Get Feed")
-        let url = "http://35.247.33.79/posts/feed/sort=Distance?page=\(pageNo)&size=10"
+        let url = "http://\(urlConstants.release)/posts/feed/sort=Distance?page=\(pageNo)&size=10"
 
         let bodyData : Parameters = [
             "curX" : curX,
@@ -143,7 +141,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             case .success(let data):
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
-                    print(asJSON)
                     let code = asJSON["code"] as! Int
                     
                     // 자체 토큰이 만료
@@ -175,7 +172,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                     self.isLoading = false
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        print("merr")
                         self.overlayView.isHidden = true
                         self.activityIndicator.stopAnimating()
                         self.refreshControl.endRefreshing()
@@ -213,7 +209,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         
         self.curX = longitude ?? 126.9784147
         self.curY = latitude ?? 37.5666805
-        print("X: \(curX), Y: \(curY)")
         
         getFeed()
     }
@@ -223,7 +218,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     
     func reissue() {
-        let loginUrl = "http://35.247.33.79/reissue"
+        let loginUrl = "http://\(urlConstants.release)/reissue"
 
         let accessToken = UserDefaults.standard.string(forKey: "accessToken")
         let refreshToken = UserDefaults.standard.string(forKey: "refreshToken")
@@ -260,7 +255,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                     UserDefaults.standard.setValue(xToken, forKey: "accessToken")
                     UserDefaults.standard.setValue(refreshToken, forKey: "refreshToken")
 
-                    print(asJSON)
                     
                     self.getFeed()
 
@@ -300,49 +294,30 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCell else {
             return UICollectionViewCell()
         }
-//        print("coll start")
-//        print("indexPath = \(indexPath.row)")
-//        && !self.collectionView.refreshControl!.isRefreshing₩
+
         if list.count != 0 {
-            //print("refresh? : \(self.collectionView.refreshControl?.isRefreshing)")
             cell.id = list[indexPath.row].id
-            //cell.imageView.image = list[indexPath.row].image
             
             if list[indexPath.row].image == nil {
                 cell.imageView.image = UIImage(named: "loading")
                 DispatchQueue.global(qos: .userInteractive).async {
-//                    print("dispatch global")
                     
-                    let url: URL! = Foundation.URL(string: "http://35.247.33.79/\(self.list[indexPath.row].imageString!)")
+                    let url: URL! = Foundation.URL(string: "http://\(urlConstants.release)/\(self.list[indexPath.row].imageString!)")
                     do {
                         self.list[indexPath.row].image = self.downsample(imageAt: url, to: CGSize(width: 400, height: 400), scale: 1.0)
-                        print("end photo setting")
                     } catch {
                         self.list[indexPath.row].image = UIImage(systemName: "exclamationmark.triangle.fill")
-                        print("feed load error")
                     }
-    //                let imageData = try Data(contentsOf: url)
-    //                self.list[indexPath.row].image = UIImage(data: imageData)
                     
                     DispatchQueue.main.async {
                         cell.imageView.image = self.list[indexPath.row].image
                     }
                     
-//                    print("dispatch global end")
                 }
             } else {
                 cell.imageView.image = list[indexPath.row].image
             }
         }
-        
-        
-
-        
-//        cell.layer.masksToBounds = false
-//        cell.layer.shadowOffset = .zero
-//        cell.layer.shadowRadius = 3
-//        cell.layer.shadowOpacity = 0.8
-//        cell.layer.shadowColor = UIColor.black.cgColor
         
         return cell
     }
@@ -392,7 +367,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
         if elementKind == UICollectionView.elementKindSectionFooter {
-            print("didenddisplay")
             self.loadingView?.activityIndicator.stopAnimating()
         }
     }
@@ -435,8 +409,7 @@ extension UIImage {
         let renderImage = render.image {
             context in self.draw(in: CGRect(origin: .zero, size: size))
         }
-        print("화면 배율: \(UIScreen.main.scale)")// 배수
-        print("origin: \(self), resize: \(renderImage)")
+
         return renderImage
         
     }

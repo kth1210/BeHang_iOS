@@ -68,6 +68,13 @@ class FlagViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if UserDefaults.standard.string(forKey: "login") != "none" {
+            activityIndicator.startAnimating()
+            getHistory()
+        }
+    }
+    
     @IBAction func shareInstagramButtonPressed(_ sender: UIButton) {
         
         if let storyShareURL = URL(string: "instagram-stories://share") {
@@ -103,7 +110,7 @@ class FlagViewController: UIViewController {
     }
     
     func getHistory() {
-        let signupUrl = "http://35.247.33.79/history"
+        let signupUrl = "http://\(urlConstants.release)/history"
 
         
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
@@ -249,7 +256,6 @@ class FlagViewController: UIViewController {
                     }
 
                     self.activityIndicator.stopAnimating()
-                    print(asJSON)
                 } catch {
                     print("error")
                 }
@@ -261,7 +267,7 @@ class FlagViewController: UIViewController {
     }
     
     func reissue() {
-        let loginUrl = "http://35.247.33.79/reissue"
+        let loginUrl = "http://\(urlConstants.release)/reissue"
 
         let accessToken = UserDefaults.standard.string(forKey: "accessToken")
         let refreshToken = UserDefaults.standard.string(forKey: "refreshToken")
@@ -298,8 +304,6 @@ class FlagViewController: UIViewController {
 
                     UserDefaults.standard.setValue(xToken, forKey: "accessToken")
                     UserDefaults.standard.setValue(refreshToken, forKey: "refreshToken")
-
-                    print(asJSON)
                     
                     self.getHistory()
 

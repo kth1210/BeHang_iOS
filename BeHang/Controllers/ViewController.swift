@@ -16,9 +16,25 @@ class ViewController: UIViewController {
     @IBOutlet var appleLoginButton: UIImageView!
     @IBOutlet weak var withoutLoginButton: UIButton!
     
+    let activityIndicator = UIActivityIndicatorView(style: .large)
+    let overlayView = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        overlayView.backgroundColor = UIColor(white: 0, alpha: 0.2)
+        overlayView.frame = view.frame
+        overlayView.center = view.center
+        self.view.addSubview(overlayView)
+        
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activityIndicator.center = self.view.center
+        activityIndicator.color = .white
+        activityIndicator.hidesWhenStopped = true
+        self.view.addSubview(activityIndicator)
+        
+        overlayView.isHidden = true
         
         withoutLoginButton.layer.addBorder([.bottom], color: UIColor.black, width: 2.0)
         
@@ -40,6 +56,8 @@ class ViewController: UIViewController {
     // 카카오 로그인 버튼 눌렀을 때
     @objc func loginKakaoPressed() {
         print("loginKakao() called")
+        self.overlayView.isHidden = false
+        self.activityIndicator.startAnimating()
         
         // 카카오톡으로 로그인 가능한지 확인
         if (UserApi.isKakaoTalkLoginAvailable()) {
@@ -72,7 +90,7 @@ class ViewController: UIViewController {
     // 카카오 토큰으로 회원가입
     func kakaoSignup(accessToken : String) {
         print("start kakao signup")
-        let signupUrl = "http://35.247.33.79/social/signup/kakao"
+        let signupUrl = "http://\(urlConstants.release)/social/signup/kakao"
         
         let accessToken = accessToken
         //let refreshToken = refreshToken
@@ -111,7 +129,7 @@ class ViewController: UIViewController {
     
     func kakaoLogin(accessToken: String) {
         print("start kakao login")
-        let loginUrl = "http://35.247.33.79/social/login/kakao"
+        let loginUrl = "http://\(urlConstants.release)/social/login/kakao"
         
         let header : HTTPHeaders = [
             "Content-Type" : "application/json"
@@ -146,8 +164,10 @@ class ViewController: UIViewController {
                     UserDefaults.standard.setValue(true, forKey: "isLogin")
                     UserDefaults.standard.setValue("kakao", forKey: "login")
                     
-                    print(asJSON)
                     print("Success Login")
+                    
+                    self.overlayView.isHidden = true
+                    self.activityIndicator.stopAnimating()
                     
                     // 메인 화면으로 이동
                     guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
@@ -183,7 +203,7 @@ class ViewController: UIViewController {
     func appleSignup(code: String, id_token: String, nickName: String, userId: String) {
         print("appleSignup")
         
-        let signupUrl = "http://35.247.33.79/social/signup/apple"
+        let signupUrl = "http://\(urlConstants.release)/social/signup/apple"
         
         // 회원가입할 때 userName 등록 (한번 밖에 안옴)
         UserDefaults.standard.setValue(nickName, forKey: "appleName")
@@ -223,7 +243,6 @@ class ViewController: UIViewController {
                     UserDefaults.standard.setValue(appleRefresh, forKey: "appleRefreshToken")
                     UserDefaults.standard.setValue(true, forKey: "signupApple")
                     
-                    print(asJSON)
                     self.appleLogin()
                 } catch {
                     print("error")
@@ -238,7 +257,7 @@ class ViewController: UIViewController {
     func appleLogin() {
         print("appleLogin")
         
-        let loginUrl = "http://35.247.33.79/social/login/apple"
+        let loginUrl = "http://\(urlConstants.release)/social/login/apple"
         
         let header : HTTPHeaders = [
             "Content-Type" : "application/json"
@@ -274,9 +293,10 @@ class ViewController: UIViewController {
                     UserDefaults.standard.setValue(true, forKey: "isLogin")
                     UserDefaults.standard.setValue("apple", forKey: "login")
                     
-                    print(asJSON)
                     print("Success apple Login")
                     
+                    self.overlayView.isHidden = true
+                    self.activityIndicator.stopAnimating()
                     // 메인 화면으로 이동
                     guard let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
                     nextVC.modalPresentationStyle = .fullScreen
@@ -322,6 +342,9 @@ extension ViewController: ASAuthorizationControllerDelegate, ASAuthorizationCont
             
             print(userIdentifier)
             print(userName)
+            
+            self.activityIndicator.startAnimating()
+            self.overlayView.isHidden = false
             
             if UserDefaults.standard.bool(forKey: "signupApple") {
                 // apple 계정으로 회원가입한 적이 있으면

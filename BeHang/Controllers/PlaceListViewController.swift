@@ -150,7 +150,6 @@ class PlaceListViewController: UIViewController {
                     self.tableView.tableFooterView?.isHidden = true
                     self.activityIndicator.stopAnimating()
                     
-                    print(asJSON)
                 } catch {
                     print("error")
                 }

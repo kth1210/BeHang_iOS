@@ -79,8 +79,6 @@ class UploadViewController: UIViewController {
         //self.tabBarController?.tabBar.isHidden = true
         
         if let placeName = selectedPlaceInfo.title {
-            print(placeName)
-            //self.selectPlaceButton.titleLabel?.text = placeName
             self.selectPlaceButton.setTitle(placeName, for: .normal)
         }
     }
@@ -128,7 +126,7 @@ class UploadViewController: UIViewController {
         overlayView.isHidden = false
         activityIndicator.startAnimating()
         
-        let url = "http://35.247.33.79/posts"
+        let url = "http://\(urlConstants.release)/posts"
 
         let header : HTTPHeaders = [
             "Content-Type" : "multipart/form-data",
@@ -147,10 +145,10 @@ class UploadViewController: UIViewController {
         let name = selectedPlaceInfo.title ?? ""
         
         let tag: [String: Any] = [
-            "comfortablePubTransit": tagButton1.isSelected,
-            "convenientParking": tagButton2.isSelected,
-            "indoor": tagButton3.isSelected,
-            "withChild": tagButton4.isSelected,
+            "comfortablePubTransit": tagButton2.isSelected,
+            "convenientParking": tagButton1.isSelected,
+            "indoor": tagButton4.isSelected,
+            "withChild": tagButton3.isSelected,
             "withLover": tagButton5.isSelected,
             "withMyDog": tagButton6.isSelected
         ]
@@ -158,7 +156,6 @@ class UploadViewController: UIViewController {
 
         arrFormData["place"] = place
         arrFormData["tag"] = tag
-        print(arrFormData)
         
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: arrFormData, options: .prettyPrinted)
@@ -175,13 +172,13 @@ class UploadViewController: UIViewController {
                 case .success(let data):
                     do {
                         let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+ 
                         let code = asJSON["code"] as! Int
-                        
+
                         if code == -1014 {
                             self.reissue(imageData: imageData)
                             return
                         }
-                        
                         print("success upload")
                         self.navigationController?.popViewController(animated: true)
                     } catch {
@@ -212,7 +209,7 @@ class UploadViewController: UIViewController {
     }
     
     func reissue(imageData: Data) {
-        let loginUrl = "http://35.247.33.79/reissue"
+        let loginUrl = "http://\(urlConstants.release)/reissue"
 
         let accessToken = UserDefaults.standard.string(forKey: "accessToken")
         let refreshToken = UserDefaults.standard.string(forKey: "refreshToken")

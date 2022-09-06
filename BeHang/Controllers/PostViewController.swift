@@ -79,7 +79,6 @@ class PostViewController: UIViewController {
         overlayView.backgroundColor = UIColor(white: 0, alpha: 0.4)
         overlayView.frame = collectionView.bounds
         overlayView.center = collectionView.center
-        overlayView.layer.cornerRadius = 10
     
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         activityIndicator.color = .white
@@ -125,7 +124,7 @@ class PostViewController: UIViewController {
             self.isShareImage = false
         }
         
-        let url = "http://35.247.33.79/posts/\(postId!)"
+        let url = "http://\(urlConstants.release)/posts/\(postId!)"
         
         var param : Parameters = [:]
         param["postId"] = postId
@@ -145,7 +144,6 @@ class PostViewController: UIViewController {
             case .success(let data):
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
-                    print(asJSON)
                     let code = asJSON["code"] as! Int
                     
                     if code == -1014 {
@@ -200,8 +198,7 @@ class PostViewController: UIViewController {
         self.isLoading = true
         
         print("start Get Feed")
-        let url = "http://35.247.33.79/posts/feed/place/\(contentId ?? 0)"
-        print(url)
+        let url = "http://\(urlConstants.release)/posts/feed/place/\(contentId ?? 0)"
         
         var param : Parameters = [:]
         param["contentId"] = self.contentId
@@ -221,11 +218,14 @@ class PostViewController: UIViewController {
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                     let code = asJSON["code"] as! Int
-                    print(code)
                     // 자체 토큰이 만료
                     if code == -1014 {
                         // 토큰 재발급
                         self.reissue()
+                        return
+                    } else if code == -1017 {
+                        self.overlayView.isHidden = true
+                        self.activityIndicator.stopAnimating()
                         return
                     }
                     
@@ -242,13 +242,7 @@ class PostViewController: UIViewController {
                         feedData.id = res["id"] as? Int
                         feedData.imageString = res["imageUrl"] as? String
                         feedData.contentId = res["contentId"] as? Int
-//                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
-//
-//                        if feedData.imageString != "" {
-//                            let url: URL! = Foundation.URL(string: imageUrl)
-//                            let imageData = try! Data(contentsOf: url)
-//                            feedData.image = UIImage(data: imageData)
-//                        }
+
                         
                         self.list.append(feedData)
                     }
@@ -286,7 +280,7 @@ class PostViewController: UIViewController {
         self.isLoading = true
         
         print("start Get Feed")
-        let url = "http://35.247.33.79/posts/feed/me"
+        let url = "http://\(urlConstants.release)/posts/feed/me"
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         
         let header : HTTPHeaders = [
@@ -387,7 +381,7 @@ class PostViewController: UIViewController {
             self.overlayView.isHidden = false
             self.activityIndicator.startAnimating()
             
-            let url = "http://35.247.33.79/posts/\(self.postId!)"
+            let url = "http://\(urlConstants.release)/posts/\(self.postId!)"
             let xToken = UserDefaults.standard.string(forKey: "accessToken")!
             
             let header : HTTPHeaders = [
@@ -442,12 +436,12 @@ class PostViewController: UIViewController {
     @objc func reportButtonPressed() {
         self.reissueCase = 4
         
-        let alert = UIAlertController(title: "부적절한 게시물", message: "게시물을 신고하시겠습니까?/n(검토 이후 게시물이 삭제되거나 제재가 있을 수 있습니다.)", preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "부적절한 게시물", message: "게시물을 신고하시겠습니까? /n (검토 이후 게시물이 삭제되거나 제재가 있을 수 있습니다.)", preferredStyle: UIAlertController.Style.alert)
         let confirm = UIAlertAction(title: "신고", style: UIAlertAction.Style.destructive) { _ in
             self.overlayView.isHidden = false
             self.activityIndicator.startAnimating()
             
-            let url = "http://35.247.33.79/report/\(self.postId!)"
+            let url = "http://\(urlConstants.release)/report/\(self.postId!)"
             let xToken = UserDefaults.standard.string(forKey: "accessToken")!
             
             let header : HTTPHeaders = [
@@ -518,7 +512,7 @@ class PostViewController: UIViewController {
     
     // 토큰 만료 처리
     func reissue() {
-        let loginUrl = "http://35.247.33.79/reissue"
+        let loginUrl = "http://\(urlConstants.release)/reissue"
         let accessToken = UserDefaults.standard.string(forKey: "accessToken")
         let refreshToken = UserDefaults.standard.string(forKey: "refreshToken")
 
@@ -556,7 +550,6 @@ class PostViewController: UIViewController {
                     UserDefaults.standard.setValue(refreshToken, forKey: "refreshToken")
                     
                     print("토큰 재발급")
-                    print(asJSON)
 
                     switch self.reissueCase {
                     case 0:
@@ -600,13 +593,12 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
         
         cell.id = list[indexPath.row].id
-//        cell.imageView.image = list[indexPath.row].image
         
         if list[indexPath.row].image == nil {
+            cell.imageView.image = UIImage(named: "loading")
             DispatchQueue.global(qos: .userInteractive).async {
-                print("dispatch global")
                 
-                let url: URL! = Foundation.URL(string: "http://35.247.33.79/\(self.list[indexPath.row].imageString!)")
+                let url: URL! = Foundation.URL(string: "http://\(urlConstants.release)/\(self.list[indexPath.row].imageString!)")
                 let imageData = try! Data(contentsOf: url)
                 self.list[indexPath.row].image = UIImage(data: imageData)
                 
@@ -614,17 +606,10 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
                     cell.imageView.image = self.list[indexPath.row].image
                 }
                 
-                print("dispatch global end")
             }
         } else {
             cell.imageView.image = list[indexPath.row].image
         }
-        
-        cell.layer.masksToBounds = false
-        cell.layer.shadowOffset = .zero
-        cell.layer.shadowRadius = 3
-        cell.layer.shadowOpacity = 0.8
-        cell.layer.shadowColor = UIColor.black.cgColor
 
         return cell
     }
@@ -714,6 +699,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             return aFooterView
         default:
             assert(false, "error")
+            return UICollectionReusableView()
         }
     }
     

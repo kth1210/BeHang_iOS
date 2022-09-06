@@ -46,13 +46,6 @@ class MapViewController: UIViewController, MTMapViewDelegate, CLLocationManagerD
         buttonView.layer.cornerRadius = buttonView.frame.width / 2
         buttonView.clipsToBounds = true
         
-//        tag1.layer.cornerRadius = 8
-//        tag2.layer.cornerRadius = 8
-//        tag3.layer.cornerRadius = 8
-//        tag4.layer.cornerRadius = 8
-//        tag5.layer.cornerRadius = 8
-//        tag6.layer.cornerRadius = 8
-        
         self.mapSearchBar.delegate = self
         self.mapSearchBar.searchBarStyle = .minimal
         self.mapSearchBar.placeholder = "장소 이름 검색"
@@ -65,13 +58,7 @@ class MapViewController: UIViewController, MTMapViewDelegate, CLLocationManagerD
         if let mapView = mapView {
             mapView.delegate = self
             mapView.baseMapType = .standard
-            
-            
-//            mapView.currentLocationTrackingMode = .onWithoutHeading
-//            mapView.showCurrentLocationMarker = true
-            
-            //mapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: latitude, longitude: longitude)), zoomLevel: 5, animated: true)
-            
+
             self.view.addSubview(mapView)
         }
         

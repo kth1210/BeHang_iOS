@@ -81,6 +81,22 @@
             </objects>
             <point key="canvasLocation" x="759" y="162"/>
         </scene>
+        <!--VersionView-->
+        <scene sceneID="Gxa-uo-XNi">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="VersionViewController" storyboardName="VersionView" id="xYR-Kc-52i" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vni-ih-YPA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="772" y="215"/>
+        </scene>
+        <!--ContactView-->
+        <scene sceneID="hcu-wh-X3v">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="ContactViewController" storyboardName="ContactView" id="xtm-4a-fSS" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dYu-mC-hf3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="794" y="260"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">

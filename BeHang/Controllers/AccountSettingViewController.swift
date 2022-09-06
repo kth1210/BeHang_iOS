@@ -29,7 +29,7 @@ class AccountSettingViewController: UIViewController {
     }
 
     func logoutKakao() {
-        let url = "http://35.247.33.79/social/logout/kakao"
+        let url = "http://\(urlConstants.release)/social/logout/kakao"
         
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         
@@ -67,7 +67,7 @@ class AccountSettingViewController: UIViewController {
     }
     
     func withdrawalKakao() {
-        let url = "http://35.247.33.79/social/withdrawal/kakao"
+        let url = "http://\(urlConstants.release)/social/withdrawal/kakao"
         
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         let kakaoAccessToken = UserDefaults.standard.string(forKey: "kakaoAccessToken")!
@@ -110,9 +110,16 @@ class AccountSettingViewController: UIViewController {
                         }
                     }
                     
-                    for key in UserDefaults.standard.dictionaryRepresentation().keys {
-                        UserDefaults.standard.removeObject(forKey: key.description)
-                    }
+                    UserDefaults.standard.setValue(false, forKey: "isLogin")
+                    UserDefaults.standard.setValue("none", forKey: "login")
+                    UserDefaults.standard.removeObject(forKey: "accessToken")
+                    UserDefaults.standard.removeObject(forKey: "refreshToken")
+                    UserDefaults.standard.removeObject(forKey: "signupKakao")
+                    UserDefaults.standard.removeObject(forKey: "kakaoAccessToken")
+                    
+//                    for key in UserDefaults.standard.dictionaryRepresentation().keys {
+//                        UserDefaults.standard.removeObject(forKey: key.description)
+//                    }
                     
                     UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -130,7 +137,7 @@ class AccountSettingViewController: UIViewController {
     }
     
     func logoutApple() {
-        let url = "http://35.247.33.79/social/logout/apple"
+        let url = "http://\(urlConstants.release)/social/logout/apple"
         
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         
@@ -168,7 +175,7 @@ class AccountSettingViewController: UIViewController {
     }
     
     func withdrawalApple() {
-        let url = "http://35.247.33.79/social/withdrawal/apple"
+        let url = "http://\(urlConstants.release)/social/withdrawal/apple"
         
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         
@@ -191,9 +198,16 @@ class AccountSettingViewController: UIViewController {
             case .success:
                 print("apple withdrawal success")
                 
-                for key in UserDefaults.standard.dictionaryRepresentation().keys {
-                    UserDefaults.standard.removeObject(forKey: key.description)
-                }
+                UserDefaults.standard.setValue(false, forKey: "isLogin")
+                UserDefaults.standard.setValue("none", forKey: "login")
+                UserDefaults.standard.removeObject(forKey: "accessToken")
+                UserDefaults.standard.removeObject(forKey: "refreshToken")
+                UserDefaults.standard.removeObject(forKey: "signupApple")
+                UserDefaults.standard.removeObject(forKey: "appleName")
+                
+//                for key in UserDefaults.standard.dictionaryRepresentation().keys {
+//                    UserDefaults.standard.removeObject(forKey: key.description)
+//                }
                 
                 UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

@@ -44,6 +44,11 @@
 		0EA785AC28C61E0C001D1BE2 /* NetworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA785AB28C61E0C001D1BE2 /* NetworkViewController.swift */; };
 		0EA785AE28C6202F001D1BE2 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA785AD28C6202F001D1BE2 /* ShowViewController.swift */; };
 		0EA785B028C62189001D1BE2 /* NetworkView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EA785AF28C62189001D1BE2 /* NetworkView.storyboard */; };
+		0EA785B228C73F06001D1BE2 /* VersionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EA785B128C73F06001D1BE2 /* VersionView.storyboard */; };
+		0EA785B428C73F24001D1BE2 /* VersionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA785B328C73F24001D1BE2 /* VersionViewController.swift */; };
+		0EA785B628C7410D001D1BE2 /* ContactView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EA785B528C7410D001D1BE2 /* ContactView.storyboard */; };
+		0EA785B828C7411C001D1BE2 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA785B728C7411C001D1BE2 /* ContactViewController.swift */; };
+		0EA785BA28C7A217001D1BE2 /* urlConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA785B928C7A217001D1BE2 /* urlConstants.swift */; };
 		0EAA91EF28AE89DF00963AF1 /* LoadingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA91ED28AE89DF00963AF1 /* LoadingCollectionView.swift */; };
 		0EAA91F028AE89DF00963AF1 /* LoadingCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EAA91EE28AE89DF00963AF1 /* LoadingCollectionView.xib */; };
 		0EAC734A28B11A1B00C7ED4F /* LaunchView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EAC734928B11A1B00C7ED4F /* LaunchView.storyboard */; };
@@ -132,6 +137,11 @@
 		0EA785AB28C61E0C001D1BE2 /* NetworkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkViewController.swift; sourceTree = "<group>"; };
 		0EA785AD28C6202F001D1BE2 /* ShowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowViewController.swift; sourceTree = "<group>"; };
 		0EA785AF28C62189001D1BE2 /* NetworkView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NetworkView.storyboard; sourceTree = "<group>"; };
+		0EA785B128C73F06001D1BE2 /* VersionView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = VersionView.storyboard; sourceTree = "<group>"; };
+		0EA785B328C73F24001D1BE2 /* VersionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionViewController.swift; sourceTree = "<group>"; };
+		0EA785B528C7410D001D1BE2 /* ContactView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ContactView.storyboard; sourceTree = "<group>"; };
+		0EA785B728C7411C001D1BE2 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
+		0EA785B928C7A217001D1BE2 /* urlConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = urlConstants.swift; sourceTree = "<group>"; };
 		0EAA91ED28AE89DF00963AF1 /* LoadingCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCollectionView.swift; sourceTree = "<group>"; };
 		0EAA91EE28AE89DF00963AF1 /* LoadingCollectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCollectionView.xib; sourceTree = "<group>"; };
 		0EAC734628B0B95C00C7ED4F /* BeHang.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BeHang.entitlements; sourceTree = "<group>"; };
@@ -245,6 +255,7 @@
 				0E7C929F2892DD2D00823A9E /* Info.plist */,
 				0EA3B8552899857400CF2AD8 /* Assets */,
 				0EF5B5B628AF4E8600E18A71 /* Kakao-Map-Bridge-Header.h */,
+				0EA785B928C7A217001D1BE2 /* urlConstants.swift */,
 			);
 			path = BeHang;
 			sourceTree = "<group>";
@@ -270,6 +281,8 @@
 				0E3CEA8528BB8DB400CC78AC /* ChangeProfileView.storyboard */,
 				0EA785A328C5AA29001D1BE2 /* PolicyView.storyboard */,
 				0EA785AF28C62189001D1BE2 /* NetworkView.storyboard */,
+				0EA785B128C73F06001D1BE2 /* VersionView.storyboard */,
+				0EA785B528C7410D001D1BE2 /* ContactView.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -293,6 +306,8 @@
 				0E3CEA8728BB8DC800CC78AC /* ChangeProfileViewController.swift */,
 				0EA785A528C5AA44001D1BE2 /* PolicyViewController.swift */,
 				0EA785AB28C61E0C001D1BE2 /* NetworkViewController.swift */,
+				0EA785B328C73F24001D1BE2 /* VersionViewController.swift */,
+				0EA785B728C7411C001D1BE2 /* ContactViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -470,6 +485,7 @@
 				0E7C92B02893A1E500823A9E /* FlagTab.storyboard in Resources */,
 				0EF5B5E028AF4F1300E18A71 /* shadow_balloon.png in Resources */,
 				0E8A88102893C78C00E04853 /* UploadView.storyboard in Resources */,
+				0EA785B628C7410D001D1BE2 /* ContactView.storyboard in Resources */,
 				0EF5B5E628AF4F1300E18A71 /* copyright.png in Resources */,
 				0EF5B5DF28AF4F1300E18A71 /* map_pin_custom.png in Resources */,
 				0EF5B5EC28AF4F1300E18A71 /* map_pin_red.png in Resources */,
@@ -504,6 +520,7 @@
 				0EF5B5E728AF4F1300E18A71 /* th_line.png in Resources */,
 				0EBFEA4828A09CBC00B5340D /* SettingView.storyboard in Resources */,
 				0E7C92B22893A1F000823A9E /* UserTab.storyboard in Resources */,
+				0EA785B228C73F06001D1BE2 /* VersionView.storyboard in Resources */,
 				0EF5B5E228AF4F1300E18A71 /* detail_button.png in Resources */,
 				0EF5B5E328AF4F1300E18A71 /* map_pin_custom@3x.png in Resources */,
 				0EAC734A28B11A1B00C7ED4F /* LaunchView.storyboard in Resources */,
@@ -581,6 +598,7 @@
 				0EA785A628C5AA44001D1BE2 /* PolicyViewController.swift in Sources */,
 				0E7C92B42893A21300823A9E /* TabViewController.swift in Sources */,
 				0EF5B60D28AF662600E18A71 /* PostViewController.swift in Sources */,
+				0EA785B828C7411C001D1BE2 /* ContactViewController.swift in Sources */,
 				0EBFEA4E28A1591100B5340D /* ImageInfo.swift in Sources */,
 				0E6517D028A560D9006F4917 /* PhotoCell.swift in Sources */,
 				0E97832428B3A730007DFE30 /* SettingCell.swift in Sources */,
@@ -591,6 +609,8 @@
 				0E7C92BA2893A27800823A9E /* FlagViewController.swift in Sources */,
 				0E6517D428ACEC62006F4917 /* ListCell.swift in Sources */,
 				0E7C92922892DD2B00823A9E /* AppDelegate.swift in Sources */,
+				0EA785B428C73F24001D1BE2 /* VersionViewController.swift in Sources */,
+				0EA785BA28C7A217001D1BE2 /* urlConstants.swift in Sources */,
 				0E7C92942892DD2B00823A9E /* SceneDelegate.swift in Sources */,
 				0EAA91EF28AE89DF00963AF1 /* LoadingCollectionView.swift in Sources */,
 			);

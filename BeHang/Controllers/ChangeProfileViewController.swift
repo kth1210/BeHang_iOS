@@ -64,7 +64,7 @@ class ChangeProfileViewController: UIViewController {
         }
         
         if profileImage.image != image || changeName != name {
-            let url = "http://35.247.33.79/users/profile/me"
+            let url = "http://\(urlConstants.release)/users/profile/me"
 
             let header : HTTPHeaders = [
                 "Content-Type" : "multipart/form-data",
@@ -122,7 +122,7 @@ class ChangeProfileViewController: UIViewController {
     
     
     func reissue() {
-        let loginUrl = "http://35.247.33.79/reissue"
+        let loginUrl = "http://\(urlConstants.release)/reissue"
 
         let accessToken = UserDefaults.standard.string(forKey: "accessToken")
         let refreshToken = UserDefaults.standard.string(forKey: "refreshToken")
@@ -160,7 +160,6 @@ class ChangeProfileViewController: UIViewController {
                     UserDefaults.standard.setValue(refreshToken, forKey: "refreshToken")
                     
                     print("토큰 재발급")
-                    print(asJSON)
                     
                     self.changeButtonPressed()
 

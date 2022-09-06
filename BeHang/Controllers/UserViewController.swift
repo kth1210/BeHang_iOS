@@ -101,7 +101,7 @@ class UserViewController: UIViewController {
         self.isLoading = true
         
         print("start Get Feed")
-        let url = "http://35.247.33.79/posts/feed/me"
+        let url = "http://\(urlConstants.release)/posts/feed/me"
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         
         let header : HTTPHeaders = [
@@ -165,7 +165,6 @@ class UserViewController: UIViewController {
                     self.isLoading = false
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        print("merr")
                         self.overlayView.isHidden = true
                         self.activityIndicator.stopAnimating()
                         self.refreshControl.endRefreshing()
@@ -196,7 +195,7 @@ class UserViewController: UIViewController {
         if nowLogin == "none" {
             self.userName.text = "게스트"
         } else {
-            let url = "http://35.247.33.79/users/profile/me"
+            let url = "http://\(urlConstants.release)/users/profile/me"
             let xToken = UserDefaults.standard.string(forKey: "accessToken")!
             
             let header : HTTPHeaders = [
@@ -267,7 +266,7 @@ class UserViewController: UIViewController {
     }
     
     func reissue() {
-        let loginUrl = "http://35.247.33.79/reissue"
+        let loginUrl = "http://\(urlConstants.release)/reissue"
 
         let accessToken = UserDefaults.standard.string(forKey: "accessToken")
         let refreshToken = UserDefaults.standard.string(forKey: "refreshToken")
@@ -304,7 +303,6 @@ class UserViewController: UIViewController {
                     UserDefaults.standard.setValue(refreshToken, forKey: "refreshToken")
                     
                     print("토큰 재발급")
-                    print(asJSON)
                     
                     self.getUserFeed()
 
@@ -346,10 +344,10 @@ extension UserViewController: UICollectionViewDataSource, UICollectionViewDelega
             cell.imageView.layer.cornerRadius = 8
             
             if list[indexPath.row].image == nil {
+                cell.imageView.image = UIImage(named: "loading")
                 DispatchQueue.global(qos: .userInteractive).async {
-                    print("dispatch global")
                     
-                    let url: URL! = Foundation.URL(string: "http://35.247.33.79/\(self.list[indexPath.row].imageString!)")
+                    let url: URL! = Foundation.URL(string: "http://\(urlConstants.release)/\(self.list[indexPath.row].imageString!)")
                     let imageData = try! Data(contentsOf: url)
                     self.list[indexPath.row].image = UIImage(data: imageData)
                     
@@ -357,7 +355,6 @@ extension UserViewController: UICollectionViewDataSource, UICollectionViewDelega
                         cell.imageView.image = self.list[indexPath.row].image
                     }
                     
-                    print("dispatch global end")
                 }
             } else {
                 cell.imageView.image = list[indexPath.row].image
