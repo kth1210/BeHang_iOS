@@ -68,7 +68,6 @@ class MapViewController: UIViewController, MTMapViewDelegate, CLLocationManagerD
         self.navigationController?.isNavigationBarHidden = true
         self.view.bringSubviewToFront(buttonView)
         
-        print("here")
         mapView?.removeAllPOIItems()
         makeMarker()
 
@@ -76,7 +75,6 @@ class MapViewController: UIViewController, MTMapViewDelegate, CLLocationManagerD
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("viewDidAppear")
         setMap()
     }
     

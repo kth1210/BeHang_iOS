@@ -328,13 +328,6 @@ class PostViewController: UIViewController {
                         let feedData = FeedInfo()
                         feedData.id = res["id"] as? Int
                         feedData.imageString = res["imageUrl"] as? String
-//                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
-//
-//                        if feedData.imageString != "" {
-//                            let url: URL! = Foundation.URL(string: imageUrl)
-//                            let imageData = try! Data(contentsOf: url)
-//                            feedData.image = UIImage(data: imageData)
-//                        }
                         
                         self.list.append(feedData)
                     }

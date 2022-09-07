@@ -233,7 +233,7 @@ class UserViewController: UIViewController {
                         if imagestr.prefix(2) == "ht" {
                             imageURL = Foundation.URL(string: imagestr)
                         } else {
-                            imageURL = Foundation.URL(string: "http://35.247.33.79/\(imagestr)")
+                            imageURL = Foundation.URL(string: "http://\(urlConstants.release)/\(imagestr)")
                         }
                         
                         

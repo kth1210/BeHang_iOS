@@ -14,13 +14,20 @@ class AccountSettingViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     let accountSettingTitle = ["- 로그아웃", "- 회원탈퇴"]
-
+    let activityIndicator = UIActivityIndicatorView(style: .large)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.navigationItem.title = "계정 설정"
         self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
-
+        
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activityIndicator.center = self.view.center
+        activityIndicator.color = .black
+        activityIndicator.hidesWhenStopped = true
+        self.view.addSubview(self.activityIndicator)
+        
         tableView.isScrollEnabled = false
     }
     
@@ -32,34 +39,60 @@ class AccountSettingViewController: UIViewController {
         let url = "http://\(urlConstants.release)/social/logout/kakao"
         
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
+        let kakaoAccessToken = UserDefaults.standard.string(forKey: "kakaoAccessToken")!
         
         let header : HTTPHeaders = [
             "X-AUTH-TOKEN" : xToken
         ]
         
+        let bodyData : Parameters = [
+            "socialAccessToken" : kakaoAccessToken
+        ]
         
         AF.request(url,
                    method: .post,
-                   parameters: nil,
-                   encoding: URLEncoding.queryString,
-                   //encoding: JSONEncoding.default,
+                   parameters: bodyData,
+                   //encoding: URLEncoding.queryString,
+                   encoding: JSONEncoding.default,
                    headers: header
         )
         //.validate(statusCode: 200..<300)
         .responseData { response in
             print(response)
             switch response.result {
-            case .success:
-                print("logout Success")
-                UserDefaults.standard.setValue(false, forKey: "isLogin")
-                UserDefaults.standard.setValue("none", forKey: "login")
-                UserDefaults.standard.removeObject(forKey: "accessToken")
-                UserDefaults.standard.removeObject(forKey: "refreshToken")
-                
-                UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    exit(0)
+            case .success(let data):
+                do {
+                    let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    print(asJSON)
+                    let code = asJSON["code"] as! Int
+                    
+                    if code == -1005 {
+                        AuthApi.shared.refreshToken { oauthToken, error in
+                            
+                            let accessToken = oauthToken?.accessToken
+                            UserDefaults.standard.setValue(accessToken, forKey: "kakaoAccessToken")
+                            
+                            self.logoutKakao()
+                            return
+                        }
+                    }
+                    
+                    print("logout Success")
+                    UserDefaults.standard.setValue(false, forKey: "isLogin")
+                    print(UserDefaults.standard.bool(forKey: "isLogin"))
+                    UserDefaults.standard.setValue("none", forKey: "login")
+                    print(UserDefaults.standard.string(forKey: "login"))
+                    UserDefaults.standard.removeObject(forKey: "accessToken")
+                    UserDefaults.standard.removeObject(forKey: "refreshToken")
+                    
+                    UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        exit(0)
+                    }
+                } catch {
+                    print("logout error")
                 }
+                
             case .failure(let error):
                 print(error)
             }
@@ -112,9 +145,9 @@ class AccountSettingViewController: UIViewController {
                     
                     UserDefaults.standard.setValue(false, forKey: "isLogin")
                     UserDefaults.standard.setValue("none", forKey: "login")
+                    UserDefaults.standard.setValue(false, forKey: "signupKakao")
                     UserDefaults.standard.removeObject(forKey: "accessToken")
                     UserDefaults.standard.removeObject(forKey: "refreshToken")
-                    UserDefaults.standard.removeObject(forKey: "signupKakao")
                     UserDefaults.standard.removeObject(forKey: "kakaoAccessToken")
                     
 //                    for key in UserDefaults.standard.dictionaryRepresentation().keys {
@@ -199,11 +232,11 @@ class AccountSettingViewController: UIViewController {
                 print("apple withdrawal success")
                 
                 UserDefaults.standard.setValue(false, forKey: "isLogin")
+                print(UserDefaults.standard.bool(forKey: "isLogin"))
                 UserDefaults.standard.setValue("none", forKey: "login")
+                UserDefaults.standard.setValue(false, forKey: "signupApple")
                 UserDefaults.standard.removeObject(forKey: "accessToken")
                 UserDefaults.standard.removeObject(forKey: "refreshToken")
-                UserDefaults.standard.removeObject(forKey: "signupApple")
-                UserDefaults.standard.removeObject(forKey: "appleName")
                 
 //                for key in UserDefaults.standard.dictionaryRepresentation().keys {
 //                    UserDefaults.standard.removeObject(forKey: key.description)
@@ -238,12 +271,14 @@ extension AccountSettingViewController: UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = indexPath.row
         
+        tableView.deselectRow(at: indexPath, animated: true)
         switch index {
         case 0:
             // 로그아웃
             print("로그아웃")
             let alert = UIAlertController(title: "로그아웃", message: "로그아웃 이후 어플리케이션이 종료됩니다.", preferredStyle: UIAlertController.Style.alert)
             let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.default) { _ in
+                self.activityIndicator.startAnimating()
                 let login = UserDefaults.standard.string(forKey: "login")
                 if login == "kakao"{
                     self.logoutKakao()
@@ -263,6 +298,7 @@ extension AccountSettingViewController: UITableViewDataSource, UITableViewDelega
             
             let alert = UIAlertController(title: "⚠️ 회원탈퇴 ⚠️", message: "정말로 탈퇴하시겠습니까? \n(사용자의 모든 정보가 삭제됩니다.)", preferredStyle: UIAlertController.Style.alert)
             let confirm = UIAlertAction(title: "탈퇴", style: UIAlertAction.Style.destructive) { _ in
+                self.activityIndicator.startAnimating()
                 let login = UserDefaults.standard.string(forKey: "login")
                 if login == "kakao"{
                     self.withdrawalKakao()
