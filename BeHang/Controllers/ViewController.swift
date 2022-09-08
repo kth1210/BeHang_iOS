@@ -12,7 +12,7 @@ import AuthenticationServices
 import AVFAudio
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var kakaoLoginButton: UIImageView!
     @IBOutlet var appleLoginButton: UIImageView!
     @IBOutlet weak var withoutLoginButton: UIButton!
@@ -57,8 +57,6 @@ class ViewController: UIViewController {
     // 카카오 로그인 버튼 눌렀을 때
     @objc func loginKakaoPressed() {
         print("loginKakao() called")
-        self.overlayView.isHidden = false
-        self.activityIndicator.startAnimating()
         
         // 카카오톡으로 로그인 가능한지 확인
         if (UserApi.isKakaoTalkLoginAvailable()) {
@@ -85,6 +83,12 @@ class ViewController: UIViewController {
                     }
                 }
             }
+        } else {
+            let alert = UIAlertController(title: "알림", message: "카카오톡이 설치되어 있지 않습니다.", preferredStyle: UIAlertController.Style.alert)
+            let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: nil)
+            
+            alert.addAction(confirm)
+            self.present(alert, animated: true)
         }
     }
     
@@ -99,7 +103,7 @@ class ViewController: UIViewController {
         let header : HTTPHeaders = [
             "Content-Type" : "application/json"
         ]
-
+        
         let bodyData : Parameters = [
             "accessToken" : accessToken
         ] as Dictionary
@@ -112,14 +116,27 @@ class ViewController: UIViewController {
             encoding: JSONEncoding.default,
             headers: header
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { (response) in
             switch response.result {
-            case .success:
-                // 회원가입 성공하면 카카오 토큰으로 로그인
-                print("Success Signup")
-                UserDefaults.standard.setValue(true, forKey: "signupKakao")
-                self.kakaoLogin(accessToken: accessToken)
+            case .success(let data):
+                do {
+                    let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    let code = asJSON["code"] as! Int
+                    
+                    // 가입 했던 유저
+                    if code == -1006 {
+                        print("이미 가입했던 유저")
+                        self.kakaoLogin(accessToken: accessToken)
+                        return
+                    }
+                    
+                    UserDefaults.standard.setValue(true, forKey: "signupKakao")
+                    self.kakaoLogin(accessToken: accessToken)
+                    
+                } catch {
+                    print("sign up error")
+                }
             case .failure(let error):
                 print(error)
             }
@@ -130,12 +147,15 @@ class ViewController: UIViewController {
     
     func kakaoLogin(accessToken: String) {
         print("start kakao login")
+        self.activityIndicator.startAnimating()
+        self.overlayView.isHidden = false
+        
         let loginUrl = "http://\(urlConstants.release)/social/login/kakao"
         
         let header : HTTPHeaders = [
             "Content-Type" : "application/json"
         ]
-
+        
         let bodyData : Parameters = [
             "accessToken" : accessToken
         ] as Dictionary
@@ -175,7 +195,7 @@ class ViewController: UIViewController {
                     nextVC.modalPresentationStyle = .fullScreen
                     nextVC.modalTransitionStyle = .crossDissolve
                     self.present(nextVC, animated: true, completion: nil)
-                                        
+                    
                 } catch {
                     print("error")
                 }
@@ -200,20 +220,19 @@ class ViewController: UIViewController {
         controller.presentationContextProvider = self as ASAuthorizationControllerPresentationContextProviding
         controller.performRequests()
     }
-
+    
     func appleSignup(nickName: String, userId: String) {
         print("appleSignup")
         
         let signupUrl = "http://\(urlConstants.release)/social/signup/apple"
         
         // 회원가입할 때 userName 등록 (한번 밖에 안옴)
-        UserDefaults.standard.setValue(nickName, forKey: "appleName")
         
-       
+        
         let header : HTTPHeaders = [
             "Content-Type" : "application/json"
         ]
-
+        
         let bodyData : Parameters = [
             "nickName" : nickName,
             "socialId" : userId
@@ -227,7 +246,7 @@ class ViewController: UIViewController {
             encoding: JSONEncoding.default,
             headers: header
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { (response) in
             switch response.result {
             case .success(let data):
@@ -235,10 +254,18 @@ class ViewController: UIViewController {
                 print("Success Signup")
                 do{
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
-
+                    let code = asJSON["code"] as! Int
+                    
+                    // 가입 했던 유저
+                    if code == -1006 {
+                        print("이미 가입했던 유저")
+                        self.appleLogin(userId: userId)
+                        return
+                    }
+                    
                     UserDefaults.standard.setValue(true, forKey: "signupApple")
                     
-                    self.appleLogin(nickName: nickName, userId: userId)
+                    self.appleLogin(userId: userId)
                 } catch {
                     print("error")
                 }
@@ -249,8 +276,10 @@ class ViewController: UIViewController {
         }
     }
     
-    func appleLogin(nickName: String, userId: String) {
+    func appleLogin(userId: String) {
         print("appleLogin")
+        self.activityIndicator.startAnimating()
+        self.overlayView.isHidden = false
         
         let loginUrl = "http://\(urlConstants.release)/social/login/apple"
         
@@ -260,7 +289,6 @@ class ViewController: UIViewController {
         
         
         let bodyData : Parameters = [
-            "nickName" : nickName,
             "socialId" : userId
         ] as Dictionary
         
@@ -299,7 +327,7 @@ class ViewController: UIViewController {
                     nextVC.modalPresentationStyle = .fullScreen
                     nextVC.modalTransitionStyle = .crossDissolve
                     self.present(nextVC, animated: true, completion: nil)
-                                        
+                    
                 } catch {
                     print("error")
                 }
@@ -331,25 +359,25 @@ extension ViewController: ASAuthorizationControllerDelegate, ASAuthorizationCont
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let userIdentifier = appleIDCredential.user
             let userName = (appleIDCredential.fullName?.familyName ?? "") + (appleIDCredential.fullName?.givenName ?? "")
-//            let identity = appleIDCredential.identityToken
-//            let id_token = String(data: identity!, encoding: .utf8)
-//            let autho = appleIDCredential.authorizationCode
-//            let code = String(data: autho!, encoding: .utf8)
+            //            let identity = appleIDCredential.identityToken
+            //            let id_token = String(data: identity!, encoding: .utf8)
+            //            let autho = appleIDCredential.authorizationCode
+            //            let code = String(data: autho!, encoding: .utf8)
+            
             
             
             print(userIdentifier)
             print(userName)
             
-            self.activityIndicator.startAnimating()
-            self.overlayView.isHidden = false
+            
             
             if UserDefaults.standard.bool(forKey: "signupApple") {
                 // apple 계정으로 회원가입한 적이 있으면
-                self.appleLogin(nickName: UserDefaults.standard.string(forKey: "appleName")!, userId: userIdentifier)
+                self.appleLogin(userId: userIdentifier)
             } else {
                 // apple 계정으로 회원가입한 적이 없으면
                 if userName == "" {
-                    self.appleSignup(nickName: UserDefaults.standard.string(forKey: "appleName")!, userId: userIdentifier)
+                    self.appleSignup(nickName: "User", userId: userIdentifier)
                 } else {
                     self.appleSignup(nickName: userName, userId: userIdentifier)
                 }
@@ -361,7 +389,12 @@ extension ViewController: ASAuthorizationControllerDelegate, ASAuthorizationCont
     
     // authorization 실패
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-       print("authorization Error: \(error)")
+        print("authorization Error: \(error)")
+        let alert = UIAlertController(title: "알림", message: "Apple authorization 실패", preferredStyle: UIAlertController.Style.alert)
+        let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: nil)
+        
+        alert.addAction(confirm)
+        self.present(alert, animated: true)
     }
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
@@ -383,9 +416,9 @@ extension ViewController {
                 let nickname = user?.kakaoAccount?.profile?.nickname
                 
                 guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
-
+                
                 nextVC.nickname = nickname
-
+                
                 self.navigationController?.pushViewController(nextVC, animated: true)
                 
             }

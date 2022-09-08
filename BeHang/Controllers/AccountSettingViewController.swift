@@ -79,9 +79,7 @@ class AccountSettingViewController: UIViewController {
                     
                     print("logout Success")
                     UserDefaults.standard.setValue(false, forKey: "isLogin")
-                    print(UserDefaults.standard.bool(forKey: "isLogin"))
                     UserDefaults.standard.setValue("none", forKey: "login")
-                    print(UserDefaults.standard.string(forKey: "login"))
                     UserDefaults.standard.removeObject(forKey: "accessToken")
                     UserDefaults.standard.removeObject(forKey: "refreshToken")
                     

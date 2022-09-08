@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="비행_로고" translatesAutoresizingMaskIntoConstraints="NO" id="oBB-jc-awf">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="oBB-jc-awf">
                                 <rect key="frame" x="59.666666666666657" y="119" width="271" height="261"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="oBB-jc-awf" secondAttribute="height" multiplier="271:261" id="GfJ-O2-gQp"/>
@@ -105,9 +105,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Logo" width="500" height="500"/>
         <image name="appleid_button" width="320" height="45"/>
         <image name="kakaoLoginButton" width="600" height="90"/>
-        <image name="비행_로고" width="500" height="500"/>
         <namedColor name="mainColor">
             <color red="0.27058823529411763" green="0.35294117647058826" blue="0.89411764705882357" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

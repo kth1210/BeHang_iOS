@@ -103,6 +103,7 @@ class PlaceListViewController: UIViewController {
             case .success(let data):
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    print(asJSON)
                     
                     guard let res = asJSON["response"] as? NSDictionary else {
                         self.moreData = false

@@ -53,8 +53,19 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         switch index {
         case 0:
-            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "AccountSettingViewController") as? AccountSettingViewController else {return}
-            self.navigationController?.pushViewController(nextVC, animated: true)
+            let nowLogin = UserDefaults.standard.string(forKey: "login")
+            
+            if nowLogin == "none" {
+                let alert = UIAlertController(title: "알림", message: "로그인이 필요한 서비스입니다.", preferredStyle: UIAlertController.Style.alert)
+                let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: nil)
+            
+                alert.addAction(confirm)
+                self.present(alert, animated: true)
+            } else {
+                guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "AccountSettingViewController") as? AccountSettingViewController else {return}
+                self.navigationController?.pushViewController(nextVC, animated: true)
+            }
+            
         case 1:
             guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "PolicyViewController") as? PolicyViewController else {return}
             self.navigationController?.pushViewController(nextVC, animated: true)

@@ -429,7 +429,7 @@ class PostViewController: UIViewController {
     @objc func reportButtonPressed() {
         self.reissueCase = 4
         
-        let alert = UIAlertController(title: "부적절한 게시물", message: "게시물을 신고하시겠습니까? /n (검토 이후 게시물이 삭제되거나 제재가 있을 수 있습니다.)", preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "부적절한 게시물", message: "게시물을 신고하시겠습니까? \n(검토 후 게시물이 제재됩니다.)", preferredStyle: UIAlertController.Style.alert)
         let confirm = UIAlertAction(title: "신고", style: UIAlertAction.Style.destructive) { _ in
             self.overlayView.isHidden = false
             self.activityIndicator.startAnimating()
@@ -452,7 +452,7 @@ class PostViewController: UIViewController {
                        //encoding: JSONEncoding.default,
                        headers: header
             )
-            .validate(statusCode: 200..<300)
+            //.validate(statusCode: 200..<300)
             .responseData { response in
                 print(response)
                 switch response.result {
@@ -464,6 +464,12 @@ class PostViewController: UIViewController {
                         if code == -1014 {
                             self.reissue()
                             return
+                        } else if code == -1016 {
+                            let alert = UIAlertController(title: "알림", message: "이미 신고한 게시물입니다.", preferredStyle: UIAlertController.Style.alert)
+                            let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: nil)
+                        
+                            alert.addAction(confirm)
+                            self.present(alert, animated: true)
                         }
                         
                         print("report Success")

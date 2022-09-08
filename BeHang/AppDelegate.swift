@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KakaoSDK.initSDK(appKey: "086319f41e8822717e011c9211e2511c")
         
         NetworkCheck.shared.startMonitoring()
+//        UserDefaults.standard.setValue(false, forKey: "isLogin")
 //        for key in UserDefaults.standard.dictionaryRepresentation().keys {
 //            UserDefaults.standard.removeObject(forKey: key.description)
 ////            print(UserDefaults.standard.object(forKey: key.description))
@@ -29,6 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //sleep(3)
         return true
+    }
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.portrait
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {

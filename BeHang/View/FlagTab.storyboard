@@ -185,7 +185,7 @@
                                     <action selector="shareInstagramButtonPressed:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="tcY-Mo-SXj"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="비행_로고" translatesAutoresizingMaskIntoConstraints="NO" id="jQm-eo-NKc">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="jQm-eo-NKc">
                                 <rect key="frame" x="20" y="44" width="70" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="jQm-eo-NKc" secondAttribute="height" multiplier="1:1" id="IhI-9Y-3WP"/>
@@ -234,12 +234,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Logo" width="500" height="500"/>
         <image name="flag.fill" catalog="system" width="128" height="121"/>
         <image name="flagMap" width="780" height="1000"/>
         <image name="flagSelected_icon" width="25" height="25"/>
         <image name="flag_icon" width="25" height="25"/>
         <image name="share_instagram_1" width="25" height="25"/>
-        <image name="비행_로고" width="500" height="500"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
