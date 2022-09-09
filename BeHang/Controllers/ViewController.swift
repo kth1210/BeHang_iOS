@@ -84,11 +84,28 @@ class ViewController: UIViewController {
                 }
             }
         } else {
-            let alert = UIAlertController(title: "알림", message: "카카오톡이 설치되어 있지 않습니다.", preferredStyle: UIAlertController.Style.alert)
-            let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: nil)
-            
-            alert.addAction(confirm)
-            self.present(alert, animated: true)
+            UserApi.shared.loginWithKakaoAccount { oauthToken, error in
+                if let error = error {
+                    print(error)
+                } else {
+                    print("loginWithKakaoAccount() success")
+                    
+                    _ = oauthToken
+                    let accessToken = oauthToken?.accessToken
+                    //let refreshToken = oauthToken?.refreshToken
+                    UserDefaults.standard.setValue(accessToken, forKey: "kakaoAccessToken")
+                    
+                    if UserDefaults.standard.bool(forKey: "signupKakao") {
+                        // 카카오로 회원가입한 적이 있으면 토큰 받아온거로 로그인
+                        print("call login")
+                        self.kakaoLogin(accessToken: accessToken!)
+                    } else {
+                        // 카카오로 회원가입한 적이 없으면 토큰 받아온거로 회원가입
+                        print("call signup")
+                        self.kakaoSignup(accessToken: accessToken!)
+                    }
+                }
+            }
         }
     }
     
@@ -123,6 +140,7 @@ class ViewController: UIViewController {
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                     let code = asJSON["code"] as! Int
+                    print(asJSON)
                     
                     // 가입 했던 유저
                     if code == -1006 {

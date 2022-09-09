@@ -23,22 +23,20 @@
                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="FmH-b7-olb" secondAttribute="height" multiplier="1:1" id="XEO-0Z-1Yh"/>
+                                    <constraint firstAttribute="width" secondItem="FmH-b7-olb" secondAttribute="height" multiplier="1:1" priority="750" id="XEO-0Z-1Yh"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="위치 정보" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0r-K1-zzV">
-                                <rect key="frame" x="31" y="511" width="78" height="26"/>
+                                <rect key="frame" x="31" y="516.66666666666663" width="70" height="23.333333333333371"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="26" id="89g-GS-HFx"/>
                                     <constraint firstAttribute="width" secondItem="U0r-K1-zzV" secondAttribute="height" multiplier="3:1" id="tIX-Ot-W6g"/>
-                                    <constraint firstAttribute="width" constant="78" id="z3M-f5-bMG"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="19"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KNH-LL-gYu">
-                                <rect key="frame" x="27" y="545" width="336" height="50"/>
+                                <rect key="frame" x="27" y="548" width="336" height="50"/>
                                 <color key="backgroundColor" name="mainColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Kcb-WZ-egV"/>
@@ -162,12 +160,8 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="태그" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LPR-tj-fLV">
-                                <rect key="frame" x="31" y="616" width="37" height="26"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="37" id="5hr-fM-mlR"/>
-                                    <constraint firstAttribute="height" constant="26" id="dwR-tq-KWw"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="21"/>
+                                <rect key="frame" x="31" y="619" width="33" height="23"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="19"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -189,10 +183,8 @@
                             <constraint firstItem="LPR-tj-fLV" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="31" id="9nl-2K-Ve5"/>
                             <constraint firstItem="KNH-LL-gYu" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="27" id="Kbx-f7-XRN"/>
                             <constraint firstItem="iDR-Zp-92E" firstAttribute="top" secondItem="l8o-3f-wSe" secondAttribute="bottom" constant="14" id="LYU-ZH-LS5"/>
-                            <constraint firstItem="FmH-b7-olb" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="P3K-3X-Cip"/>
                             <constraint firstItem="Awo-lh-F6W" firstAttribute="centerY" secondItem="FmH-b7-olb" secondAttribute="centerY" id="Q18-AN-5OP"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="S9p-1A-DW5" secondAttribute="trailing" constant="27" id="TFj-Jn-mDH"/>
-                            <constraint firstItem="FmH-b7-olb" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="Uni-OB-MbX"/>
                             <constraint firstItem="FmH-b7-olb" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="YLr-um-4LP"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="CmO-EX-IsL" secondAttribute="trailing" constant="27" id="Zzo-Ii-A0H"/>
                             <constraint firstItem="9dI-xw-JJ9" firstAttribute="top" secondItem="iDR-Zp-92E" secondAttribute="bottom" constant="14" id="bfz-ch-7oN"/>
@@ -200,11 +192,10 @@
                             <constraint firstItem="9dI-xw-JJ9" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="27" id="dG6-hj-dVS"/>
                             <constraint firstItem="l8o-3f-wSe" firstAttribute="top" secondItem="LPR-tj-fLV" secondAttribute="bottom" constant="8" id="dSg-mc-c91"/>
                             <constraint firstItem="iDR-Zp-92E" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="27" id="eMx-ec-uy6"/>
-                            <constraint firstItem="FmH-b7-olb" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="ec4-Bq-Mhv"/>
                             <constraint firstItem="Awo-lh-F6W" firstAttribute="centerX" secondItem="FmH-b7-olb" secondAttribute="centerX" id="ett-Fq-7Ug"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="9dI-xw-JJ9" secondAttribute="bottom" constant="12" id="i7p-jY-o2z"/>
-                            <constraint firstItem="FmH-b7-olb" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="kyk-qE-gSz"/>
                             <constraint firstItem="CmO-EX-IsL" firstAttribute="top" secondItem="Nhq-Tv-H5R" secondAttribute="bottom" constant="14" id="nwt-yE-OZ3"/>
+                            <constraint firstItem="U0r-K1-zzV" firstAttribute="top" relation="greaterThanOrEqual" secondItem="FmH-b7-olb" secondAttribute="bottom" constant="5" id="qN3-GJ-Nb2"/>
                             <constraint firstItem="FmH-b7-olb" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="qRm-x6-kqc"/>
                             <constraint firstItem="l8o-3f-wSe" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="27" id="qwi-yX-fee"/>
                             <constraint firstItem="Nhq-Tv-H5R" firstAttribute="top" secondItem="S9p-1A-DW5" secondAttribute="bottom" constant="14" id="vhA-Bp-Vsw"/>
@@ -225,7 +216,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="130.76923076923077" y="79.620853080568722"/>
+            <point key="canvasLocation" x="127.5" y="105.63380281690141"/>
         </scene>
         <!--PlaceListView-->
         <scene sceneID="3GM-aO-r2r">

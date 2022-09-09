@@ -7,6 +7,8 @@
 
 import UIKit
 import Alamofire
+import AVFoundation
+import Photos
 
 class UploadViewController: UIViewController {
 
@@ -84,10 +86,91 @@ class UploadViewController: UIViewController {
     }
     
     @objc func selectPhotoPressed() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true)
+        let requiredAccessLevel: PHAccessLevel = .readWrite
+        PHPhotoLibrary.requestAuthorization(for: requiredAccessLevel) { authorizationStatus in
+            switch authorizationStatus {
+            case .notDetermined:
+                print("notDetermined")
+            case .restricted:
+                print("restricted")
+            case .denied:
+                print("denied")
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "알림", message: "앨범 접근 권한을 확인해주세요.", preferredStyle: UIAlertController.Style.alert)
+
+                    let confirm = UIAlertAction(title: "설정", style: .default) { _ in
+                        guard let url = URL(string: UIApplication.openSettingsURLString) else {return}
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url)
+                        }
+                    }
+                    let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+
+                    alert.addAction(cancel)
+                    alert.addAction(confirm)
+
+                    self.present(alert, animated: true, completion: nil)
+                }
+            case .authorized:
+                print("authorized")
+                DispatchQueue.main.async {
+                    let imagePicker = UIImagePickerController()
+                    imagePicker.delegate = self
+                    imagePicker.sourceType = .photoLibrary
+                    self.present(imagePicker, animated: true)
+                }
+                
+            case .limited:
+                print("limited")
+                
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "알림", message: "원활한 서비스 이용을 위해 모든 사진에 대한 접근을 허용해주세요.", preferredStyle: UIAlertController.Style.alert)
+
+                    let confirm = UIAlertAction(title: "설정", style: .default) { _ in
+                        guard let url = URL(string: UIApplication.openSettingsURLString) else {return}
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url)
+                        }
+                    }
+                    let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+
+                    alert.addAction(cancel)
+                    alert.addAction(confirm)
+                    
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        }
+        
+//        let imagePicker = UIImagePickerController()
+//        imagePicker.delegate = self
+//        imagePicker.sourceType = .photoLibrary
+//        present(imagePicker, animated: true)
+        
+//        if status == PHAuthorizationStatus.authorized {
+//            let imagePicker = UIImagePickerController()
+//            imagePicker.delegate = self
+//            imagePicker.sourceType = .photoLibrary
+//            present(imagePicker, animated: true)
+//        } else {
+//            let alert = UIAlertController(title: "알림", message: "앨범 접근 권한을 확인해주세요.", preferredStyle: UIAlertController.Style.alert)
+//
+//            let confirm = UIAlertAction(title: "설정", style: .default) { _ in
+//                guard let url = URL(string: UIApplication.openSettingsURLString) else {return}
+//                if UIApplication.shared.canOpenURL(url) {
+//                    UIApplication.shared.open(url)
+//                }
+//            }
+//            let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+//
+//            alert.addAction(cancel)
+//            alert.addAction(confirm)
+//
+//            DispatchQueue.main.async {
+//                self.present(alert, animated: true, completion: nil)
+//            }
+//        }
+        
     }
     
     @objc func registerButtonPressed() {

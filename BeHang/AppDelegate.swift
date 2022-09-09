@@ -22,10 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KakaoSDK.initSDK(appKey: "086319f41e8822717e011c9211e2511c")
         
         NetworkCheck.shared.startMonitoring()
-//        UserDefaults.standard.setValue(false, forKey: "isLogin")
 //        for key in UserDefaults.standard.dictionaryRepresentation().keys {
 //            UserDefaults.standard.removeObject(forKey: key.description)
-////            print(UserDefaults.standard.object(forKey: key.description))
 //        }
 
         //sleep(3)
