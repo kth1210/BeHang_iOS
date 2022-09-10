@@ -26,6 +26,7 @@ class UserViewController: UIViewController {
         return datalist
     }()
     var selectFeed = FeedInfo()
+    let userFeedGroup = DispatchGroup()
     
     let activityIndicator = UIActivityIndicatorView(style: .large)
     let refreshControl = UIRefreshControl()
@@ -165,9 +166,12 @@ class UserViewController: UIViewController {
                     self.isLoading = false
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        self.overlayView.isHidden = true
-                        self.activityIndicator.stopAnimating()
-                        self.refreshControl.endRefreshing()
+                        self.userFeedGroup.notify(queue: .main) {
+                            self.overlayView.isHidden = true
+                            self.activityIndicator.stopAnimating()
+                            self.refreshControl.endRefreshing()
+                        }
+                        
                     }
                     
                     print("Get Feed")
@@ -345,7 +349,7 @@ extension UserViewController: UICollectionViewDataSource, UICollectionViewDelega
             
             if list[indexPath.row].image == nil {
                 cell.imageView.image = UIImage(named: "loading")
-                DispatchQueue.global(qos: .userInteractive).async {
+                DispatchQueue.global(qos: .userInteractive).async(group: userFeedGroup) {
                     
                     let url: URL! = Foundation.URL(string: "http://\(urlConstants.release)/\(self.list[indexPath.row].imageString!)")
                     let imageData = try! Data(contentsOf: url)

@@ -22,6 +22,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     let refreshControl = UIRefreshControl()
     let locationManager = CLLocationManager()
     
+    let group = DispatchGroup()
+    
     var pageNo = 0
     
     var curX = 126.9784147
@@ -172,9 +174,13 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                     self.isLoading = false
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        self.overlayView.isHidden = true
-                        self.activityIndicator.stopAnimating()
-                        self.refreshControl.endRefreshing()
+                        self.group.notify(queue: .main) {
+                            print("사진 설정 끝")
+                            self.overlayView.isHidden = true
+                            self.activityIndicator.stopAnimating()
+                            self.refreshControl.endRefreshing()
+                        }
+                        
                     }
                     
                     print("Get Feed")
@@ -300,7 +306,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             
             if list[indexPath.row].image == nil {
                 cell.imageView.image = UIImage(named: "loading")
-                DispatchQueue.global(qos: .userInteractive).async {
+                DispatchQueue.global(qos: .userInteractive).async(group: group) {
                     
                     let url: URL! = Foundation.URL(string: "http://\(urlConstants.release)/\(self.list[indexPath.row].imageString!)")
                     do {

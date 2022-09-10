@@ -36,14 +36,17 @@ class AccountSettingViewController: UIViewController {
     }
 
     func logoutKakao() {
+        print("logoutKakao()")
         let url = "http://\(urlConstants.release)/social/logout/kakao"
         
         let xToken = UserDefaults.standard.string(forKey: "accessToken")!
         let kakaoAccessToken = UserDefaults.standard.string(forKey: "kakaoAccessToken")!
+        print(kakaoAccessToken)
         
         let header : HTTPHeaders = [
             "X-AUTH-TOKEN" : xToken
         ]
+        print(xToken)
         
         let bodyData : Parameters = [
             "socialAccessToken" : kakaoAccessToken
@@ -62,20 +65,22 @@ class AccountSettingViewController: UIViewController {
             switch response.result {
             case .success(let data):
                 do {
+                    debugPrint(data)
+                    print("------")
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                     print(asJSON)
-                    let code = asJSON["code"] as! Int
-                    
-                    if code == -1005 {
-                        AuthApi.shared.refreshToken { oauthToken, error in
-                            
-                            let accessToken = oauthToken?.accessToken
-                            UserDefaults.standard.setValue(accessToken, forKey: "kakaoAccessToken")
-                            
-                            self.logoutKakao()
-                            return
-                        }
-                    }
+//                    let code = asJSON["code"] as! Int
+//
+//                    if code == -1005 {
+//                        AuthApi.shared.refreshToken { oauthToken, error in
+//
+//                            let accessToken = oauthToken?.accessToken
+//                            UserDefaults.standard.setValue(accessToken, forKey: "kakaoAccessToken")
+//
+//                            self.logoutKakao()
+//                            return
+//                        }
+//                    }
                     
                     print("logout Success")
                     UserDefaults.standard.setValue(false, forKey: "isLogin")
