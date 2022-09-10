@@ -164,7 +164,7 @@
         <!--SettingView-->
         <scene sceneID="RYR-Ow-EgB">
             <objects>
-                <viewControllerPlaceholder storyboardName="SettingView" id="GgY-Ce-2rJ" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="SettingViewController" storyboardName="SettingView" id="GgY-Ce-2rJ" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="hWI-S1-zd4"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Euy-eZ-w8S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

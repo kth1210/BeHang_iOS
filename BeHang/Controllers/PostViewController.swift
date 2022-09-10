@@ -25,6 +25,7 @@ class PostViewController: UIViewController {
     
     let sectionInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
     let activityIndicator = UIActivityIndicatorView(style: .large)
+    let feedGroup = DispatchGroup()
     
     var tag1 = true
     var tag2 = true
@@ -146,7 +147,7 @@ class PostViewController: UIViewController {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                     let code = asJSON["code"] as! Int
                     
-                    if code == -1014 {
+                    if code == -1011 {
                         self.reissue()
                         return
                     } else if code == -1009 {
@@ -219,7 +220,7 @@ class PostViewController: UIViewController {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                     let code = asJSON["code"] as! Int
                     // 자체 토큰이 만료
-                    if code == -1014 {
+                    if code == -1011 {
                         // 토큰 재발급
                         self.reissue()
                         return
@@ -253,9 +254,11 @@ class PostViewController: UIViewController {
 //                    self.activityIndicator.stopAnimating()
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        print("merr")
-                        self.overlayView.isHidden = true
-                        self.activityIndicator.stopAnimating()
+                        self.feedGroup.notify(queue: .main) {
+                            print("merr")
+                            self.overlayView.isHidden = true
+                            self.activityIndicator.stopAnimating()
+                        }
                     }
                     
                     print("Get Feed")
@@ -308,7 +311,7 @@ class PostViewController: UIViewController {
                     let code = asJSON["code"] as! Int
                     
                     // 자체 토큰이 만료
-                    if code == -1014 {
+                    if code == -1011 {
                         // 토큰 재발급
                         self.reissue()
                         return
@@ -338,9 +341,12 @@ class PostViewController: UIViewController {
 //                    self.activityIndicator.stopAnimating()
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        print("merr")
-                        self.overlayView.isHidden = true
-                        self.activityIndicator.stopAnimating()
+                        self.feedGroup.notify(queue: .main) {
+                            print("merr")
+                            self.overlayView.isHidden = true
+                            self.activityIndicator.stopAnimating()
+                        }
+                        
                     }
                     
                     print("Get Feed")
@@ -401,7 +407,7 @@ class PostViewController: UIViewController {
                         let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                         let code = asJSON["code"] as! Int
                         
-                        if code == -1014 {
+                        if code == -1011 {
                             self.reissue()
                             return
                         }
@@ -461,7 +467,7 @@ class PostViewController: UIViewController {
                         let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                         let code = asJSON["code"] as! Int
                         
-                        if code == -1014 {
+                        if code == -1011 {
                             self.reissue()
                             return
                         } else if code == -1016 {
@@ -538,6 +544,23 @@ class PostViewController: UIViewController {
             case .success(let data):
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    let code = asJSON["code"] as! Int
+                    
+                    // 자체 토큰이 만료
+                    if code == -1014 {
+                        // 토큰 재발급
+                        let alert = UIAlertController(title: "알림", message: "로그인이 만료되었습니다. 다시 로그인해주세요.", preferredStyle: UIAlertController.Style.alert)
+                        let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.default) { _ in
+                            UserDefaults.standard.setValue("none", forKey: "login")
+                            UserDefaults.standard.setValue(false, forKey: "isLogin")
+                            self.performSegue(withIdentifier: "unwindToLogin", sender: self)
+                        }
+                    
+                        alert.addAction(confirm)
+                        self.present(alert, animated: true)
+                        
+                        return
+                    }
 
                     let res = asJSON["data"] as! NSDictionary
 
@@ -573,6 +596,17 @@ class PostViewController: UIViewController {
             }
         }
     }
+    func downsample(imageAt imageURL: URL, to pointSize: CGSize, scale: CGFloat) -> UIImage {
+        let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+        let imageSource = CGImageSourceCreateWithURL(imageURL as CFURL, imageSourceOptions)!
+        let maxDimensionInPixels = max(pointSize.width, pointSize.height) * scale
+        let downsampleOptions = [kCGImageSourceCreateThumbnailFromImageAlways: true,
+                                 kCGImageSourceShouldCacheImmediately: true,
+                                 kCGImageSourceCreateThumbnailWithTransform: true,
+                                 kCGImageSourceThumbnailMaxPixelSize: maxDimensionInPixels] as CFDictionary
+        let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions)!
+        return UIImage(cgImage: downsampledImage)
+    }
 
 }
 
@@ -595,11 +629,14 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         if list[indexPath.row].image == nil {
             cell.imageView.image = UIImage(named: "loading")
-            DispatchQueue.global(qos: .userInteractive).async {
+            DispatchQueue.global(qos: .userInteractive).async(group: feedGroup) {
                 
                 let url: URL! = Foundation.URL(string: "http://\(urlConstants.release)/\(self.list[indexPath.row].imageString!)")
-                let imageData = try! Data(contentsOf: url)
-                self.list[indexPath.row].image = UIImage(data: imageData)
+                do {
+                    self.list[indexPath.row].image = self.downsample(imageAt: url, to: CGSize(width: 400, height: 400), scale: 1.0)
+                } catch {
+                    self.list[indexPath.row].image = UIImage(systemName: "exclamationmark.triangle.fill")
+                }
                 
                 DispatchQueue.main.async {
                     cell.imageView.image = self.list[indexPath.row].image

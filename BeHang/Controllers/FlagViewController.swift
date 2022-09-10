@@ -135,8 +135,9 @@ class FlagViewController: UIViewController {
                 do{
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                     let code = asJSON["code"] as! Int
-                    if code == -1014 {
+                    if code == -1011 {
                         // 토큰 재발급
+                        print("call reissue()")
                         self.reissue()
                         return
                     }
@@ -289,12 +290,29 @@ class FlagViewController: UIViewController {
             encoding: JSONEncoding.default,
             headers: header
         )
-        .validate(statusCode: 200..<300)
+        //.validate(statusCode: 200..<300)
         .responseData { (response) in
             switch response.result {
             case .success(let data):
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    let code = asJSON["code"] as! Int
+                    
+                    // 자체 토큰이 만료
+                    if code == -1014 {
+                        // 토큰 재발급
+                        let alert = UIAlertController(title: "알림", message: "로그인이 만료되었습니다. 다시 로그인해주세요.", preferredStyle: UIAlertController.Style.alert)
+                        let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.default) { _ in
+                            UserDefaults.standard.setValue("none", forKey: "login")
+                            UserDefaults.standard.setValue(false, forKey: "isLogin")
+                            self.performSegue(withIdentifier: "uploadToLogin", sender: self)
+                        }
+                    
+                        alert.addAction(confirm)
+                        self.present(alert, animated: true)
+                        
+                        return
+                    }
 
                     let res = asJSON["data"] as! NSDictionary
 

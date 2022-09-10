@@ -32,7 +32,7 @@ class LaunchViewController: UIViewController {
         }
     }
     
-
+  
     
     private func presentToMain() {
         guard let mainVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabViewController") as? TabViewController else {return}
@@ -78,6 +78,17 @@ class LaunchViewController: UIViewController {
             case .success(let data):
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    let code = asJSON["code"] as! Int
+                    
+                    // 자체 토큰이 만료
+                    if code == -1014 {
+                        // 토큰 재발급
+                        self.presentToLogin()
+                        return
+                    } else if code == -1000 {
+                        self.presentToLogin()
+                        return
+                    }
 
                     let res = asJSON["data"] as! NSDictionary
 

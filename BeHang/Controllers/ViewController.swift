@@ -69,6 +69,7 @@ class ViewController: UIViewController {
                     
                     _ = oauthToken
                     let accessToken = oauthToken?.accessToken
+                    print(accessToken)
                     //let refreshToken = oauthToken?.refreshToken
                     UserDefaults.standard.setValue(accessToken, forKey: "kakaoAccessToken")
                     
@@ -145,6 +146,7 @@ class ViewController: UIViewController {
                     // 가입 했던 유저
                     if code == -1006 {
                         print("이미 가입했던 유저")
+                        UserDefaults.standard.setValue(true, forKey: "signupKakao")
                         self.kakaoLogin(accessToken: accessToken)
                         return
                     }
@@ -191,7 +193,12 @@ class ViewController: UIViewController {
             case .success(let data):
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    let code = asJSON["code"] as! Int
                     
+                    if code == -1000 {
+                        self.kakaoSignup(accessToken: accessToken)
+                        return
+                    }
                     let res = asJSON["data"] as! NSDictionary
                     
                     // 자체 토큰 발급
@@ -277,6 +284,7 @@ class ViewController: UIViewController {
                     // 가입 했던 유저
                     if code == -1006 {
                         print("이미 가입했던 유저")
+                        UserDefaults.standard.setValue(true, forKey: "signupApple")
                         self.appleLogin(userId: userId)
                         return
                     }

@@ -212,9 +212,11 @@
                         <outlet property="tagButton5" destination="9dI-xw-JJ9" id="DHu-fC-jx0"/>
                         <outlet property="tagButton6" destination="CmO-EX-IsL" id="5Xr-CZ-aPK"/>
                         <outlet property="uploadedImageView" destination="FmH-b7-olb" id="OPT-o8-uXb"/>
+                        <segue destination="aSn-ll-Guv" kind="unwind" identifier="uploadToLogin" unwindAction="unwindToLaunchWithSegue:" id="PDW-a2-NXx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="aSn-ll-Guv" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="127.5" y="105.63380281690141"/>
         </scene>

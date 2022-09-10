@@ -144,13 +144,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                     let code = asJSON["code"] as! Int
-                    
-                    // 자체 토큰이 만료
-                    if code == -1014 {
-                        // 토큰 재발급
-                        self.reissue()
-                        return
-                    }
+
                     
                     let list = asJSON["list"] as! NSArray
                     
@@ -217,60 +211,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         self.curY = latitude ?? 37.5666805
         
         getFeed()
-    }
-    
-    
-    
-    
-    
-    func reissue() {
-        let loginUrl = "http://\(urlConstants.release)/reissue"
-
-        let accessToken = UserDefaults.standard.string(forKey: "accessToken")
-        let refreshToken = UserDefaults.standard.string(forKey: "refreshToken")
-        
-        let header : HTTPHeaders = [
-            "Content-Type" : "application/json",
-        ]
-
-        let bodyData : Parameters = [
-            "accessToken" : accessToken!,
-            "refreshToken" : refreshToken!
-        ] as Dictionary
-        
-        AF.request(
-            loginUrl,
-            method: .post,
-            parameters: bodyData,
-            encoding: JSONEncoding.default,
-            headers: header
-        )
-        //.validate(statusCode: 200..<300)
-        .responseData { (response) in
-            switch response.result {
-            case .success(let data):
-                do {
-                    let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
-
-                    let res = asJSON["data"] as! NSDictionary
-
-                    // 자체 토큰 재발급
-                    let xToken = res["accessToken"] as! String
-                    let refreshToken = res["refreshToken"] as! String
-
-                    UserDefaults.standard.setValue(xToken, forKey: "accessToken")
-                    UserDefaults.standard.setValue(refreshToken, forKey: "refreshToken")
-
-                    
-                    self.getFeed()
-
-                } catch {
-                    print("error")
-                }
-            case .failure(let error):
-                print("Alamofire Request Error\nCode:\(error._code), Message: \(error.errorDescription!)")
-            }
-        }
     }
     
     

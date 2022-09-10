@@ -53,9 +53,11 @@ class UserViewController: UIViewController {
         profileImage.clipsToBounds = true
         
         overlayView.backgroundColor = UIColor(white: 0, alpha: 0.2)
-        overlayView.frame = collectionView.bounds
-        overlayView.center = collectionView.center
-
+//        overlayView.frame = collectionView.bounds
+//        overlayView.center = collectionView.center
+        overlayView.frame = view.bounds
+        overlayView.center = view.center
+        
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         activityIndicator.center = self.view.center
         activityIndicator.color = .white
@@ -81,6 +83,9 @@ class UserViewController: UIViewController {
     
     @objc func refreshCollectionView() {
         self.list.removeAll()
+        self.overlayView.frame = self.collectionView.bounds
+        self.overlayView.center = self.collectionView.center
+        
         self.overlayView.isHidden = false
         
         self.pageNo = 0
@@ -130,7 +135,7 @@ class UserViewController: UIViewController {
                     let code = asJSON["code"] as! Int
                     
                     // 자체 토큰이 만료
-                    if code == -1014 {
+                    if code == -1011 {
                         // 토큰 재발급
                         self.reissue()
                         return
@@ -223,8 +228,9 @@ class UserViewController: UIViewController {
                         let code = asJSON["code"] as! Int
                         
                         // 자체 토큰이 만료
-                        if code == -1014 {
+                        if code == -1011 {
                             // 토큰 재발급
+                            print("call reissue")
                             self.reissue()
                             return
                         }
@@ -296,6 +302,23 @@ class UserViewController: UIViewController {
             case .success(let data):
                 do {
                     let asJSON = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    let code = asJSON["code"] as! Int
+                    
+                    // 자체 토큰이 만료
+                    if code == -1014 {
+                        // 토큰 재발급
+                        let alert = UIAlertController(title: "알림", message: "로그인이 만료되었습니다. 다시 로그인해주세요.", preferredStyle: UIAlertController.Style.alert)
+                        let confirm = UIAlertAction(title: "확인", style: UIAlertAction.Style.default) { _ in
+                            UserDefaults.standard.setValue("none", forKey: "login")
+                            UserDefaults.standard.setValue(false, forKey: "isLogin")
+                            self.performSegue(withIdentifier: "unwindToLaunch", sender: self)
+                        }
+                    
+                        alert.addAction(confirm)
+                        self.present(alert, animated: true)
+                        
+                        return
+                    }
 
                     let res = asJSON["data"] as! NSDictionary
 

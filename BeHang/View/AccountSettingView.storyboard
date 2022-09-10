@@ -55,9 +55,11 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="kio-Dd-92h" id="JgS-LU-gVH"/>
+                        <segue destination="gZW-WF-cuw" kind="unwind" identifier="accountToLogin" unwindAction="unwindToLaunchWithSegue:" id="L0Q-2d-kSg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="gZW-WF-cuw" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-104.61538461538461" y="0.0"/>
         </scene>

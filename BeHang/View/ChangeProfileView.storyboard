@@ -69,9 +69,11 @@
                     <connections>
                         <outlet property="nickName" destination="ZCT-Ue-hVK" id="VOl-Ht-ToO"/>
                         <outlet property="profileImage" destination="6wW-OY-gSH" id="Fjv-Cv-DW9"/>
+                        <segue destination="kJj-sc-e2e" kind="unwind" identifier="changeToLogin" unwindAction="unwindToLaunchWithSegue:" id="jlK-Im-4q9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="kJj-sc-e2e" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="130.76923076923077" y="109.47867298578198"/>
         </scene>
