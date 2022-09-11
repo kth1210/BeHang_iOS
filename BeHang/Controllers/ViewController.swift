@@ -69,7 +69,6 @@ class ViewController: UIViewController {
                     
                     _ = oauthToken
                     let accessToken = oauthToken?.accessToken
-                    print(accessToken)
                     //let refreshToken = oauthToken?.refreshToken
                     UserDefaults.standard.setValue(accessToken, forKey: "kakaoAccessToken")
                     
