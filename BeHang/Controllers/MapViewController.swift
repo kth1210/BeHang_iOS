@@ -145,7 +145,7 @@ class MapViewController: UIViewController, MTMapViewDelegate, CLLocationManagerD
     func getNearPlace(mapX: String, mapY: String) {
         let URL = "http://apis.data.go.kr/B551011/KorService/locationBasedList"
         var param: Parameters = [
-            "serviceKey" : "A8dJ8nKE9AlL1AWJ8bwxLGO/zRDGpaUHZpxXR2axdgbrLT0uSQ49GSfWi4EtwfnfoFGNLJw6rHLB0ix9Qtl+EQ==",
+            "serviceKey" : urlConstants.serviceKey,
             "numOfRows" : "10",
             "pageNo" : "1",
             "MobileOS" : "IOS",
