@@ -36,8 +36,6 @@ class FlagViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-
         seoulFlag.isHidden = true
         incheonFlag.isHidden = true
         daejeonFlag.isHidden = true
@@ -127,7 +125,6 @@ class FlagViewController: UIViewController {
             encoding: JSONEncoding.default,
             headers: header
         )
-        //.validate(statusCode: 200..<300)
         .responseData { (response) in
             switch response.result {
             case .success(let data):

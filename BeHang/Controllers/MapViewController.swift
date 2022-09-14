@@ -11,12 +11,6 @@ import Alamofire
 
 class MapViewController: UIViewController, MTMapViewDelegate, CLLocationManagerDelegate {
     
-//    @IBOutlet weak var tag1: UIButton!
-//    @IBOutlet weak var tag2: UIButton!
-//    @IBOutlet weak var tag3: UIButton!
-//    @IBOutlet weak var tag4: UIButton!
-//    @IBOutlet weak var tag5: UIButton!
-//    @IBOutlet weak var tag6: UIButton!
     
     @IBOutlet weak var mapSearchBar: UISearchBar!
     @IBOutlet weak var searchLabel: UILabel!
