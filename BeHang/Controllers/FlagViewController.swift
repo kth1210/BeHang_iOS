@@ -272,7 +272,6 @@ class FlagViewController: UIViewController {
         
         let header : HTTPHeaders = [
             "Content-Type" : "application/json",
-            //"X-AUTH-TOKEN" : accessToken!
         ]
 
         let bodyData : Parameters = [

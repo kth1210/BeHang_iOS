@@ -76,8 +76,6 @@ class UserViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
-        //print("setUserInf")
-        //self.setUserInfo()
     }
     
     
@@ -122,10 +120,8 @@ class UserViewController: UIViewController {
                    method: .get,
                    parameters: param,
                    encoding: URLEncoding.queryString,
-                   //encoding: JSONEncoding.default,
                    headers: header
         )
-        //.validate(statusCode: 200..<300)
         .responseData { response in
             print(response)
             switch response.result {
@@ -142,8 +138,6 @@ class UserViewController: UIViewController {
                     }
                     
                     let list = asJSON["list"] as! NSArray
-                    //let msg = asJSON["msg"] as! String
-                    //let suc = asJSON["success"] as! Bool
                     
                     if list.count != 10 {
                         self.moreData = false
@@ -155,14 +149,6 @@ class UserViewController: UIViewController {
                         let feedData = FeedInfo()
                         feedData.id = res["id"] as? Int
                         feedData.imageString = res["imageUrl"] as? String
-
-//                        let imageUrl = "http://35.247.33.79/\(feedData.imageString!)"
-                        
-//                        if feedData.imageString != "" {
-//                            let url: URL! = Foundation.URL(string: imageUrl)
-//                            let imageData = try! Data(contentsOf: url)
-//                            feedData.image = UIImage(data: imageData)
-//                        }
                         
                         self.list.append(feedData)
                     }
@@ -367,7 +353,6 @@ extension UserViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         if !list.isEmpty {
             cell.id = list[indexPath.row].id
-    //        cell.imageView.image = list[indexPath.row].image
             cell.imageView.layer.cornerRadius = 8
             
             if list[indexPath.row].image == nil {

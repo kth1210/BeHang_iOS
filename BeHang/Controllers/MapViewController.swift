@@ -36,7 +36,6 @@ class MapViewController: UIViewController, MTMapViewDelegate, CLLocationManagerD
         
         searchLabel.layer.addBorder([.bottom], color: UIColor(hex: "AEAEAE"), width: 2.0)
         
-        //buttonView.layer.addBorder([.top, .left, .right, .bottom], color: UIColor(named: "mainColor")!, width: 1.5)
         buttonView.layer.cornerRadius = buttonView.frame.width / 2
         buttonView.clipsToBounds = true
         
@@ -44,8 +43,6 @@ class MapViewController: UIViewController, MTMapViewDelegate, CLLocationManagerD
         self.mapSearchBar.searchBarStyle = .minimal
         self.mapSearchBar.placeholder = "장소 이름 검색"
         self.hideKeyboardWhenTappedAround()
-        
-        
         
         mapView = MTMapView(frame: subView.frame)
         
@@ -79,7 +76,6 @@ class MapViewController: UIViewController, MTMapViewDelegate, CLLocationManagerD
     }
     
     func makeMarker() {
-        //mapView?.removeAllPOIItems()
         print("makeMarker")
 
         var cnt = 0
@@ -187,12 +183,6 @@ class MapViewController: UIViewController, MTMapViewDelegate, CLLocationManagerD
                         placeData.tel = r["tel"] as? String
                         placeData.thumbnail = r["firstimage"] as? String
                         
-//                        if placeData.thumbnail != "" {
-//                            let url: URL! = Foundation.URL(string: placeData.thumbnail!)
-//                            let imageData = try! Data(contentsOf: url)
-//                            placeData.thumbnailImg = UIImage(data: imageData)
-//                        }
-                        
                         self.list.append(placeData)
                     }
                     self.makeMarker()
@@ -209,8 +199,6 @@ class MapViewController: UIViewController, MTMapViewDelegate, CLLocationManagerD
     
     
 }
-
-
 
 
 extension MapViewController: UISearchBarDelegate {
