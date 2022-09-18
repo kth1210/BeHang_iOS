@@ -53,8 +53,6 @@ class UserViewController: UIViewController {
         profileImage.clipsToBounds = true
         
         overlayView.backgroundColor = UIColor(white: 0, alpha: 0.2)
-//        overlayView.frame = collectionView.bounds
-//        overlayView.center = collectionView.center
         overlayView.frame = view.bounds
         overlayView.center = view.center
         

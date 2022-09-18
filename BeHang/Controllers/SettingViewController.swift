@@ -16,7 +16,6 @@ class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.title = "설정"
         self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
