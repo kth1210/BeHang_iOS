@@ -61,3 +61,7 @@
 
 ## ▶️ 데모 영상
 <img src="https://user-images.githubusercontent.com/51712973/205078875-ffa26401-e38e-437b-a2e1-44fc5e7f9185.gif" />
+
+
+## 📱 프로토타입 디자인 - Figma
+<img src="https://user-images.githubusercontent.com/51712973/207619410-208040f8-e9e1-4728-acda-580bd9399dbf.png" />
